@@ -428,6 +428,10 @@
 }
 
 
+%===========================
+
+%Станкиновская шапка
+
 \newcommand\vkrStandartHead%
 {
 	\begingroup
@@ -467,6 +471,43 @@
 
 \def\emptystr{}
 %===========================
+% Макросы для вставки должности регалий о руководителе или консультанте
+
+
+%должность, степ. , зван.
+\def\insertPersonInfo#1{%
+	\edef\tmpZ{\csname vkr#1Position\endcsname}%
+	\edef\tmpA{\csname vkr#1DegreeShort\endcsname}%
+	\edef\tmpB{\csname vkr#1TitleShort\endcsname}%
+	\tmpZ%
+	\ifx\tmpA\empty\else%
+	,\space\tmpA%
+	\fi%
+	\ifx\tmpB\empty\else%
+	,\space\tmpB%
+	\fi%	
+}
+
+%степ. , зван., если нет то должность
+\def\insertPersonInfoA#1{%
+	
+	\edef\tmpZ{\csname vkr#1Position\endcsname}%
+	\edef\tmpA{\csname vkr#1DegreeShort\endcsname}%
+	\edef\tmpB{\csname vkr#1TitleShort\endcsname}%
+	\ifx\tmpA\emptystr%
+	\ifx\tmpB\empty%	
+	\tmpZ%
+	\else%
+	Error In #1 info!%
+	\fi%		
+	\else%
+	\tmpA%
+	\ifx\tmpB\empty\else%
+	,\space\tmpB%
+	\fi%
+	\fi%
+}
+
 %===========================
 %===========================
 %===========================

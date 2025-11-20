@@ -1,0 +1,24 @@
+\documentclass[14pt, a4paper, oneside]{extarticle}
+
+\newif\ifDebug
+\Debugfalse
+%\Debugtrue  % отображать отладочную информавцию на первых страницах
+
+\input{preambule.tex}
+
+\begin{document}
+	
+	\sloppy
+	\hbadness=10000
+	
+	
+	\input{vkr-config.tex}
+	
+	
+
+	\newpage
+	\pagestyle{empty}
+	\input{assignment.tex}
+	
+		
+\end{document}

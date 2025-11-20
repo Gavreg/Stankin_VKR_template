@@ -1,0 +1,98 @@
+\documentclass[14pt, a4paper, oneside]{extarticle}
+
+\newif\ifDebug
+\Debugfalse
+%\Debugtrue  % отображать отладочную информавцию на первых страницах
+
+\input{preambule.tex}
+
+\begin{document}
+	
+	\sloppy
+	\hbadness=10000
+	
+	
+	\input{vkr-config.tex}
+	
+	
+	
+	\newpage
+	\pagestyle{empty}
+	\input{title.tex}
+	
+	\newpage
+	\pagestyle{empty}
+	\input{assignment.tex}
+	
+	\newpage
+	\pagestyle{empty}
+	\input{annotation.tex}
+	
+	\newpage
+	\pagestyle{fancy}
+	\input{toc.tex}
+	 
+    
+	\newpage
+	\pagestyle{fancy}
+	\input{intro.tex}
+	
+	
+	\newpage
+	\pagestyle{fancy}
+	\input{ch1.tex}
+	
+	
+	\newpage
+	\pagestyle{fancy}
+	\input{ch2.tex}
+	
+	\newpage
+	\pagestyle{fancy}
+	\input{ch3.tex}
+	
+	\newpage
+	\pagestyle{fancy}
+	\input{ch4.tex}
+	
+	\newpage
+	\pagestyle{fancy}
+	\input{outro.tex}
+	
+	\newpage	
+	\pagestyle{fancy}
+	\input{biblio.tex}
+	
+
+	
+	\writetoaux{vkrTotalfigures}{\thevkrTotalfigures}	
+	\writetoaux{vkrTotaltables}{\thevkrTotaltables}
+	\writetoaux{vkrTotalbooks}{\thevkrTotalbooks}
+	
+
+	\newpage
+	\printbibliography[section=0, keyword=vak,resetnumbers=true]
+	
+	
+	
+	% ПРИЛОЖЕНИЯ
+	\newpage
+	\appendix
+	\label{vkr:AppendixBegin}
+	
+	\newpage
+	\pagestyle{fancy}
+	\input{app1.tex}
+	
+	\newpage
+	\pagestyle{fancy}
+	\input{app2.tex}
+	
+	\label{vkr:End}
+	
+	
+	
+	
+	
+	
+\end{document}

@@ -1,0 +1,482 @@
+
+%   Настройка основного вида документа
+%	Сделано на основании Положения о ВКР
+%   Документ не редактировать!
+%
+%   Все изменеия вносить в custom_preampule.tex
+%
+%   Автор: Гаврилов А. Г.
+
+
+%===================================================
+% Важные пакеты
+%===================================================
+
+\usepackage{etoolbox} %много вспомогательных команд
+\usepackage{calc} % Добавляем пакет для команды \widthof
+\usepackage{totcount} %счетчики, сохраняющие значен
+
+%===================================================
+% Настройка полей
+%===================================================
+\usepackage{geometry}
+\geometry{
+	a4paper,
+	left=30mm,
+	right=15mm,
+	top=20mm,
+	bottom=20mm,
+}
+
+%===================================================
+% Картинки
+%===================================================
+
+\usepackage{graphicx}
+\graphicspath{{images}}
+\usepackage{color}
+\usepackage{tikz}
+
+%===================================================
+% Таблицы
+%===================================================
+
+\usepackage{longtable} %многостраничные таблицы
+\usepackage{tabularx} %таблицы с полями автоширины 
+\usepackage{array}
+
+
+% Шрифт в таблицах
+\appto{\table}{%
+	\fontsize{12pt}{12pt}\selectfont
+}
+
+
+
+%===================================================
+% Математические формулы
+%===================================================
+
+\usepackage{unicode-math} 
+
+
+%===================================================
+% Настройка шрифтов и языка
+%===================================================
+
+\usepackage{fontspec}
+\usepackage{polyglossia}
+\setdefaultlanguage{russian}
+\setotherlanguage{english}
+
+
+\setmainfont{Times New Roman}
+\setsansfont{Arial}
+\setmonofont{Courier New}
+
+\newfontfamily\cyrillicfont[Script=Cyrillic, Mapping=tex-text]{Times New Roman}
+\newfontfamily\cyrillicfontsf[Script=Cyrillic, Mapping=tex-text]{Arial}
+\newfontfamily\cyrillicfonttt[Script=Cyrillic, Mapping=tex-text]{Courier New}
+
+
+%===================================================
+% Verbatim
+%===================================================
+
+\usepackage{verbatim}
+%===================================================
+% Межстрочный интерва
+%===================================================
+
+\usepackage{setspace}
+\onehalfspacing % Межстрочный интервал 1.5
+
+
+
+
+%===================================================
+% Заголовки глав и параграфов
+%===================================================
+
+\usepackage{titlesec} % Для настройки заголовков
+\titleformat{\section}
+{\centering\bfseries\uppercase} % Полужирный, по центру, прописные
+{Глава \thesection. } % Нумерация с точкой
+{0em} % Расстояние между номером и текстом
+{} % Код перед заголовком
+ % Расстояние после заголовка (2 интервала = 3ex при 1.5)
+
+\titleformat{\subsection}
+{\centering\bfseries\uppercase}
+{\thesubsection.}
+{0em}
+{}
+
+\titleformat{\subsubsection}
+{\centering\bfseries}
+{\thesubsubsection.}
+{0em}
+{}
+
+
+
+\titlespacing*{\section}{0pt}{3ex}{3ex} % Отступы вокруг заголовка главы
+\titlespacing*{\subsection}{0pt}{3ex}{3ex} % Отступы вокруг заголовка параграфа
+
+
+%===================================================
+% Стиль страниы и нумерация
+%===================================================
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyfoot{} %пустой нижний колонтитул
+\fancyhead{}%Отчищаем верхний колонтитул
+\fancyhead[C]{\thepage} % Номер страницы по центру вверху
+\renewcommand{\headrulewidth}{0pt} % Убираем черту
+\setlength{\headsep}{10pt}
+\setlength{\voffset}{15pt}
+\setlength{\topmargin}{-58pt}
+\setlength{\headheight}{18pt}
+%\setlength{\headsep}{2ex}%наскоклько верний колонтиту выше страницы
+%\setlength{\headheight}{\heightof{9}}
+%\setlength
+
+
+%переопределяем стиль plain который используется поумолчанию для страниц начала глав
+\fancypagestyle{plain}{%
+	\fancyfoot{} %пустой нижний колонтитул
+	\fancyhead{}%Отчищаем верхний колонтитул
+	\fancyhead[C]{\thepage} % Номер страницы по центру вверху
+	\renewcommand{\headrulewidth}{0pt} % Убираем черту
+	\setlength{\headsep}{2ex}%наскоклько верний колонтиту выше страницы
+	\setlength{\headheight}{2ex}
+}
+
+
+%===================================================
+% Список литературы
+%===================================================
+\usepackage[style=gost-numeric, sorting=none, defernumbers=true]{biblatex}  
+\addbibresource{vrkbibliograpgy.bib} 
+
+
+
+\DeclareDelimFormat{multicitedelim}{\addcomma\space}
+%\DeclareDelimFormat{compcitedelim}{\addcomma\space}
+
+\defbibenvironment{bibliography}
+{\list
+	{\printfield{labelnumber}.\stepcounter{vkrTotalbooks}}
+	{\toggletrue{bbx:gostbibliography}% %включаем ГОСТ 2018
+		\renewcommand*{\revsdnamepunct}{\addcomma}%
+		\renewcommand*{\labelnamepunct}{\addperiod\space}%
+		\setlength{\labelwidth}{0pt}%
+		\setlength{\leftmargin}{0em}%         % Красная строка для номера
+		\setlength{\itemindent}{10.5mm}%        % Компенсируем отступ
+		\setlength{\labelsep}{0.4em}%
+		\setlength{\listparindent}{0pt}%
+		\setlength{\itemsep}{\bibitemsep}%
+		\setlength{\parsep}{\bibparsep}%
+		\renewcommand*{\makelabel}[1]{\hss##1}}}
+{\endlist}
+{\item}
+
+\renewcommand*{\mkgostheading}[1]{#1} %убираем курсив в спсике литературы
+
+
+%===================================================
+% Настройка оглавления
+%===================================================
+
+\usepackage{tocloft} % Для настройки оглавления
+
+%Заголовок оглавления
+\renewcommand{\cfttoctitlefont}{\hfill\bfseries}
+\renewcommand{\cftaftertoctitle}{\hfill\vspace{2em}}
+
+\renewcommand{\cftsecpresnum}{ГЛАВА }
+\setlength{\cftsecnumwidth}{3.9em}  %widthof см выше пакет calc
+\renewcommand{\cftsecaftersnumb}{. } 
+\renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}}
+\renewcommand{\cftsecfont}{\normalfont}        % обычный шрифт
+\renewcommand{\cftsecpagefont}{\normalfont}    % шрифт номеров страниц
+\setlength{\cftbeforesecskip}{0.5ex} 
+
+
+\setlength{\cftsubsecnumwidth}{1.3em}
+\renewcommand{\cftsubsecaftersnumb}{. } % Точка после номера параграфа
+\renewcommand{\cftsubsecfont}{\normalfont}        % обычный шрифт
+\renewcommand{\cftsubsecpagefont}{\normalfont}    % шрифт номеров страниц
+\setlength{\cftbeforesubsecskip}{0.5ex} 
+
+%Главы с большой буквы 
+%https://tex.stackexchange.com/questions/156916/how-to-make-section-name-uppercase-in-toc
+\makeatletter
+\patchcmd{\l@subsection}{#1}{\MakeUppercase{#1}}{}{}
+\patchcmd{\l@section}{#1}{\MakeUppercase{#1}}{}{}
+\makeatother
+
+% Уменьшить отступ перед номерами страниц
+
+%===================================================
+% Настройка приложений
+%===================================================
+
+
+% Переопределяем формат для приложений
+
+\appto\appendix{%
+	\renewcommand{\thesection}{\arabic{section}}
+	\titleformat{\section}
+	{\bfseries\raggedleft} % Полужирный, по центру, прописные
+	{Приложение \thesection.} % Нумерация с точкой
+	{0em} % Расстояние между номером и текстом
+	{\\} % Код перед заголовком
+	[\vspace{3ex}] % Расстояние после заголовка (2 интервала = 3ex при 1.5)
+	
+	  % Настройки оглавления для приложений
+	\addtocontents{toc}{%
+		\protect\renewcommand{\protect\cftsecpresnum}{ПРИЛОЖЕНИЕ }%
+		\protect\setlength{\protect\cftsecnumwidth}{7.6em}%
+		\protect\renewcommand{\protect\cftsecaftersnum}{ }%
+	}
+}
+
+
+%===================================================
+% Листинги года
+%===================================================
+
+\usepackage{minted}
+\setminted{linenos=false,
+	style=vs,
+	fontsize=\fontsize{12pt}{12pt},
+	tabsize=3}
+%\usepackage{listings}
+
+%\ifn
+\renewcommand{\listingscaption}{Листинг}
+%\renewcommand{\lstlistingname}{Листинг}
+
+%===================================================
+% Настройка станартного положения рисунков
+%===================================================
+
+\usepackage{float}
+
+% 1. Задаём [ht] для всех figure по умолчанию
+\floatplacement{figure}{hbt} %в месте вызова или внизу станицы
+\floatplacement{table}{hbt} %в месте вызова или внизу станицы
+
+\setcounter{bottomnumber}{3}
+\setcounter{topnumber}{2}
+
+%счеткики для подсчета колчества рисунков и таблицу
+
+\newcounter{vkrTotalfigures}
+\appto\figure{%
+	\stepcounter{vkrTotalfigures}%
+}
+
+\newcounter{vkrTotaltables}
+\appto\table{%
+	\stepcounter{vkrTotaltables}%
+}
+
+
+%отключаем счеткики для приложений
+\appto{\appendix}{%
+	%\undopatch{\figure}	
+}
+
+
+%расстояние между float (таблицы, рисунки) и текстом
+\setlength{\floatsep}{4ex plus 4pt minus 2pt}     % между float'ами
+\setlength{\textfloatsep}{2ex plus 4pt minus 2pt} % между float'ами и текстом
+\setlength{\intextsep}{2ex plus 4pt minus 2pt}    % для float'ов внутри текста
+
+%===================================================
+% Отключение переносов слов
+%===================================================
+
+\usepackage[none]{hyphenat}
+
+
+%===================================================
+% Подписи к рисункам, таблицам, листингу
+%===================================================
+
+%--- Настройка меток
+\usepackage{caption}
+
+ %Разделитель номер рисунка
+\DeclareCaptionLabelSeparator{dot}{.~}  
+%Разделитель номер таблицы         
+\DeclareCaptionLabelSeparator{dot_tbl}{.\\}            
+
+ %Подпись рис. центр
+\captionsetup[figure]{justification=centering,labelsep=dot, format=plain, font={onehalfspacing},skip=0ex, belowskip=-2ex,}                       
+
+%Подпись табл. слева
+\captionsetup[table]{justification=raggedleft,labelsep=dot_tbl, format=plain, singlelinecheck=false,font={onehalfspacing},belowskip=1ex} 
+
+%Подпись табл. слева
+\captionsetup[listing]{justification=raggedleft,labelsep=dot, format=plain, position=above, singlelinecheck=false,skip=-0 em} 
+
+
+%В рисунках и таблиц приложений используем префикс П
+\appto\appendix{%
+	\renewcommand{\thefigure}{П\thesection.\arabic{figure}}
+	\renewcommand{\thetable}{П\thesection.\arabic{figure}}
+}
+
+
+\renewcommand{\thefigure}{\thesection.\arabic{figure}}
+\renewcommand{\thetable}{\thesection.\arabic{figure}}
+
+%привязываем счетки рисунков и таблиц к секциям (главам)
+\usepackage{chngcntr}
+\counterwithin{figure}{section}
+
+
+
+
+
+%===================================================
+% Прочие плагины
+%===================================================
+\usepackage{enumitem} %упарвление списками
+
+
+\usepackage{lipsum}%для отладки текста, команда \lipsum
+\usepackage{clipboard}
+\usepackage{ifthen}
+
+\usepackage{marginnote} %заметки на полях
+\reversemarginpar 
+\setlength{\marginparwidth}{25mm}
+\usepackage[textsize=tiny]{todonotes}
+
+\usepackage{refcount}  %всяукие команды для работы с ссылками, например \getpagerefnumber
+
+%===================================================
+% Отладка
+%===================================================
+
+\ifDebug
+	\usepackage{layout} %Позволяет использовать команду \layout для печати структуры страницы
+	\usepackage{layouts} %еще мног о команд для откладки
+	\usepackage{showframe} %Рамки фокруг листа
+	
+	\AtBeginDocument{%
+		\input{debug_page.tex}%
+	}
+	
+\fi
+
+
+
+
+%===================================================
+% Пакет hyperref. 
+% Должен подключатся последним.
+% Он необходим для работы с ссылками
+% И меняет работу других пакетов
+%===================================================
+
+
+\usepackage{hyperref}
+%\usepackage{bookmark} %для заклкдок
+
+
+
+%===================================================
+% Кастомные команды
+%===================================================
+
+%===========================
+% Запись/чтение из aux
+
+\makeatletter
+% Команда для записи в .aux
+\newcommand{\writetoaux}[2]{%
+	
+	\immediate\write\@auxout{%
+		\string\global\string\@namedef{vkr#1}{#2}%
+	}%
+	
+}
+\makeatother
+
+% Команда для чтения из .aux
+\newcommand{\readfromaux}[1]{%
+	\ifcsname vkr#1\endcsname
+	\csname vkr#1\endcsname
+	\else
+	*Счетчик не определен или требуется перекомпиляция*%
+	\fi
+}
+
+%===========================
+
+%Красная маленькая заметка на полях
+
+\newcommand{\vkrnote}[2][]{%
+	\marginnote[{\fontsize{9pt}{9pt}\selectfont\fussy\color{red}#1}]%
+	{{\fontsize{9pt}{9pt}\selectfont\setlength{\baselineskip}{9pt}\fussy\color{red}#2}}%
+}
+
+
+\newcommand\vkrStandartHead%
+{
+	\begingroup
+	\fontsize{12pt}{12pt}\selectfont
+	{
+		\centering
+		\bfseries\noindent
+		\includegraphics[width=54mm]{stankin-logo.pdf}\\
+		МИНОБРНАУКИ РОССИИ\\
+		федеральное государственное автономное образовательное учреждение\\
+		высшего образования\\
+		«Московский государственный технологический университет «СТАНКИН»\\
+		(ФГАОУ ВО <<МГТУ <<СТАНКИН>>) \\
+	}
+	
+	
+	
+	\vspace{-1ex}\noindent\rule{\textwidth}{0.4pt}\vspace{2ex}
+	
+	\noindent	
+	\begin{minipage}[t]{0.3\textwidth}
+		\bfseries
+		Институт\\
+		Информационных\\
+		Технологий\\	
+	\end{minipage}
+	\hfill
+	\begin{minipage}[t]{\widthof{\bfseries Вычислительных систем}+1pt}
+		\bfseries
+		Кафедра\\
+		Информационных\\
+		Технологий и\\ 
+		Вычислительных систем\\	
+	\end{minipage}
+	\endgroup
+}
+
+\def\emptystr{}
+%===========================
+%===========================
+%===========================
+%===========================
+%===========================
+%===========================
+%===========================
+%===========================
+%===========================
+%===========================
+%===========================
+%===========================
+%===========================
+%===========================

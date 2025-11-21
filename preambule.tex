@@ -14,7 +14,8 @@
 
 \usepackage{etoolbox} %много вспомогательных команд
 \usepackage{calc} % Добавляем пакет для команды \widthof
-\usepackage{totcount} %счетчики, сохраняющие значен
+\usepackage{totcount} %счетчики, сохраняющие значене между компиляциями
+\usepackage{varwidth} %MinipageАвтоматическойШирины \begin{varwidth} \end{varwidth}
 
 %===================================================
 % Настройка полей
@@ -451,20 +452,30 @@
 	\vspace{-1ex}\noindent\rule{\textwidth}{0.4pt}\vspace{2ex}
 	
 	\noindent	
-	\begin{minipage}[t]{0.3\textwidth}
+%	\begin{minipage}[t]{0.3\textwidth}
+%		\bfseries
+%		Институт\\
+%		Информационных\\
+%		Технологий\\	
+%	\end{minipage}
+%	\hfill
+%	\begin{minipage}[t]{\widthof{\bfseries Вычислительных систем}+1pt}
+%		\bfseries
+%		Кафедра\\
+%		Информационных\\
+%		Технологий и\\ 
+%		Вычислительных систем\\	
+%	\end{minipage}
+	\begin{minipage}[t]{0.1\textwidth}
 		\bfseries
-		Институт\\
-		Информационных\\
-		Технологий\\	
+		Институт \vkrInstitute	
 	\end{minipage}
 	\hfill
-	\begin{minipage}[t]{\widthof{\bfseries Вычислительных систем}+1pt}
-		\bfseries
+	\begin{varwidth}[t]{0.3\linewidth}
+		\bfseries\raggedright
 		Кафедра\\
-		Информационных\\
-		Технологий и\\ 
-		Вычислительных систем\\	
-	\end{minipage}
+		\vkrKafedra
+	\end{varwidth}
 	\endgroup
 }
 
@@ -506,6 +517,21 @@
 	\fi%
 	\fi%
 }
+
+%должность каф. , степ. , зван.
+\def\insertPersonInfoB#1{%
+	\edef\tmpZ{\csname vkr#1Position\endcsname}%
+	\edef\tmpA{\csname vkr#1DegreeShort\endcsname}%
+	\edef\tmpB{\csname vkr#1TitleShort\endcsname}%
+	\tmpZ\space каф. \vkrKafedraShort%
+	\ifx\tmpA\empty\else%
+	,\space\tmpA%
+	\fi%
+	\ifx\tmpB\empty\else%
+	,\space\tmpB%
+	\fi%	
+}
+
 
 %===========================
 %===========================

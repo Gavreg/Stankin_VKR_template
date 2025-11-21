@@ -14,7 +14,7 @@
 	\raggedleft
 	\textbf{<<УТВЕРЖДАЮ>>}\\
 	Заведующий кафедрой ИТиВС\\
-	к.т.н., доц. Новоселова О.\,B.\\[3ex]
+	\vkrKafedraHeadTitles\space\vkrKafedraHeadShort\\[3ex]
 	\underline{\hspace{30mm}}\\
 	<<\underline{\hspace{7mm}}>>.\underline{\hspace{30mm}} 2025 г.
 \end{minipage}
@@ -93,6 +93,7 @@
 					
 				\end{enumerate}
 			\item \textbf{Дополнительные требования}
+
 				\begin{enumerate} [nosep, label*=\arabic*.]
 					\item 	Оформление раздела «Список литературы» по национальному стандарту ГОСТ Р 7.0.100-2018 <<Библиографическая запись. Библиографическое описание. Общие требования и правила составления>>
 					\item Результаты исследования должны быть опубликованы в виде научных статей и тезисов докладов (не менее 1), а также доложены на научно-технических конференциях и семинарах. 
@@ -105,11 +106,12 @@
 
 \vspace{2ex}%
 \noindent%
-\begin{tabular}{   @{}p{0.75\linewidth}@{}p{0.25\linewidth}@{}    }
-	Исполнитель 												&  \vkrStudentShort   \\[2ex]
+\begin{tabularx}{\linewidth}{ @{} X @{}  l  @{}    }
+	Исполнитель 							&  \vkrStudentShort   \\[2ex]
 	
-	Научный руководитель\\\insertPersonInfo{Advisor} каф. ИТиВС			&   \vkrAdvisorShort 
-\end{tabular}
+	Научный руководитель\\
+    \insertPersonInfoB{Advisor}	&   \vkrAdvisorShort 
+\end{tabularx}
 
 
 \endgroup

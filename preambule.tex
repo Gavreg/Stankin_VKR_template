@@ -91,7 +91,11 @@
 \usepackage{setspace}
 \onehalfspacing % Межстрочный интервал 1.5
 
+%===================================================
+% Отключение переносов слов
+%===================================================
 
+\usepackage[none]{hyphenat}
 
 
 %===================================================
@@ -108,13 +112,13 @@
 
 \titleformat{\subsection}
 {\centering\bfseries\uppercase}
-{\thesubsection.}
+{\thesubsection. }
 {0em}
 {}
 
 \titleformat{\subsubsection}
 {\centering\bfseries}
-{\thesubsubsection.}
+{\thesubsubsection. }
 {0em}
 {}
 
@@ -122,7 +126,7 @@
 
 \titlespacing*{\section}{0pt}{3ex}{3ex} % Отступы вокруг заголовка главы
 \titlespacing*{\subsection}{0pt}{3ex}{3ex} % Отступы вокруг заголовка параграфа
-
+\titlespacing*{\subsubsection}{0pt}{3ex}{3ex} % Отступы вокруг заголовка параграфа
 
 %===================================================
 % Стиль страниы и нумерация
@@ -157,6 +161,7 @@
 %===================================================
 % Список литературы
 %===================================================
+
 \usepackage[style=gost-numeric, sorting=none, defernumbers=true]{biblatex}  
 \addbibresource{vrkbibliograpgy.bib} 
 
@@ -188,6 +193,7 @@
 %===================================================
 % Настройка оглавления
 %===================================================
+
 
 \usepackage{tocloft} % Для настройки оглавления
 
@@ -233,7 +239,7 @@
 	{Приложение \thesection.} % Нумерация с точкой
 	{0em} % Расстояние между номером и текстом
 	{\\} % Код перед заголовком
-	[\vspace{3ex}] % Расстояние после заголовка (2 интервала = 3ex при 1.5)
+	[\vspace{0ex}] 
 	
 	  % Настройки оглавления для приложений
 	\addtocontents{toc}{%
@@ -248,11 +254,13 @@
 % Листинги года
 %===================================================
 
+
 \usepackage{minted}
 \setminted{linenos=false,
 	style=vs,
 	fontsize=\fontsize{12pt}{12pt},
-	tabsize=3}
+	tabsize=3,
+	frame=lines}
 %\usepackage{listings}
 
 %\ifn
@@ -285,22 +293,12 @@
 }
 
 
-%отключаем счеткики для приложений
-\appto{\appendix}{%
-	%\undopatch{\figure}	
-}
-
-
 %расстояние между float (таблицы, рисунки) и текстом
 \setlength{\floatsep}{4ex plus 4pt minus 2pt}     % между float'ами
 \setlength{\textfloatsep}{2ex plus 4pt minus 2pt} % между float'ами и текстом
 \setlength{\intextsep}{2ex plus 4pt minus 2pt}    % для float'ов внутри текста
 
-%===================================================
-% Отключение переносов слов
-%===================================================
 
-\usepackage[none]{hyphenat}
 
 
 %===================================================
@@ -318,29 +316,30 @@
  %Подпись рис. центр
 \captionsetup[figure]{justification=centering,labelsep=dot, format=plain, font={onehalfspacing},skip=0ex, belowskip=-2ex,}                       
 
-%Подпись табл. слева
+%Подпись табл. справа
 \captionsetup[table]{justification=raggedleft,labelsep=dot_tbl, format=plain, singlelinecheck=false,font={onehalfspacing},belowskip=1ex} 
 
-%Подпись табл. слева
-\captionsetup[listing]{justification=raggedleft,labelsep=dot, format=plain, position=above, singlelinecheck=false,skip=-0 em} 
+%Подпись табл. справа
+\captionsetup[listing]{justification=raggedleft,labelsep=dot, format=plain, position=above, singlelinecheck=false,belowskip=2 ex, skip=-1ex } 
 
 
 %В рисунках и таблиц приложений используем префикс П
 \appto\appendix{%
 	\renewcommand{\thefigure}{П\thesection.\arabic{figure}}
-	\renewcommand{\thetable}{П\thesection.\arabic{figure}}
+	\renewcommand{\thetable}{П\thesection.\arabic{table}}
+	\renewcommand{\thelisting}{П\thesection.\arabic{listing}}
 }
 
 
 \renewcommand{\thefigure}{\thesection.\arabic{figure}}
-\renewcommand{\thetable}{\thesection.\arabic{figure}}
+\renewcommand{\thetable}{\thesection.\arabic{table}}
+\renewcommand{\thelisting}{\thesection.\arabic{listing}}
 
 %привязываем счетки рисунков и таблиц к секциям (главам)
 \usepackage{chngcntr}
 \counterwithin{figure}{section}
-
-
-
+\counterwithin{table}{section}
+\counterwithin{listing}{section}
 
 
 %===================================================

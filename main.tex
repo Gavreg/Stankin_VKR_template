@@ -15,80 +15,92 @@
 	\input{vkr-config.tex}
 	
 	
-	
+	%Титульный лист
 	\newpage
 	\pagestyle{empty}
 	\input{title.tex}
 	
+	
+	%Задание на ВКР
 	\newpage
 	\pagestyle{empty}
 	\input{assignment.tex}
 	
+	
+	%Аннотация
 	\newpage
 	\pagestyle{empty}
 	\input{annotation.tex}
 	
+	%Оглавление
 	\newpage
 	\pagestyle{fancy}
 	\input{toc.tex}
 	 
-    
+    %Введение
 	\newpage
 	\pagestyle{fancy}
 	\input{intro.tex}
 	
-	
+	%Глава1
 	\newpage
 	\pagestyle{fancy}
 	\input{ch1.tex}
+	\FloatBarrier
 	
-	
+	%Глава2
 	\newpage
 	\pagestyle{fancy}
 	\input{ch2.tex}
+	\FloatBarrier
 	
+	%Глава3
 	\newpage
 	\pagestyle{fancy}
 	\input{ch3.tex}
+	\FloatBarrier
 	
+	%Глава4
 	\newpage
 	\pagestyle{fancy}
 	\input{ch4.tex}
+	\FloatBarrier
 	
+	%Заключение
 	\newpage
 	\pagestyle{fancy}
 	\input{outro.tex}
 	
+	%Список литературы
 	\newpage	
 	\pagestyle{fancy}
 	\input{biblio.tex}
 	
 
-	
+	%Счетчики кол-ва рисунков и книг.
 	\writetoaux{vkrTotalfigures}{\thevkrTotalfigures}	
 	\writetoaux{vkrTotaltables}{\thevkrTotaltables}
 	\writetoaux{vkrTotalbooks}{\thevkrTotalbooks}
 	
 
-	\newpage
-	\printbibliography[section=0, keyword=vak,resetnumbers=true]
-	
-	
+
 	
 	% ПРИЛОЖЕНИЯ
 	\newpage
 	\appendix
-	\label{vkr:AppendixBegin}
+	\label{vkr:AppendixBegin} %Закладка на страницу с началом первого приложнния
 	
 	\newpage
 	\pagestyle{fancy}
 	\input{app1.tex}
+	\FloatBarrier
 	
 	\newpage
 	\pagestyle{fancy}
 	\input{app2.tex}
+	\FloatBarrier
 	
-	\label{vkr:End}
+	\label{vkr:End} 	%Закладка на страницу с кокончанием последней страницы последнего приложения
 	
 	
 	

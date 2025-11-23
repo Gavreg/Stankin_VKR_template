@@ -52,7 +52,7 @@
 	\fontsize{12pt}{12pt}\selectfont
 }
 
-
+\renewcommand{\arraystretch}{1.5}
 
 %===================================================
 % Математические формулы
@@ -160,6 +160,72 @@
 
 
 %===================================================
+% Подписи к рисункам, таблицам, листингу
+%===================================================
+
+%--- Настройка меток
+\usepackage{caption}
+
+%Разделитель номер рисунка
+\DeclareCaptionLabelSeparator{dot}{.~}  
+%Разделитель номер таблицы         
+\DeclareCaptionLabelSeparator{dot_tbl}{.\\}            
+
+%Подпись рис. центр
+\captionsetup[figure]{
+	justification=centering,
+	labelsep=dot, 
+	format=plain,
+	font={singlespacing},
+	skip=0ex, 
+	belowskip=-2ex plus 4pt minus 2pt , 
+	aboveskip=1ex plus 4pt minus 2pt 
+}                       
+
+%Подпись табл. справа
+\captionsetup[table]{
+	justification=raggedleft,
+	labelsep=dot_tbl, 
+	format=plain, 
+	singlelinecheck=false,
+	font={singlespacing},
+	belowskip=1ex plus 4pt minus 2pt, 
+	aboveskip=1ex  plus 4pt minus 2pt 
+} 
+
+%Подпись листинг. справа
+\captionsetup[listing]{
+	justification=raggedleft,
+	labelsep=dot_tbl, 
+	format=plain, 
+	position=above, 
+	singlelinecheck=false,
+	font={singlespacing}, 
+	belowskip=1 ex plus 4pt minus 2pt , 
+	aboveskip=-1.4ex  plus 4pt minus 2pt 
+} 
+
+
+%В рисунках и таблиц приложений используем префикс П
+\appto\appendix{%
+	\renewcommand{\thefigure}{П\thesection.\arabic{figure}}
+	\renewcommand{\thetable}{П\thesection.\arabic{table}}
+	\renewcommand{\thelisting}{П\thesection.\arabic{listing}}
+}
+
+
+\renewcommand{\thefigure}{\thesection.\arabic{figure}}
+\renewcommand{\thetable}{\thesection.\arabic{table}}
+
+
+%привязываем счетки рисунков и таблиц к секциям (главам)
+\usepackage{chngcntr}
+\counterwithin{figure}{section}
+\counterwithin{table}{section}
+
+
+
+%===================================================
 % Список литературы
 %===================================================
 
@@ -217,7 +283,7 @@
 \renewcommand{\cftsubsecpagefont}{\normalfont}    % шрифт номеров страниц
 \setlength{\cftbeforesubsecskip}{0.5ex} 
 
-%Главы с большой буквы 
+%Главы капсом
 %https://tex.stackexchange.com/questions/156916/how-to-make-section-name-uppercase-in-toc
 \makeatletter
 \patchcmd{\l@subsection}{#1}{\MakeUppercase{#1}}{}{}
@@ -252,11 +318,11 @@
 
 
 %===================================================
-% Листинги года
+% Листинги кода
 %===================================================
 
 
-\usepackage{minted}
+\usepackage[newfloat]{minted}
 \setminted{linenos=false,
 	style=vs,
 	fontsize=\fontsize{12pt}{12pt},
@@ -265,7 +331,12 @@
 %\usepackage{listings}
 
 %\ifn
-\renewcommand{\listingscaption}{Листинг}
+
+\counterwithin{listing}{section}
+\renewcommand{\thelisting}{\thesection.\arabic{listing}}
+%\renewcommand{\listingscaption}{Листинг}  %для Minted без newfloat
+
+\SetupFloatingEnvironment{listing}{name=Листинг} 
 %\renewcommand{\lstlistingname}{Листинг}
 
 %===================================================
@@ -277,6 +348,7 @@
 % 1. Задаём [ht] для всех figure по умолчанию
 \floatplacement{figure}{hbt} %в месте вызова или внизу станицы
 \floatplacement{table}{hbt} %в месте вызова или внизу станицы
+\floatplacement{listing}{hbt} %в месте вызова или внизу станицы
 
 \setcounter{bottomnumber}{3}
 \setcounter{topnumber}{2}
@@ -302,45 +374,6 @@
 \usepackage{placeins}  % Для команды \FloatBarrier
 
 
-%===================================================
-% Подписи к рисункам, таблицам, листингу
-%===================================================
-
-%--- Настройка меток
-\usepackage{caption}
-
- %Разделитель номер рисунка
-\DeclareCaptionLabelSeparator{dot}{.~}  
-%Разделитель номер таблицы         
-\DeclareCaptionLabelSeparator{dot_tbl}{.\\}            
-
- %Подпись рис. центр
-\captionsetup[figure]{justification=centering,labelsep=dot, format=plain, font={singlespacing},skip=0ex, belowskip=-2ex plus 4pt minus 2pt , aboveskip=1ex plus 4pt minus 2pt }                       
-
-%Подпись табл. справа
-\captionsetup[table]{justification=raggedleft,labelsep=dot_tbl, format=plain, singlelinecheck=false,font={singlespacing},belowskip=1ex plus 4pt minus 2pt } 
-
-%Подпись табл. справа
-\captionsetup[listing]{justification=raggedleft,labelsep=dot, format=plain, position=above, singlelinecheck=false, ,font={singlespacing}, belowskip=2 ex plus 4pt minus 2pt , skip=-1ex plus 4pt minus 2pt } 
-
-
-%В рисунках и таблиц приложений используем префикс П
-\appto\appendix{%
-	\renewcommand{\thefigure}{П\thesection.\arabic{figure}}
-	\renewcommand{\thetable}{П\thesection.\arabic{table}}
-	\renewcommand{\thelisting}{П\thesection.\arabic{listing}}
-}
-
-
-\renewcommand{\thefigure}{\thesection.\arabic{figure}}
-\renewcommand{\thetable}{\thesection.\arabic{table}}
-\renewcommand{\thelisting}{\thesection.\arabic{listing}}
-
-%привязываем счетки рисунков и таблиц к секциям (главам)
-\usepackage{chngcntr}
-\counterwithin{figure}{section}
-\counterwithin{table}{section}
-\counterwithin{listing}{section}
 
 
 %===================================================

@@ -229,7 +229,10 @@
 % Список литературы
 %===================================================
 
-\usepackage[style=gost-numeric, sorting=none, defernumbers=true]{biblatex}  
+\usepackage[style=gost-numeric, 
+		sorting=none, 
+		%defernumbers=true,
+		]{biblatex}  
 \addbibresource{vrkbibliograpgy.bib} 
 
 
@@ -409,6 +412,7 @@
 \fi
 
 
+\input{custom_preambule.tex}
 
 
 %===================================================
@@ -420,7 +424,7 @@
 
 
 \usepackage{hyperref}
-\hypersetup{hidelinks=true} %отключить посдветку ссылок
+\hypersetup{hidelinks} %отключить посдветку ссылок
 %\usepackage{bookmark} %для заклкдок
 
 

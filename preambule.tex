@@ -125,9 +125,9 @@
 
 
 
-\titlespacing*{\section}{0pt}{3ex}{3ex} % Отступы вокруг заголовка главы
-\titlespacing*{\subsection}{0pt}{3ex}{3ex} % Отступы вокруг заголовка параграфа
-\titlespacing*{\subsubsection}{0pt}{3ex}{3ex} % Отступы вокруг заголовка параграфа
+\titlespacing*{\section}{0pt}{3ex plus 5pt minus 2pt }{3ex plus 5pt minus 2pt } % Отступы вокруг заголовка главы
+\titlespacing*{\subsection}{0pt}{3ex plus 5pt minus 2pt }{3ex plus 5pt minus 2pt } % Отступы вокруг заголовка параграфа
+\titlespacing*{\subsubsection}{0pt}{3ex plus 5pt minus 2pt }{3ex plus 5pt minus 2pt } % Отступы вокруг заголовка параграфа
 
 %===================================================
 % Стиль страниы и нумерация
@@ -315,13 +315,13 @@
 \DeclareCaptionLabelSeparator{dot_tbl}{.\\}            
 
  %Подпись рис. центр
-\captionsetup[figure]{justification=centering,labelsep=dot, format=plain, font={singlespacing},skip=0ex, belowskip=-2ex,}                       
+\captionsetup[figure]{justification=centering,labelsep=dot, format=plain, font={singlespacing},skip=0ex, belowskip=-2ex plus 4pt minus 2pt , aboveskip=1ex plus 4pt minus 2pt }                       
 
 %Подпись табл. справа
-\captionsetup[table]{justification=raggedleft,labelsep=dot_tbl, format=plain, singlelinecheck=false,font={singlespacing},belowskip=1ex} 
+\captionsetup[table]{justification=raggedleft,labelsep=dot_tbl, format=plain, singlelinecheck=false,font={singlespacing},belowskip=1ex plus 4pt minus 2pt } 
 
 %Подпись табл. справа
-\captionsetup[listing]{justification=raggedleft,labelsep=dot, format=plain, position=above, singlelinecheck=false, ,font={singlespacing}, belowskip=2 ex, skip=-1ex } 
+\captionsetup[listing]{justification=raggedleft,labelsep=dot, format=plain, position=above, singlelinecheck=false, ,font={singlespacing}, belowskip=2 ex plus 4pt minus 2pt , skip=-1ex plus 4pt minus 2pt } 
 
 
 %В рисунках и таблиц приложений используем префикс П

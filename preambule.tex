@@ -12,6 +12,7 @@
 % Важные пакеты
 %===================================================
 
+
 \usepackage{etoolbox} %много вспомогательных команд
 \usepackage{calc} % Добавляем пакет для команды \widthof
 \usepackage{totcount} %счетчики, сохраняющие значене между компиляциями
@@ -52,7 +53,7 @@
 	\fontsize{12pt}{12pt}\selectfont
 }
 
-\renewcommand{\arraystretch}{1.5}
+\renewcommand{\arraystretch}{1.5} %расстояние между стрчоками в таблицах
 
 %===================================================
 % Математические формулы
@@ -67,17 +68,14 @@
 
 \usepackage{fontspec}
 \usepackage{polyglossia}
+
 \setdefaultlanguage{russian}
 \setotherlanguage{english}
 
 
 \setmainfont{Times New Roman}
 \setsansfont{Arial}
-\setmonofont{Courier New}
-
-\newfontfamily\cyrillicfont[Script=Cyrillic, Mapping=tex-text]{Times New Roman}
-\newfontfamily\cyrillicfontsf[Script=Cyrillic, Mapping=tex-text]{Arial}
-\newfontfamily\cyrillicfonttt[Script=Cyrillic, Mapping=tex-text]{Courier New}
+\setmonofont{Consolas}
 
 
 %===================================================
@@ -103,6 +101,8 @@
 % Заголовки глав и параграфов
 %===================================================
 
+\setcounter{secnumdepth}{4} %Глубина вложенности заголовокв в документе
+
 \usepackage{titlesec} % Для настройки заголовков
 \titleformat{\section}
 {\centering\bfseries\uppercase} % Полужирный, по центру, прописные
@@ -124,10 +124,18 @@
 {}
 
 
+\titleformat{\paragraph}
+{\centering}
+{\theparagraph. }
+{0em}
+{}
+
+
 
 \titlespacing*{\section}{0pt}{3ex plus 5pt minus 2pt }{3ex plus 5pt minus 2pt } % Отступы вокруг заголовка главы
 \titlespacing*{\subsection}{0pt}{3ex plus 5pt minus 2pt }{3ex plus 5pt minus 2pt } % Отступы вокруг заголовка параграфа
-\titlespacing*{\subsubsection}{0pt}{3ex plus 5pt minus 2pt }{3ex plus 5pt minus 2pt } % Отступы вокруг заголовка параграфа
+\titlespacing*{\subsubsection}{0pt}{2ex plus 5pt minus 2pt }{2ex plus 5pt minus 2pt } % Отступы вокруг заголовка параграфа
+\titlespacing*{\paragraph}{0pt}{1ex plus 5pt minus 2pt }{1ex plus 5pt minus 2pt } % Отступы вокруг заголовка параграфа
 
 %===================================================
 % Стиль страниы и нумерация
@@ -395,6 +403,7 @@
 \usepackage[textsize=tiny]{todonotes}
 
 \usepackage{refcount}  %всяукие команды для работы с ссылками, например \getpagerefnumber
+\usepackage{metalogo}
 
 %===================================================
 % Отладка

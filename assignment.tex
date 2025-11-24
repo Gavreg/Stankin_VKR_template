@@ -1,6 +1,11 @@
 \begingroup
+
+
 \fontsize{12pt}{12pt}
 \selectfont
+\renewcommand{\arraystretch}{1} 
+
+
 
 \phantomsection
 \pdfbookmark[1]{Задание на ВКР}{Задание на ВКР}
@@ -31,8 +36,8 @@
 {
 	\centering\fontsize{14pt}{12pt}\selectfont
 	\begin{tabular} {l l l}
-		Студент группы \vkrStudentGroup    & \hspace{0pt} &  Научный руководитель \\
-		\vkrStudentShort			&  & 		\insertPersonInfo{Advisor} \vkrAdvisorShort\\
+		Студент группы \vkrStudentGroup    	& &  	Научный руководитель \\
+		\vkrStudentShort					& & 	\insertPersonInfo{Advisor} \vkrAdvisorShort\\
 	\end{tabular}\\
 }
 
@@ -104,14 +109,18 @@
 		
 \end{enumerate}
 
-\vspace{2ex}%
+\vspace{3ex}%
+
+
 \noindent%
 \begin{tabularx}{\linewidth}{ @{} X @{}  l  @{}    }
-	Исполнитель 							&  \vkrStudentShort   \\[2ex]
 	
-	Научный руководитель\\
-    \insertPersonInfoB{Advisor}	&   \vkrAdvisorShort 
+	Исполнитель 							&  \vkrStudentShort   \\[3ex]
+	
+	Научный руководитель             		& 					   \\
+    \insertPersonInfoB{Advisor} 	 		&   \vkrAdvisorShort 
 \end{tabularx}
 
 
 \endgroup
+

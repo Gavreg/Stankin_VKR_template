@@ -329,6 +329,19 @@
 	}
 }
 
+%Команды для разделов для прриложений
+%Имеют номер, но не светятся в оглавлении
+\newcommand{\hiddensubsection}[1]{%
+	\addtocounter{subsection}{1}%
+	\subsection*{П\thesubsection. #1}%	
+}
+
+\newcommand{\hiddensubsubsection}[1]{%
+	\addtocounter{subsubsection}{1}%
+	\subsubsection*{П\thesubsubsection. #1}%	
+}
+
+
 
 %===================================================
 % Листинги кода

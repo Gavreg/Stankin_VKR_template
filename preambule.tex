@@ -75,7 +75,8 @@
 % Математические формулы
 %===================================================
 
-\usepackage{unicode-math} 
+\usepackage{amsmath}
+\usepackage{amsfonts} 
 
 
 
@@ -385,15 +386,10 @@
 %счеткики для подсчета колчества рисунков и таблицу
 
 \newcounter{vkrTotalfigures}
-\appto\figure{%
-	\stepcounter{vkrTotalfigures}%
-}
-
 \newcounter{vkrTotaltables}
-\appto\table{%
-	\stepcounter{vkrTotaltables}%
-}
 
+\AtBeginEnvironment{figure}{\stepcounter{vkrTotalfigures}}
+\AtBeginEnvironment{table}{\stepcounter{vkrTotaltables}}
 
 %расстояние между float (таблицы, рисунки) и текстом
 \setlength{\floatsep}{4ex plus 4pt minus 2pt}     % между float'ами

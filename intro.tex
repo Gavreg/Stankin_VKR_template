@@ -51,13 +51,13 @@
 %
 %{
 %	
-%\edef\apppages{\fpeval{\getpagerefnumber{vkr:End} - \getpagerefnumber{vkr:AppendixBegin} + 1}}
-%\edef\totalpages{\getpagerefnumber{vkr:End}}
-%\edef\figures{\readfromaux{vkrTotalfigures}}
-%\edef\tables{\readfromaux{vkrTotaltables}}
-%\edef\books{\readfromaux{vkrTotalbooks}}
+\edef\apppages{\fpeval{\getpagerefnumber{vkr:End} - \getpagerefnumber{vkr:AppendixBegin} + 1}}
+\edef\totalpages{\getpagerefnumber{vkr:End}}
+\edef\figures{\readfromaux{vkrTotalfigures}}
+\edef\tables{\readfromaux{vkrTotaltables}}
+\edef\books{\readfromaux{vkrTotalbooks}}
 %Работа содержит \XX\totalpages{страниц}{страницы}{страницу} сквозной нумерации, включая \XX\apppages{страниц}{страницы}{страницу} приложений
 %
-%Количество 	рисунков в работе ---~, таблиц --- 	. В списке литературы . Работа содержит  стр. сквозной нумерации, включая  стр. приложений 
+Количество 	рисунков в работе ---~\figures, таблиц --- 	\tables. В списке литературы . Работа содержит  стр. сквозной нумерации, включая  стр. приложений 
 %
 %}

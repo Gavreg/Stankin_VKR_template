@@ -33,6 +33,7 @@
 \usepackage{calc} % Добавляем пакет для команды \widthof
 \usepackage{totcount} %счетчики, сохраняющие значене между компиляциями
 \usepackage{varwidth} %MinipageАвтоматическойШирины \begin{varwidth} \end{varwidth}
+\usepackage{expl3}
 
 %===================================================
 % Настройка полей
@@ -491,6 +492,16 @@
 
 %===========================
 
+
+%разбивка  строки на слова-строки
+\ExplSyntaxOn
+\NewDocumentCommand{\wordsperline}{m}
+{
+	\seq_set_split:Nnn \l_tmpa_seq { ~ } { #1 }
+	\seq_use:Nn \l_tmpa_seq { \\ }
+}
+\ExplSyntaxOff
+
 %Станкиновская шапка
 
 \newcommand\vkrStandartHead%
@@ -527,9 +538,9 @@
 %		Технологий и\\ 
 %		Вычислительных систем\\	
 %	\end{minipage}
-	\begin{minipage}[t]{0.1\textwidth}
+	\begin{minipage}[t]{0.4\textwidth}
 		\bfseries
-		Институт \vkrInstitute	
+		Институт\\\expandafter\wordsperline{\vkrInstitute}
 	\end{minipage}
 	\hfill
 	\begin{varwidth}[t]{0.3\linewidth}

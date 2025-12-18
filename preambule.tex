@@ -66,9 +66,7 @@
 
 
 % Шрифт в таблицах
-\appto{\table}{%
-	\fontsize{12pt}{12pt}\selectfont
-}
+\AtBeginEnvironment{figure}{\fontsize{12pt}{12pt}\selectfont}
 
 \renewcommand{\arraystretch}{1.5} %расстояние между стрчоками в таблицах
 
@@ -540,7 +538,7 @@
 %	\end{minipage}
 	\begin{minipage}[t]{0.4\textwidth}
 		\bfseries
-		Институт\\\expandafter\wordsperline{\vkrInstitute}
+		Институт\\\expandafter\wordsperline\expandafter{\vkrInstitute}
 	\end{minipage}
 	\hfill
 	\begin{varwidth}[t]{0.3\linewidth}

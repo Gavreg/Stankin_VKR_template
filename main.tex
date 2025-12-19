@@ -18,6 +18,11 @@
 %Настройка документа
 \input{vkr-config.tex}
 
+\makeatletter
+\setlength{\@fptop}{0pt}
+\setlength{\@fpbot}{0pt plus 1fil}
+\makeatother
+
 \begin{document}
 	
 	\sloppy
@@ -54,32 +59,43 @@
 	\newpage
 	\pagestyle{fancy}
 	\input{ch1.tex}
-	\FloatBarrier
-	
+		
 	%Глава2
+	
+	
+	\FloatBarrier
+	\clearpage
 	\newpage
 	\pagestyle{fancy}
 	\input{ch2.tex}
 	\FloatBarrier
 	
 	%Глава3
+	\FloatBarrier
+	\clearpage
 	\newpage
 	\pagestyle{fancy}
 	\input{ch3.tex}
-	\FloatBarrier
+	
 	
 	%Глава4
+	\FloatBarrier
+	\clearpage
 	\newpage
 	\pagestyle{fancy}
 	\input{ch4.tex}
 	\FloatBarrier
 	
 	%Заключение
+	\FloatBarrier
+	\clearpage
 	\newpage
 	\pagestyle{fancy}
 	\input{outro.tex}
 	
 	%Список литературы
+	\FloatBarrier
+	\clearpage
 	\newpage	
 	\pagestyle{fancy}
 	\input{biblio.tex}

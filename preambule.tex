@@ -15,7 +15,8 @@
 \usepackage{fontspec}
 \setmainfont{Times New Roman}
 \setsansfont{Arial}
-\setmonofont{Consolas}
+\setmonofont{Cascadia Code SemiLight}%[Scale=0.865] 
+             
 
 \usepackage{polyglossia}
 \setdefaultlanguage[babelshorthands=true]{russian}
@@ -137,8 +138,8 @@
 
 
 
-\titlespacing*{\section}{0pt}{3ex plus 5pt minus 2pt }{3ex plus 5pt minus 2pt } % Отступы вокруг заголовка главы
-\titlespacing*{\subsection}{0pt}{3ex plus 5pt minus 2pt }{3ex plus 5pt minus 2pt } % Отступы вокруг заголовка параграфа
+\titlespacing*{\section}{0pt}{1.5em plus 3pt minus 2pt }{1.5em plus 3pt minus 2pt } % Отступы вокруг заголовка главы
+\titlespacing*{\subsection}{0pt}{1.5em plus 3pt minus 2pt }{1.5em plus 3pt minus 2pt } % Отступы вокруг заголовка параграфа
 \titlespacing*{\subsubsection}{0pt}{2ex plus 5pt minus 2pt }{2ex plus 5pt minus 2pt } % Отступы вокруг заголовка параграфа
 \titlespacing*{\paragraph}{0pt}{1ex plus 5pt minus 2pt }{1ex plus 5pt minus 2pt } % Отступы вокруг заголовка параграфа
 
@@ -190,9 +191,9 @@
 	labelsep=dot, 
 	format=plain,
 	font={singlespacing},
-	skip=0ex, 
+	%skip=0ex, 
 	belowskip=-2ex plus 4pt minus 2pt , 
-	aboveskip=1ex plus 4pt minus 2pt 
+	%aboveskip=1ex plus 4pt minus 2pt 
 }                       
 
 %Подпись табл. справа
@@ -202,8 +203,8 @@
 	format=plain, 
 	singlelinecheck=false,
 	font={singlespacing},
-	belowskip=1ex plus 4pt minus 2pt, 
-	aboveskip=1ex  plus 4pt minus 2pt 
+	%belowskip=1ex plus 4pt minus 2pt, 
+	%aboveskip=1ex  plus 4pt minus 2pt 
 } 
 
 %Подпись листинг. справа
@@ -214,7 +215,7 @@
 	position=above, 
 	singlelinecheck=false,
 	font={singlespacing}, 
-	belowskip=1 ex plus 4pt minus 2pt , 
+	%belowskip=1 ex plus 4pt minus 2pt , 
 	aboveskip=-1.4ex  plus 4pt minus 2pt 
 } 
 
@@ -391,9 +392,9 @@
 \AtBeginEnvironment{table}{\stepcounter{vkrTotaltables}}
 
 %расстояние между float (таблицы, рисунки) и текстом
-\setlength{\floatsep}{4ex plus 4pt minus 2pt}     % между float'ами
-\setlength{\textfloatsep}{2ex plus 4pt minus 2pt} % между float'ами и текстом
-\setlength{\intextsep}{2ex plus 4pt minus 2pt}    % для float'ов внутри текста
+\setlength{\floatsep}{1ex plus 4pt minus 2pt}     % между float'ами
+\setlength{\textfloatsep}{3ex plus 4pt minus 2pt} % между float'ами и текстом
+\setlength{\intextsep}{3ex plus 4pt minus 2pt}    % для float'ов внутри текста
 
 \usepackage{placeins}  % Для команды \FloatBarrier
 
@@ -519,7 +520,7 @@
 	
 	
 	
-	\vspace{-1ex}\noindent\rule{\textwidth}{0.4pt}\vspace{2ex}
+	\vspace{-2ex}\noindent\rule{\textwidth}{0.4pt}\vspace{2ex}
 	
 	\noindent	
 %	\begin{minipage}[t]{0.3\textwidth}

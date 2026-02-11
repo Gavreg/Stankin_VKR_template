@@ -13,20 +13,20 @@
 \begin{center}
 	
 	\bfseries
-	\vkrStudent
-	
+	\vkrStudent\\
+	\hfill\\
 	\normalfont
 	Выпускная квалификационная работа\\
 	по направлению подготовки \\
 	\vkrMajor\space<<\vkrMajorName>>\\
-	Профиль: <<\vkrSpesialization>>
-	\vspace{1ex}
+	Профиль: <<\vkrSpesialization>> \vspace{1.5em}\hfill
+	
 	
 	{
 		
 		\parbox{0.85\linewidth}{\centering\bfseries\fontsize{16pt}{16pt}\selectfont\MakeUppercase{\vkrTheme}} 
 		
-		\vspace{2ex}\hfill
+		\vspace{1.5em}\hfill
 		Регистрационный номер № \rule{3cm}{0.25pt}
 	}	
 \end{center}
@@ -36,82 +36,26 @@
 \vspace{1cm}
 
 \noindent%
-\begin{minipage}[b]{0.28\linewidth}
-	Заведующий кафедрой 
-\end{minipage}%
-%
-%
-\begin{minipage}[b]{0.2\linewidth}
-	\underline{\hspace{\linewidth}}
-\end{minipage}%
-%
-\hspace{5mm}%
-\begin{minipage}[b]{0.5\linewidth-5mm}
-	\vkrKafedraHeadTitles \strut\\
-	\vkrKafedraHeadShort \strut
-\end{minipage}
-
-\vspace{1.5ex}
-
-\noindent%
-\begin{minipage}[b]{0.28\linewidth}
-	Научный руководитель 
-\end{minipage}%
-%
-\begin{minipage}[b]{0.2\linewidth}
-	\underline{\hspace{\linewidth}}
-\end{minipage}%
-%
-\hspace{5mm}%
-\begin{minipage}[b]{0.5\linewidth-5mm}
-	\insertPersonInfoA{Advisor}%  
-	\strut\\
-	\vkrAdvisorShort \strut
-\end{minipage}
+\begin{tabular}{
+		@{} 
+		b{0.35\linewidth}
+		@{}
+		b{2.5cm}
+		@{}
+		b{2ex}
+		@{}
+		b{0.35\linewidth}
+		}
+	Зав. кафедрой  & \underline{\hspace{\linewidth}} & &	\vkrKafedraHeadTitles\strut\newline\vkrKafedraHeadShort \\
+	Научный руководитель  &  \underline{\hspace{\linewidth}} & & 	\insertPersonInfoA{Advisor}\strut\newline\vkrAdvisorShort\strut \\
+	\ifVkrOfBachelor
+	\else
+	Научный консультант &  \underline{\hspace{\linewidth}} & & \insertPersonInfoA{Consultant}\strut\newline\vkrConsultantShort\strut \\
+	\fi
+	Обучающийся &  \underline{\hspace{\linewidth}} & & \strut\newline\vkrStudentShort
+\end{tabular}
 
 
-\ifVkrOfBachelor
-\else
-\vspace{1.5ex}
-
-\noindent%
-\begin{minipage}[b]{0.28\linewidth}
-	Научный консультант
-\end{minipage}%
-%
-%
-%
-\begin{minipage}[b]{0.2\linewidth}
-	\underline{\hspace{\linewidth}}
-\end{minipage}%
-%
-\hspace{5mm}%
-%
-\begin{minipage}[b]{0.5\linewidth-5mm}
-	\insertPersonInfoA{Consultant}   
-	\strut\\
-	\vkrConsultantShort \strut
-\end{minipage}
-\fi
-\vspace{1.5ex}
-
-\noindent%
-\begin{minipage}[b]{0.28\linewidth}
-	Обучающийся
-\end{minipage}%
-%
-%
-%
-\begin{minipage}[b]{0.2\linewidth}
-	\underline{\hspace{\linewidth}}
-\end{minipage}%
-%
-\hspace{5mm}%
-%
-\begin{minipage}[b]{0.5\linewidth-5mm}
-	\strut \\
-	\vkrStudentShort
-\end{minipage}
 
 
 \vfill

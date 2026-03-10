@@ -23,7 +23,7 @@
 \setotherlanguage{english}
 
 
-
+\setlength{\parindent}{1.25cm}
 
 %===================================================
 % Важные пакеты
@@ -31,7 +31,7 @@
 
 
 \usepackage{etoolbox} %много вспомогательных команд
-\usepackage{calc} % Добавляем пакет для команды \widthof
+\usepackage{calc} % Добавляем пакет для команды \widthof еще он добавляет возможность вычисления длин типа 1in+6cm-10pt
 \usepackage{totcount} %счетчики, сохраняющие значене между компиляциями
 \usepackage{varwidth} %MinipageАвтоматическойШирины \begin{varwidth} \end{varwidth}
 \usepackage{expl3}
@@ -94,7 +94,8 @@
 %===================================================
 
 \usepackage{setspace}
-\onehalfspacing % Межстрочный интервал 1.5
+%\onehalfspacing % Межстрочный интервал 1.5
+\setstretch{1.425}
 
 %===================================================
 % Отключение переносов слов
@@ -110,38 +111,38 @@
 \setcounter{secnumdepth}{4} %Глубина вложенности заголовокв в документе
 
 \usepackage{titlesec} % Для настройки заголовков
-\titleformat{\section}
-{\centering\bfseries\uppercase} % Полужирный, по центру, прописные
-{} % Нумерация с точкой
+\titleformat{\section}[block]
+{\centering\bfseries} % Полужирный, по центру, прописные
+{ГЛАВА \thesection.\ } % Нумерация с точкой
 {0em} % Расстояние между номером и текстом
-{Глава \thesection. } % Код перед заголовком
+{\MakeUppercase} % Код перед заголовком
  % Расстояние после заголовка (2 интервала = 3ex при 1.5)
 
-\titleformat{\subsection}
-{\centering\bfseries\uppercase}
-{}
-{0em}
-{\thesubsection. }
-
-\titleformat{\subsubsection}
+\titleformat{\subsection}[block]
 {\centering\bfseries}
-{}
+{\thesubsection.\ }
 {0em}
-{\thesubsubsection. }
+{\MakeUppercase}
+
+\titleformat{\subsubsection}[block]
+{\centering\bfseries}
+{\thesubsubsection.\ }
+{0em}
+{}
 
 
-\titleformat{\paragraph}
+\titleformat{\paragraph}[block]
 {\centering}
-{}
+{\theparagraph. \ }
 {0em}
-{\theparagraph. }
+{ }
 
 
 
-\titlespacing*{\section}{0pt}{1.5em plus 3pt minus 2pt }{1.5em plus 3pt minus 2pt } % Отступы вокруг заголовка главы
-\titlespacing*{\subsection}{0pt}{1.5em plus 3pt minus 2pt }{1.5em plus 3pt minus 2pt } % Отступы вокруг заголовка параграфа
-\titlespacing*{\subsubsection}{0pt}{2ex plus 5pt minus 2pt }{2ex plus 5pt minus 2pt } % Отступы вокруг заголовка параграфа
-\titlespacing*{\paragraph}{0pt}{1ex plus 5pt minus 2pt }{1ex plus 5pt minus 2pt } % Отступы вокруг заголовка параграфа
+\titlespacing*{\section}{0pt}{1.3em plus 3pt minus 2pt }{1.3em plus 3pt minus 2pt } % Отступы вокруг заголовка главы
+\titlespacing*{\subsection}{0pt}{1.3em plus 3pt minus 2pt }{1.3em plus 3pt minus 2pt } % Отступы вокруг заголовка параграфа
+\titlespacing*{\subsubsection}{0pt}{1.3ex plus 5pt minus 2pt }{1.3em plus 5pt minus 2pt } % Отступы вокруг заголовка параграфа
+\titlespacing*{\paragraph}{0pt}{1em plus 5pt minus 2pt }{1em plus 5pt minus 2pt } % Отступы вокруг заголовка параграфа
 
 %===================================================
 % Стиль страниы и нумерация
@@ -153,11 +154,14 @@
 \fancyhead{}%Отчищаем верхний колонтитул
 \fancyhead[C]{\thepage} % Номер страницы по центру вверху
 \renewcommand{\headrulewidth}{0pt} % Убираем черту
-\setlength{\headsep}{10pt}
-\setlength{\voffset}{15pt}
-\setlength{\topmargin}{-58pt}
-\setlength{\headheight}{18pt}
-%\setlength{\headsep}{2ex}%наскоклько верний колонтиту выше страницы
+
+
+%\setlength{\headsep}{10pt}
+%\setlength{\voffset}{1cm}
+\setlength{\topmargin}{-1in + 13mm}
+\setlength{\headheight}{4mm}
+\setlength{\headsep}{1.5mm}
+%наскоклько верний колонтиту выше страницы
 %\setlength{\headheight}{\heightof{9}}
 %\setlength
 
@@ -367,9 +371,6 @@
 \renewcommand{\thelisting}{\thesection.\arabic{listing}}
 %\renewcommand{\listingscaption}{Листинг}  %для Minted без newfloat
 
-\SetupFloatingEnvironment{listing}{name=Листинг} 
-%\renewcommand{\lstlistingname}{Листинг}
-
 %===================================================
 % Настройка станартного положения рисунков
 %===================================================
@@ -393,9 +394,16 @@
 \AtBeginEnvironment{table}{\stepcounter{vkrTotaltables}}
 
 %расстояние между float (таблицы, рисунки) и текстом
-\setlength{\floatsep}{1ex plus 4pt minus 2pt}     % между float'ами
-\setlength{\textfloatsep}{3ex plus 4pt minus 2pt} % между float'ами и текстом
-\setlength{\intextsep}{3ex plus 4pt minus 2pt}    % для float'ов внутри текста
+\setlength{\floatsep}{1em plus 4pt minus 2pt}     % между float'ами
+\setlength{\textfloatsep}{2em plus 4pt minus 2pt} % между float'ами и текстом
+\setlength{\intextsep}{2em plus 4pt minus 2pt}    % для float'ов внутри текста
+
+
+\SetupFloatingEnvironment{listing}{name=Листинг} 
+%\renewcommand{\lstlistingname}{Листинг}
+
+%для длинных листингов
+\newenvironment{longlisting}{\vspace{\intextsep}\captionsetup{type=listing}}{}
 
 \usepackage{placeins}  % Для команды \FloatBarrier
 

@@ -160,7 +160,7 @@
 %\setlength{\voffset}{1cm}
 \setlength{\topmargin}{-1in + 13mm}
 \setlength{\headheight}{4mm}
-\setlength{\headsep}{1.5mm}
+\setlength{\headsep}{3mm}
 %наскоклько верний колонтиту выше страницы
 %\setlength{\headheight}{\heightof{9}}
 %\setlength
@@ -172,8 +172,8 @@
 	\fancyhead{}%Отчищаем верхний колонтитул
 	\fancyhead[C]{\thepage} % Номер страницы по центру вверху
 	\renewcommand{\headrulewidth}{0pt} % Убираем черту
-	\setlength{\headsep}{2ex}%наскоклько верний колонтиту выше страницы
-	\setlength{\headheight}{2ex}
+%	\setlength{\headsep}{2ex}%наскоклько верний колонтиту выше страницы
+%	\setlength{\headheight}{2ex}
 }
 
 
@@ -226,9 +226,9 @@
 
 %В рисунках и таблиц приложений используем префикс П
 \appto\appendix{%
-	\renewcommand{\thefigure}{П\thesection.\arabic{figure}}
-	\renewcommand{\thetable}{П\thesection.\arabic{table}}
-	\renewcommand{\thelisting}{П\thesection.\arabic{listing}}
+	\renewcommand{\thefigure}{\thesection.\arabic{figure}}
+	\renewcommand{\thetable}{\thesection.\arabic{table}}
+	\renewcommand{\thelisting}{\thesection.\arabic{listing}}
 }
 
 
@@ -288,28 +288,44 @@
 
 %Заголовок оглавления
 \renewcommand{\cfttoctitlefont}{\hfill\bfseries}
-\renewcommand{\cftaftertoctitle}{\hfill\vspace{2em}}
+\renewcommand{\cftaftertoctitle}{\hfill\vspace{1em}}
 
-\renewcommand{\cftsecpresnum}{ГЛАВА }
-\setlength{\cftsecnumwidth}{3.9em}  %widthof см выше пакет calc
-\renewcommand{\cftsecaftersnumb}{. } 
+\renewcommand{\cftpnumalign}{r}
+
+
+\cftsetrmarg{3ex}
+\cftsetpnumwidth{3ex}
+
+\renewcommand{\cftdotsep}{2}
+
+\renewcommand{\cftsecpresnum}{Глава }
+\setlength{\cftsecnumwidth}{\widthof{Глава 0.\ }}  %widthof см выше пакет calc
+\renewcommand{\cftsecaftersnum}{. } 
 \renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}}
 \renewcommand{\cftsecfont}{\normalfont}        % обычный шрифт
 \renewcommand{\cftsecpagefont}{\normalfont}    % шрифт номеров страниц
-\setlength{\cftbeforesecskip}{0.5ex} 
+\setlength{\cftbeforesecskip}{0.0em} 
 
 
-\setlength{\cftsubsecnumwidth}{1.3em}
-\renewcommand{\cftsubsecaftersnumb}{. } % Точка после номера параграфа
+\setlength{\cftsubsecnumwidth}{\widthof{0.0.\ }}
+\renewcommand{\cftsubsecaftersnum}{. } % Точка после номера параграфа
+\renewcommand{\cftsubsecleader}{\cftdotfill{\cftdotsep}}
 \renewcommand{\cftsubsecfont}{\normalfont}        % обычный шрифт
 \renewcommand{\cftsubsecpagefont}{\normalfont}    % шрифт номеров страниц
-\setlength{\cftbeforesubsecskip}{0.5ex} 
+\setlength{\cftbeforesubsecskip}{0.0em} 
+
+\setlength{\cftsubsubsecnumwidth}{\widthof{0.0.0.\ }}
+\renewcommand{\cftsubsubsecaftersnum}{. } % Точка после номера параграфа
+\renewcommand{\cftsubsubsecleader}{\cftdotfill{\cftdotsep}}
+\renewcommand{\cftsubsubsecfont}{\normalfont}        % обычный шрифт
+\renewcommand{\cftsubsubsecpagefont}{\normalfont}    % шрифт номеров страниц
+\setlength{\cftbeforesubsubsecskip}{0.0em} 
 
 %Главы капсом
 %https://tex.stackexchange.com/questions/156916/how-to-make-section-name-uppercase-in-toc
 \makeatletter
-\patchcmd{\l@subsection}{#1}{\MakeUppercase{#1}}{}{}
-\patchcmd{\l@section}{#1}{\MakeUppercase{#1}}{}{}
+%\patchcmd{\l@subsection}{#1}{\MakeUppercase{#1}}{}{}
+%\patchcmd{\l@section}{#1}{\MakeUppercase{#1}}{}{}
 \makeatother
 
 % Уменьшить отступ перед номерами страниц
@@ -322,19 +338,29 @@
 % Переопределяем формат для приложений
 
 \appto\appendix{%
-	\renewcommand{\thesection}{\arabic{section}}
-	\titleformat{\section}
+	
+	%\renewcommand{\thesection}{\arabic{section}} 
+	
+	\renewcommand{\thesection}{\Asbuk{section}} %почему то опять вернули буквы в приложения
+	
+	\titleformat{\section}[block]
 	{\bfseries\raggedleft} % Полужирный, по центру, прописные
 	{Приложение \thesection.} % Нумерация с точкой
 	{0em} % Расстояние между номером и текстом
 	{\\} % Код перед заголовком
 	[\vspace{0ex}] 
 	
-	  % Настройки оглавления для приложений
+	\titleformat{\subsection}[block]
+	{\centering\bfseries}
+	{\thesubsection.\ }
+	{0em}
+	{}
+	
+	{ }% Настройки оглавления для приложений
 	\addtocontents{toc}{%
-		\protect\renewcommand{\protect\cftsecpresnum}{ПРИЛОЖЕНИЕ }%
-		\protect\setlength{\protect\cftsecnumwidth}{7.8em}%
-		\protect\renewcommand{\protect\cftsecaftersnum}{}%
+		\protect\renewcommand{\protect\cftsecpresnum}{Приложение }%
+		\protect\setlength{\protect\cftsecnumwidth}{\widthof{Приложение М.\ }}%
+		\protect\renewcommand{\protect\cftsecaftersnum}{.}%
 	}
 }
 
@@ -342,12 +368,12 @@
 %Имеют номер, но не светятся в оглавлении
 \newcommand{\hiddensubsection}[1]{%
 	\addtocounter{subsection}{1}%
-	\subsection*{П\thesubsection. #1}%	
+	\subsection*{\thesubsection. #1}%	
 }
 
 \newcommand{\hiddensubsubsection}[1]{%
 	\addtocounter{subsubsection}{1}%
-	\subsubsection*{П\thesubsubsection. #1}%	
+	\subsubsection*{\thesubsubsection. #1}%	
 }
 
 

@@ -1,4 +1,4 @@
-\section{Пример листинга в приложении}\label{sec:appB}
+\section{Пример листинга в приложении.}\label{sec:appB}
 
 \hiddensubsection{Раздел приложения}
 
@@ -7,53 +7,56 @@
 \hiddensubsection{Раздел приложения}
 
 \lipsum[1]
-\captionof{listing}{Листинг}
 
-\begin{minted}{c++}
-#include <iostream>
-#include <vector>
-#include <cmath>
-using namespace std;
-
-vector<int> sieveOfEratosthenes(int n) {
-	vector<bool> isPrime(n + 1, true);
-	vector<int> primes;
-	
-	isPrime[0] = isPrime[1] = false;
-	
-	for (int i = 2; i * i <= n; i++) {
-		if (isPrime[i]) {
-			for (int j = i * i; j <= n; j += i) {
-				isPrime[j] = false;
+\begin{longlisting}
+    \caption{Пример длинного листинга}
+	\begin{minted}[autogobble]{c++}
+		#include <iostream>
+		#include <vector>
+		#include <cmath>
+		using namespace std;
+		
+		vector<int> sieveOfEratosthenes(int n) {
+			vector<bool> isPrime(n + 1, true);
+			vector<int> primes;
+			
+			isPrime[0] = isPrime[1] = false;
+			
+			for (int i = 2; i * i <= n; i++) {
+				if (isPrime[i]) {
+					for (int j = i * i; j <= n; j += i) {
+						isPrime[j] = false;
+					}
+				}
 			}
+			
+			for (int i = 2; i <= n; i++) {
+				if (isPrime[i]) {
+					primes.push_back(i);
+				}
+			}
+			
+			return primes;
 		}
-	}
-	
-	for (int i = 2; i <= n; i++) {
-		if (isPrime[i]) {
-			primes.push_back(i);
-		}
-	}
-	
-	return primes;
-}
+		
+		int main() {
+			int limit;
+			cout << "Введите верхнюю границу для поиска простых чисел: ";
+			cin >> limit;
+			
+			vector<int> primes = sieveOfEratosthenes(limit);
+			
+			cout << "Найдено простых чисел: " << primes.size() << endl;
+			cout << "Все простые числа до " << limit << ":" << endl;
+			
+			for (int i = 0; i < primes.size(); i++) {
+				cout << primes[i] << " ";
+				if ((i + 1) % 10 == 0) cout << endl; // 10 чисел в строке
+			}
+			cout << endl;
+			
+			return 0;
+		}	
+	\end{minted}
 
-int main() {
-	int limit;
-	cout << "Введите верхнюю границу для поиска простых чисел: ";
-	cin >> limit;
-	
-	vector<int> primes = sieveOfEratosthenes(limit);
-	
-	cout << "Найдено простых чисел: " << primes.size() << endl;
-	cout << "Все простые числа до " << limit << ":" << endl;
-	
-	for (int i = 0; i < primes.size(); i++) {
-		cout << primes[i] << " ";
-		if ((i + 1) % 10 == 0) cout << endl; // 10 чисел в строке
-	}
-	cout << endl;
-	
-	return 0;
-}	
-\end{minted}
+\end{longlisting}

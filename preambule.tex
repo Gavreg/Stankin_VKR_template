@@ -67,7 +67,12 @@
 
 
 % Шрифт в таблицах
-\AtBeginEnvironment{figure}{\fontsize{12pt}{12pt}\selectfont}
+
+\AtBeginEnvironment{table}{\def\insidetable{true}}
+
+\AtBeginEnvironment{tabular}{\ifdefined\insidetable\ifDebug\color{red}\fi\fontsize{12pt}{12pt}\selectfont\fi}
+\AtBeginEnvironment{longtable}{\ifdefined\insidetable\ifDebug\color{red}\fi\fontsize{12pt}{12pt}\selectfont\fi}
+\AtBeginEnvironment{tabularx}{\ifdefined\insidetable\ifDebug\color{red}\fi\fontsize{12pt}{12pt}\selectfont\fi}
 
 \renewcommand{\arraystretch}{1.5} %расстояние между стрчоками в таблицах
 
@@ -141,8 +146,8 @@
 
 \titlespacing*{\section}{0pt}{1.3em plus 3pt minus 2pt }{1.3em plus 3pt minus 2pt } % Отступы вокруг заголовка главы
 \titlespacing*{\subsection}{0pt}{1.3em plus 3pt minus 2pt }{1.3em plus 3pt minus 2pt } % Отступы вокруг заголовка параграфа
-\titlespacing*{\subsubsection}{0pt}{1.3ex plus 5pt minus 2pt }{1.3em plus 5pt minus 2pt } % Отступы вокруг заголовка параграфа
-\titlespacing*{\paragraph}{0pt}{1em plus 5pt minus 2pt }{1em plus 5pt minus 2pt } % Отступы вокруг заголовка параграфа
+\titlespacing*{\subsubsection}{0pt}{1.3ex plus 3pt minus 2pt }{1.3em plus 3pt minus 2pt } % Отступы вокруг заголовка параграфа
+\titlespacing*{\paragraph}{0pt}{1em plus 3pt minus 2pt }{1em plus 3pt minus 2pt } % Отступы вокруг заголовка параграфа
 
 %===================================================
 % Стиль страниы и нумерация
@@ -194,7 +199,7 @@
 	justification=centering,
 	labelsep=dot, 
 	format=plain,
-	font={singlespacing},
+	font={onehalfspacing},
 	%skip=0ex, 
 	belowskip=-2ex plus 4pt minus 2pt , 
 	%aboveskip=1ex plus 4pt minus 2pt 
@@ -206,7 +211,7 @@
 	labelsep=dot_tbl, 
 	format=plain, 
 	singlelinecheck=false,
-	font={singlespacing},
+	font={onehalfspacing},
 	%belowskip=1ex plus 4pt minus 2pt, 
 	%aboveskip=1ex  plus 4pt minus 2pt 
 } 
@@ -218,7 +223,7 @@
 	format=plain, 
 	position=above, 
 	singlelinecheck=false,
-	font={singlespacing}, 
+	font={onehalfspacing}, 
 	%belowskip=1 ex plus 4pt minus 2pt , 
 	aboveskip=-1.4ex  plus 4pt minus 2pt 
 } 
@@ -420,9 +425,9 @@
 \AtBeginEnvironment{table}{\stepcounter{vkrTotaltables}}
 
 %расстояние между float (таблицы, рисунки) и текстом
-\setlength{\floatsep}{1em plus 4pt minus 2pt}     % между float'ами
-\setlength{\textfloatsep}{2em plus 4pt minus 2pt} % между float'ами и текстом
-\setlength{\intextsep}{2em plus 4pt minus 2pt}    % для float'ов внутри текста
+\setlength{\floatsep}{1.6em plus 2pt minus 2pt}     % между float'ами
+\setlength{\textfloatsep}{1.6em plus 2pt minus 2pt} % между float'ами и текстом
+\setlength{\intextsep}{1.6em plus 2pt minus 2pt}    % для float'ов внутри текста
 
 
 \SetupFloatingEnvironment{listing}{name=Листинг} 
@@ -430,16 +435,40 @@
 
 %для длинных листингов
 \newenvironment{longlisting}{\vspace{\intextsep}\captionsetup{type=listing}}{}
+\newenvironment{VKRlonglisting}{\vspace{\intextsep}\captionsetup{type=listing}}{}
+
+%для длинных таблиц
+\newenvironment{VKRlongtable}{\vspace{\intextsep-1ex}\stepcounter{vkrTotaltables}\begingroup\captionsetup{type=table}\def\insidetable{true}}{\endgroup}
 
 \usepackage{placeins}  % Для команды \FloatBarrier
 
+%===================================================
+% Списки
+%===================================================
+
+
+\usepackage{enumitem} %упарвление списками
+
+\setlist[enumerate]{nosep, leftmargin=1cm }  
+\setlist[itemize]{nosep, leftmargin=1cm}
+
+%\setlist[enumerate,1]{leftmargin=1.25cm +2ex + \labelsep }  
+%\setlist[itemize,1]{leftmargin=1.25cm +2ex + \labelsep }
+
+\setlist[enumerate,1]{leftmargin = \parindent }  
+\setlist[itemize,1]{leftmargin = \parindent  }
+
+% русские буквы в счетчике https://tex.stackexchange.com/questions/720496/how-to-make-cyrillic-alphabet-numbering-in-enumerate-with-enumitem-and-polygloss
+\makeatletter
+\AddEnumerateCounter{\asbuk}{\russian@asbuk@alph}{щ} % section 8.1
+\makeatother
 
 
 
 %===================================================
 % Прочие плагины
 %===================================================
-\usepackage{enumitem} %упарвление списками
+
 
 
 \usepackage{lipsum}%для отладки текста, команда \lipsum

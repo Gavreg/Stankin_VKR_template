@@ -1,13 +1,13 @@
 # Шаблон выпускной квалификационной работы для студентов кафедры Информационных технологий и вычислительных систем МГТУ "СТАНКИН"
 
-Шаблон выполнен для системы компьютерной верстки $\LaTeX$. Полная инструкция по применению шаблона приведена в нем самом (пока еще нет).
+Шаблон выполнен для системы компьютерной вёрстки $\LaTeX$. Полная инструкция по применению шаблона приведена в нем самом (пока ещё нет).
 ## Необходимое ПО
 - Любой редактор $\LaTeX$. Я использую **TexStudio** https://www.texstudio.org/
-- Дистрибутив $\LaTeX$. Шаблон разрабатывался и тестировался с ипользованем **TexLive 2024** под Windows https://www.tug.org/texlive/ . На других дистрибутивах и опреационных системах не проверял.
+- Дистрибутив $\LaTeX$. Шаблон разрабатывался и тестировался с использованием **TexLive 2026** под Windows https://www.tug.org/texlive/ . На других дистрибутивах и операционных системах не проверял.
 - **Python** >=3.8
 - **Pygments** - пакет для пайтона, необходимый для оформления листингов. https://pygments.org/#. Можно установить командой ```pip install Pygments```
 
-## Структура шаблона
+## Структура шаблона     
 ### Основные файлы:
 |   |   |
 |---|---|
@@ -15,17 +15,17 @@
 | ```main_assigment.tex``` | только задание на ВКР. |
 
 
-Для сборки применятся компилятор Xelatex.
+Для сборки применятся компилятор Xelatex и скрипт latexmk.
 
  Вся ВКР:
 ``` 
-xelatex -synctex=1 -interaction=nonstopmode -halt-on-error  --shell-escape -8bit main.tex
+latexmk -pdfxe -synctex=1 -interaction=nonstopmode -halt-on-error  --shell-escape -8bit main.tex
 ```
 или только задание:
 ``` (Только задание)
-xelatex -synctex=1 -interaction=nonstopmode -halt-on-error  --shell-escape -8bit main_assigment.tex.tex
+latexmk -pdfxe -synctex=1 -interaction=nonstopmode -halt-on-error  --shell-escape -8bit main_assigment.tex.tex
 ```
-С учетом списка литеритуры документ должен компилироватся несколько раз
+С учётом списка литературы документ должен компилироваться несколько раз. Latexmk сам понимает сколько раз ему это делать. Для ручной компиляции придётся вызвать xelatex и biber в такой последовательности:
 
 ```
 xelatex -synctex=1 -interaction=nonstopmode -halt-on-error  --shell-escape -8bit main.tex
@@ -33,6 +33,7 @@ biber main.tex
 xelatex -synctex=1 -interaction=nonstopmode -halt-on-error  --shell-escape -8bit main.tex
 xelatex -synctex=1 -interaction=nonstopmode -halt-on-error  --shell-escape -8bit main.tex
 ```
+Для задания достаточно однократного xelatex.
 
 Обычно специальные редакторы делают многократную компиляцию автоматически.
 

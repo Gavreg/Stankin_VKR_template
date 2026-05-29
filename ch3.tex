@@ -1,8 +1,58 @@
-\section{Название третьей главы}
+\section{Состав и структура ВКР}
 
-\subsection{Параграф 1}
+\subsection{Общие положения}
 
-\subsubsection{Подпараграф}
+В этом разделе я хочу описать, из чего строится выпускная квалификационная работа.  Дать описание глав работы и их взаимосвязей. Можете считать подобную трактовку авторской, которая никоем случае не претендует на истину в последней инстанции, особенно если ваш научный руководитель с ней не согласен (за исключением случая, если им являюсь я). 
+
+\section{Методические основания}
+
+
+\begin{figure}
+	
+	\resizebox{\linewidth}{!}{%
+	\fontsize{6pt}{6pt}\selectfont
+	
+	\edef\sizeV{0.5cm}
+	\edef\sizeHavfV{0.25cm}
+	
+	\begin{tikzpicture}
+		[
+		pd/.style={draw, align=center, minimum height = 2.8em},
+		arr/.style={-Latex},
+		rra/.style={Latex-},
+		node distance=\sizeV and \sizeV,
+		]				
+		\draw node[pd] (z11) {Промышленный способ\\создания АС};		
+		\draw node[pd, below = of z11, xshift=-5cm, fill=green!30!white] (z21) {Предпроектное\\обследование};
+		\draw node[pd, right = of z21] (z22) {Проектирование АС};
+		\draw node[pd, right = of z22] (z23) {Подготовка \\реализации АС};
+		\draw node[pd, right = of z23] (z24) {Реализация АС};
+		\draw node[pd, below = of z21, xshift=-0.3cm, fill=red!30!white] (z31) {Концептуальное\\моделирование};
+		\draw node[pd, right = of z31, fill=orange!30!white ] (z32) {Инфологическое\\моделирование}; 
+		\draw node[pd, right = of z32 ] (z33) {Выбор программно-технических\\средств реализации}; 
+		\draw node[pd, right = of z33, fill=Magenta!30!white] (z34) {Даталогическое\\моделирование}; 		
+		\draw [arr] ($(z11.south west)!0.5!(z11.south)$) -- ++ (down:\sizeHavfV) -| (z21.90);
+		\draw [rra] ($(z11.south east)!0.5!(z11.south)$) -- ++ (down:\sizeHavfV) -| (z24.90);		
+		\draw [arr] (z21) -- (z22);
+		\draw [arr] (z22) -- (z23);
+		\draw [arr] (z23) -- (z24);		
+		\draw [arr] ($(z22.south west)!0.5!(z22.south)$) -- ++ (down:\sizeHavfV) -| (z31.90);
+		\draw [rra] ($(z22.south east)!0.5!(z22.south)$) -- ++ (down:\sizeHavfV) -| (z32.70);		
+		\draw [arr] (z31) -- (z32);		
+		\draw [arr] ($(z23.south west)!0.5!(z23.south)$) -- ++ (down:\sizeHavfV) -| (z33.120);
+		\draw [rra] ($(z23.south east)!0.5!(z23.south)$) -- ++ (down:\sizeHavfV) -| (z34.90);		
+		\draw [arr] (z33) -- (z34);				
+	\end{tikzpicture} }
+
+\end{figure}
+
+
+\section{Методические основания}
+
+ВКР бакалавра или магистранта описывает пусть создания 
+
+
+
 \subsubsection{Подпараграф}
 
 

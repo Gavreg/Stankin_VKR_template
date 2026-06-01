@@ -449,14 +449,29 @@
 
 \usepackage{enumitem} %упарвление списками
 
-\setlist[enumerate]{nosep, leftmargin=1cm }  
-\setlist[itemize]{nosep, leftmargin=1cm}
+\setlist[enumerate]{
+	nosep,
+	leftmargin=0.5cm + 3ex,     
+	labelwidth=3ex,
+	labelsep=0pt,
+	label=\arabic*.~,	
+}
 
-%\setlist[enumerate,1]{leftmargin=1.25cm +2ex + \labelsep }  
-%\setlist[itemize,1]{leftmargin=1.25cm +2ex + \labelsep }
+\setlist[enumerate,1]{
+	leftmargin=1.0cm + 3ex,     	
+}
 
-\setlist[enumerate,1]{leftmargin = \parindent }  
-\setlist[itemize,1]{leftmargin = \parindent  }
+\setlist[itemize]{
+	nosep,
+	leftmargin=0.5cm + 3ex,     
+	labelwidth=3ex,
+	labelsep=0pt,
+	label=$\bullet$~,
+}
+
+\setlist[itemize,1]{
+	leftmargin=1.0cm + 3ex,     	
+}
 
 % русские буквы в счетчике https://tex.stackexchange.com/questions/720496/how-to-make-cyrillic-alphabet-numbering-in-enumerate-with-enumitem-and-polygloss
 \makeatletter

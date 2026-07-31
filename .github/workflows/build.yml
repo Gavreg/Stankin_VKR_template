@@ -97,9 +97,9 @@ jobs:
         git config user.name "${GIT_AUTHOR_NAME}"
         git config user.email "${GIT_AUTHOR_EMAIL}"
         find "${{ github.workspace }}" -maxdepth 1 -type f -name '*.pdf'  -exec cp -f {} . \;
+        git add *.pdf
         # cp -f "${{ github.workspace }}"/README_pdf.md .
         # mv README_pdf.md README.md
-        # git add *.pdf
         # git add README.md
         git commit -m "Update PDF from ${{ github.sha }}" || true
         git push origin HEAD:pdfs/${{ github.ref_name }} || true

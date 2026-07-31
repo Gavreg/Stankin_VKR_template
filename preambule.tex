@@ -15,8 +15,12 @@
 \usepackage{fontspec}
 \setmainfont{Times New Roman}
 \setsansfont{Arial}
-\setmonofont{Cascadia Code SemiLight}%[Scale=0.865] 
+\setmonofont{Courier New}[Scale=MatchLowercase]
              
+\newfontfamily{\cyrillicfont}{Times New Roman}[Mapping=tex-text]
+\newfontfamily{\cyrillicfontsf}{Arial}[Mapping=tex-text]
+\newfontfamily{\cyrillicfonttt}{Courier New}[Mapping=tex-text]
+
 
 \usepackage{polyglossia}
 \setdefaultlanguage[babelshorthands=true]{russian}
@@ -451,26 +455,26 @@
 
 \setlist[enumerate]{
 	nosep,
-	leftmargin=0.5cm + 3ex,     
+	leftmargin=0.5cm + 3ex + 1ex,     
 	labelwidth=3ex,
-	labelsep=0pt,
-	label=\arabic*.~,	
+	labelsep=1ex,
+	label=\arabic*.,	
 }
 
 \setlist[enumerate,1]{
-	leftmargin=1.0cm + 3ex,     	
+	leftmargin=1.0cm + 3ex + 1ex,     	
 }
 
 \setlist[itemize]{
 	nosep,
-	leftmargin=0.5cm + 3ex,     
+	leftmargin=0.5cm + 3ex + 1ex,     
 	labelwidth=3ex,
-	labelsep=0pt,
+	labelsep=1ex,
 	label=$\bullet$~,
 }
 
 \setlist[itemize,1]{
-	leftmargin=1.0cm + 3ex,     	
+	leftmargin=1.0cm + 3ex + 1ex,     	
 }
 
 % русские буквы в счетчике https://tex.stackexchange.com/questions/720496/how-to-make-cyrillic-alphabet-numbering-in-enumerate-with-enumitem-and-polygloss

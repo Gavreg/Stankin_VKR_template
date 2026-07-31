@@ -1,0 +1,28 @@
+\documentclass[14pt, a4paper, oneside]{extarticle}
+
+\newif\ifDebug
+\Debugfalse
+
+\newif\ifOnlyAssigment %собараем только задание или аннотацию
+\OnlyAssigmenttrue
+
+%\Debugtrue  % отображать отладочную информавцию на первых страницах
+
+\input{preambule.tex}
+
+\begin{document}
+	
+	\sloppy
+	\hbadness=10000
+	
+	
+	\input{vkr-config.tex}
+	
+	
+
+	\newpage
+	\pagestyle{empty}
+	\input{annotation.tex}
+	
+		
+\end{document}

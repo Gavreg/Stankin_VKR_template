@@ -1,4 +1,4 @@
-FROM texlive/texlive:lastest
+FROM texlive/texlive:latest
 
 RUN sed -i 's/main$/main contrib/' /etc/apt/sources.list &&\
     apt-get update && \

@@ -23,7 +23,7 @@ compile_tex() {
     cd "$texfiledir"
     
     if docker run --rm -v "$workdir":/data vkrlateximage \
-        latexmk   -pdfxe  -interaction=nonstopmode  -recorder- -halt-on-error  -8bit --shell-escape -synctex=0 -cd "$f" > /dev/null 2>&1 
+        latexmk   -pdfxe  -interaction=nonstopmode  -recorder- -halt-on-error  -8bit --shell-escape -synctex=0  "$f" > /dev/null 2>&1 
     then 
         #rm -f "$texfilename".log > /dev/null 2>&1 || true 
         true
@@ -38,5 +38,5 @@ export -f  compile_tex
 
 
 parallel  -j "$NPROC" --halt-on-error soon,fail=1 --verbose 'compile_tex {}' ::: \
- main.tex  main_assigment.tex main_annotation.tex
+ ./main.tex  ./main_assigment.tex ./main_annotation.tex
 

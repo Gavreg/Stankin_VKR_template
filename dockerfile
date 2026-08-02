@@ -1,9 +1,10 @@
 FROM texlive/texlive:latest
 
-RUN sed -i 's/main$/main contrib/' /etc/apt/sources.list &&\
+RUN sed -i 's/main$/main contrib/' /etc/apt/sources.list.d/debian.sources &&\
     apt-get update && \
     apt-get install -y --no-install-recommends \
         fonts-liberation \
+        #python3-pip \
         ttf-mscorefonts-installer &&\
     apt-get clean &&\
     rm -rf /var/lib/apt/lists/*
@@ -14,4 +15,3 @@ RUN sed -i 's/main$/main contrib/' /etc/apt/sources.list &&\
 RUN fc-cache -f -v /usr/share/fonts 
 
 WORKDIR /data
-

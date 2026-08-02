@@ -25,12 +25,12 @@ compile_tex() {
     if docker run --rm -v "$workdir":/data vkrlateximage \
         latexmk   -pdfxe  -interaction=nonstopmode  -recorder- -halt-on-error  -8bit --shell-escape -synctex=0 -cd "$f" > /dev/null 2>&1 
     then 
-        rm -f "$texfilename".log > /dev/null 2>&1 || true 
+        #rm -f "$texfilename".log > /dev/null 2>&1 || true 
         true
     else
-        mv  "$texfilename".log "$vkrlateximage".log.tmp  > /dev/null 2>&1  || true
-        docker run --rm -v "$workdir":/data vkrlateximage latexmk -C -cd "$f" > /dev/null 2>&1 
-        mv "$texfilename".log.tmp  "$texfilename".log  > /dev/null 2>&1   || true
+        #mv  "$texfilename".log "$vkrlateximage".log.tmp  > /dev/null 2>&1  || true
+        #docker run --rm -v "$workdir":/data vkrlateximage latexmk -C -cd "$f" > /dev/null 2>&1 
+        #mv "$texfilename".log.tmp  "$texfilename".log  > /dev/null 2>&1   || true
         exit 255
     fi
 }

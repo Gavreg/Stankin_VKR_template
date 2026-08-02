@@ -16,14 +16,23 @@ compile_tex() {
 
     f="$@"
 
+
     texfile=$(basename "$f")
     texfiledir=$(dirname "$f")
     texfilename=$(basename "$texfile" .tex) 
-    
+
     cd "$texfiledir"
     
     if docker run --rm -v "$workdir":/data vkrlateximage \
-        latexmk   -pdfxe  -interaction=nonstopmode  -recorder- -halt-on-error  -8bit --shell-escape -synctex=0  "$f" > /dev/null 2>&1 
+        latexmk   -pdfxe \
+            -interaction=nonstopmode  \
+            -recorder- \
+            -aux-directory="$texfiledir" \
+            --output-directory="$texfiledir" \
+            -halt-on-error  \
+            -8bit \
+            --shell-escape \
+            -synctex=0  "$f" > /dev/null 2>&1 
     then 
         #rm -f "$texfilename".log > /dev/null 2>&1 || true 
         true

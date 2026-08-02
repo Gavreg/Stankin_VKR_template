@@ -4,7 +4,6 @@ RUN sed -i 's/main$/main contrib/' /etc/apt/sources.list &&\
     apt-get update && \
     apt-get install -y --no-install-recommends \
         fonts-liberation \
-        #python3-pip \
         ttf-mscorefonts-installer &&\
     apt-get clean &&\
     rm -rf /var/lib/apt/lists/*

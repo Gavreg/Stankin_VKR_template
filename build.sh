@@ -27,8 +27,6 @@ compile_tex() {
         latexmk   -pdfxe \
             -interaction=nonstopmode  \
             -recorder- \
-            -aux-directory="$texfiledir" \
-            --output-directory="$texfiledir" \
             -halt-on-error  \
             -8bit \
             --shell-escape \

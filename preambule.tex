@@ -458,27 +458,34 @@
 
 \usepackage{enumitem} %упарвление списками
 
+%https://tex.stackexchange.com/questions/29322/how-to-make-enumerate-items-align-at-left-margin
+%о как долго я искал это решение!
+
 \setlist[enumerate]{
 	nosep,
+	labelwidth = \widthof{\ref{enum-\EnumitemId}},
+	after = \label{enum-\EnumitemId},
 	leftmargin=1.0cm,     
-	labelwidth=\widthof{0.},
-	labelsep=0.5ex,
-	itemindent=\the\labelwidth+\the\labelsep,
-	label=\arabic*.,	
+	labelsep=0.65ex,
+	itemindent=\widthof{\ref{enum-\EnumitemId}}+\the\labelsep,
+	label*=\arabic*.,	
 }
 
 \setlist[enumerate,1]{
 	leftmargin=1.25cm,     	
 }
 
+
 \setlist[itemize]{
 	nosep,
 	leftmargin=1.0cm,     
 	labelwidth=\widthof{$\bullet$},
-	labelsep=0.5ex,
+	labelsep=0.65ex,
 	itemindent=\the\labelwidth+\the\labelsep,
 	label=$\bullet$,
 }
+
+
 
 \setlist[itemize,1]{
 	leftmargin=1.25cm,    	

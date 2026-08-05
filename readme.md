@@ -3,29 +3,47 @@
 Шаблон выполнен для системы компьютерной вёрстки $\LaTeX$. Полная инструкция по применению шаблона приведена в нем самом (пока ещё нет).
 ## Необходимое ПО
 - Любой редактор $\LaTeX$. Я использую **TexStudio** https://www.texstudio.org/
-- Дистрибутив $\LaTeX$. Шаблон разрабатывался и тестировался с использованием **TexLive 2026** под Windows https://www.tug.org/texlive/ . На других дистрибутивах и операционных системах не проверял.
-- **Python** >=3.8
-- **Pygments** - пакет для пайтона, необходимый для оформления листингов. https://pygments.org/#. Можно установить командой ```pip install Pygments```
+- Дистрибутив $\LaTeX$. Шаблон разрабатывался и тестировался с использованием **TexLive 2026** под Windows https://www.tug.org/texlive/ . CI гитхаба собирает pdf на последней версии образа [texlive](https://hub.docker.com/r/texlive/texlive) на убунте (cм. dockerfile и build.sh).
+- **Python** >=3.14
 
 ## Структура шаблона     
 ### Основные файлы:
 |   |   |
 |---|---|
 | ```main.tex```            | полная ВКР с титульными листами, заданием, основной работой, списком литературы и приложениями.
-| ```main_assigment.tex``` | только задание на ВКР. |
+| ```main_assigment.tex```  | только задание на ВКР. |
+| ```main_annotation.tex``` | только аннотация ВКР. |
 
 
 Для сборки применятся компилятор Xelatex и скрипт latexmk.
 
  Вся ВКР:
-``` 
+```powershell
 latexmk -pdfxe -synctex=1 -interaction=nonstopmode -halt-on-error  --shell-escape -8bit main.tex
 ```
 или только задание:
-``` (Только задание)
-latexmk -pdfxe -synctex=1 -interaction=nonstopmode -halt-on-error  --shell-escape -8bit main_assigment.tex.tex
+```powershell
+latexmk -pdfxe -synctex=1 -interaction=nonstopmode -halt-on-error  --shell-escape -8bit main_assigment.tex
 ```
-С учётом списка литературы документ должен компилироваться несколько раз. Latexmk сам понимает сколько раз ему это делать. Для ручной компиляции придётся вызвать xelatex и biber в такой последовательности:
+или только аннотация:
+```powershell
+latexmk -pdfxe -synctex=1 -interaction=nonstopmode -halt-on-error  --shell-escape -8bit main_annotation.tex
+```
+
+При использовании Linux или WSL с докером процесс сборки упрощается. Достаточно один раз собрать образ с латехом и нужными шрифтами:
+
+```bash
+sudo docker build -t vkrlateximage .
+```
+
+и затем вызывать его для сборки нужного документа 
+
+```bash
+docker run --rm -v "$PWD":/data vkrlateximage \
+        latexmk   -pdfxe interaction=nonstopmode -halt-on-error -8bit --shell-escape -synctex=0  main.tex
+```
+
+С учётом списка литературы, оглавления и ссылок документ должен компилироваться несколько раз. Latexmk сам понимает сколько раз ему это делать. Для ручной компиляции придётся вызвать xelatex и biber в такой последовательности:
 
 ```
 xelatex -synctex=1 -interaction=nonstopmode -halt-on-error  --shell-escape -8bit main.tex
@@ -33,13 +51,12 @@ biber main.tex
 xelatex -synctex=1 -interaction=nonstopmode -halt-on-error  --shell-escape -8bit main.tex
 xelatex -synctex=1 -interaction=nonstopmode -halt-on-error  --shell-escape -8bit main.tex
 ```
-Для задания достаточно однократного xelatex.
+Для задания или аннотации достаточно однократного xelatex.
 
 Обычно специальные редакторы делают многократную компиляцию автоматически.
 
 ### Остальные файлы
 
-|   |   |
 |---|---|
 | ```vkr-config.tex``` |Файл с настройками ВКР. Внесите сюда информацию о себе, теме, руководителе, итд. Информация из него фигурирует в дальнейшей ВКР.|
 | ```title.tex``` | Титульный лист, формируется на основании данных из ```vkr-config.tex``` |

@@ -226,8 +226,9 @@
 
 Примерная структура первой главы:
 \begin{enumerate} [
-		label=1.\arabic*.,
-		leftmargin=0.5cm + 6.5ex + 1ex]
+	label=2.\arabic*.,
+	labelwidth=\widthof{0.0.},
+	itemindent=\the\labelwidth+\the\labelsep]
 	\item Описание проблемы
 	\item Описание традиционного процесса решения задачи
 	\item Сравнительный анализ средств решения задачи
@@ -248,10 +249,19 @@
 
 \subsubsection{Вторая глава}
 
+\newlength{\tmll}
+
+\setlength{\tmll}{1em}
+\the\tmll 
+
+\setlength{\tmll}{\widthof{0}}
+\the\tmll 
+
 Примерная структура второй главы:
 \begin{enumerate} [
 	label=2.\arabic*.,
-	leftmargin=0.5cm + 6.5ex + 1ex]
+	labelwidth=\widthof{0.0.},
+	itemindent=\the\labelwidth+\the\labelsep]
 	\item Разработка требований к разрабатываемой системе
 	\item Проектирование поведенческого компонента системы
 	\item Проектирование информационного компонента системы
@@ -264,8 +274,9 @@
 
 Примерная структура третьей главы:
 \begin{enumerate} [
-	label=3.\arabic*.,
-	leftmargin=0.5cm + 6.5ex + 1ex]
+	label=2.\arabic*.,
+	labelwidth=\widthof{0.0.},
+	itemindent=\the\labelwidth+\the\labelsep]
 	\item Описание и обоснование выбора средств реализации
 	\item Проектирование физической архитектуры
 	\item Даталогическое моделирование структуры системы
@@ -278,8 +289,9 @@
 
 Примерная структура четвёртой главы:
 \begin{enumerate} [
-	label=4.\arabic*.,
-	leftmargin=0.5cm + 6.5ex + 1ex]
+	label=2.\arabic*.,
+	labelwidth=\widthof{0.0.},
+	itemindent=\the\labelwidth+\the\labelsep]
 	\item Описание программной реализации созданной системы
 	\item Руководство пользователя созданной системы
 	\item Развёртывание системы

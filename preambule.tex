@@ -460,26 +460,28 @@
 
 \setlist[enumerate]{
 	nosep,
-	leftmargin=0.5cm + 3ex + 1ex,     
-	labelwidth=3ex,
-	labelsep=1ex,
+	leftmargin=1.0cm,     
+	labelwidth=\widthof{0.},
+	labelsep=0.5ex,
+	itemindent=\the\labelwidth+\the\labelsep,
 	label=\arabic*.,	
 }
 
 \setlist[enumerate,1]{
-	leftmargin=1.0cm + 3ex + 1ex,     	
+	leftmargin=1.25cm,     	
 }
 
 \setlist[itemize]{
 	nosep,
-	leftmargin=0.5cm + 3ex + 1ex,     
-	labelwidth=3ex,
-	labelsep=1ex,
-	label=$\bullet$~,
+	leftmargin=1.0cm,     
+	labelwidth=\widthof{$\bullet$},
+	labelsep=0.5ex,
+	itemindent=\the\labelwidth+\the\labelsep,
+	label=$\bullet$,
 }
 
 \setlist[itemize,1]{
-	leftmargin=1.0cm + 3ex + 1ex,     	
+	leftmargin=1.25cm,    	
 }
 
 % русские буквы в счетчике https://tex.stackexchange.com/questions/720496/how-to-make-cyrillic-alphabet-numbering-in-enumerate-with-enumitem-and-polygloss

@@ -17,7 +17,7 @@
 
 Для сборки применятся компилятор Xelatex и скрипт latexmk.
 
- Вся ВКР:
+Вся ВКР:
 ```powershell
 latexmk -pdfxe -synctex=1 -interaction=nonstopmode -halt-on-error  --shell-escape -8bit main.tex
 ```
@@ -28,19 +28,6 @@ latexmk -pdfxe -synctex=1 -interaction=nonstopmode -halt-on-error  --shell-escap
 или только аннотация:
 ```powershell
 latexmk -pdfxe -synctex=1 -interaction=nonstopmode -halt-on-error  --shell-escape -8bit main_annotation.tex
-```
-
-При использовании Linux или WSL с докером процесс сборки упрощается. Достаточно один раз собрать образ с латехом и нужными шрифтами:
-
-```bash
-sudo docker build -t vkrlateximage .
-```
-
-и затем вызывать его для сборки нужного документа 
-
-```bash
-docker run --rm -v "$PWD":/data vkrlateximage \
-        latexmk   -pdfxe interaction=nonstopmode -halt-on-error -8bit --shell-escape -synctex=0  main.tex
 ```
 
 С учётом списка литературы, оглавления и ссылок документ должен компилироваться несколько раз. Latexmk сам понимает сколько раз ему это делать. Для ручной компиляции придётся вызвать xelatex и biber в такой последовательности:
@@ -54,6 +41,19 @@ xelatex -synctex=1 -interaction=nonstopmode -halt-on-error  --shell-escape -8bit
 Для задания или аннотации достаточно однократного xelatex.
 
 Обычно специальные редакторы делают многократную компиляцию автоматически.
+
+При использовании Linux/WSL и докера процесс сборки и установки ПО упрощается. Достаточно перед самой первой сборкой построить образ с латехом и нужными шрифтами:
+
+```bash
+sudo docker build -t vkrlateximage .
+```
+
+и затем вызывать его для сборки нужного документа 
+
+```bash
+docker run --rm -v "$PWD":/data vkrlateximage \
+        latexmk   -pdfxe interaction=nonstopmode -halt-on-error -8bit --shell-escape -synctex=0  main.tex
+```
 
 ### Остальные файлы
 |   |   |

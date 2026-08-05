@@ -1,12 +1,10 @@
-
 %   Настройка основного вида документа
 %	Сделано на основании Положения о ВКР
-%   Документ не редактировать!
-%
+%   Документ не редактировать,
+%   Чтобы было проще интегировать изменения шаблона из гита.
 %   Все изменеия вносить в custom_preampule.tex
 %
 %   Автор: Гаврилов А. Г.
-
 
 %===================================================
 % Настройка шрифтов и языка
@@ -21,18 +19,16 @@
 \newfontfamily{\cyrillicfontsf}{Arial}[Mapping=tex-text]
 \newfontfamily{\cyrillicfonttt}{Courier New}[Mapping=tex-text]
 
-
 \usepackage{polyglossia}
 \setdefaultlanguage[babelshorthands=true]{russian}
 \setotherlanguage{english}
 
-
 \setlength{\parindent}{1.25cm}
+\setlength{\parskip}{2pt plus 2pt minus 2pt} % 
 
 %===================================================
 % Важные пакеты
 %===================================================
-
 
 \usepackage{etoolbox} %много вспомогательных команд
 \usepackage{calc} % Добавляем пакет для команды \widthof еще он добавляет возможность вычисления длин типа 1in+6cm-10pt
@@ -88,12 +84,6 @@
 \usepackage{amsmath}
 \usepackage{amsfonts} 
 
-
-
-
-
-
-
 %===================================================
 % Verbatim
 %===================================================
@@ -146,8 +136,6 @@
 {\theparagraph. \ }
 {0em}
 { }
-
-
 
 \titlespacing*{\section}{0pt}{1.3em plus 3pt minus 2pt }{1.3em plus 3pt minus 2pt } % Отступы вокруг заголовка главы
 \titlespacing*{\subsection}{0pt}{1.3em plus 3pt minus 2pt }{1.3em plus 3pt minus 2pt } % Отступы вокруг заголовка параграфа
@@ -454,8 +442,6 @@
 %===================================================
 % Списки
 %===================================================
-
-
 \usepackage{enumitem} %упарвление списками
 
 %https://tex.stackexchange.com/questions/29322/how-to-make-enumerate-items-align-at-left-margin
@@ -475,7 +461,6 @@
 	leftmargin=1.25cm,     	
 }
 
-
 \setlist[itemize]{
 	nosep,
 	leftmargin=1.0cm,     
@@ -484,8 +469,6 @@
 	itemindent=\the\labelwidth+\the\labelsep,
 	label=$\bullet$,
 }
-
-
 
 \setlist[itemize,1]{
 	leftmargin=1.25cm,    	
@@ -496,13 +479,9 @@
 \AddEnumerateCounter{\asbuk}{\russian@asbuk@alph}{щ} % section 8.1
 \makeatother
 
-
-
 %===================================================
 % Прочие плагины
 %===================================================
-
-
 
 \usepackage{lipsum}%для отладки текста, команда \lipsum
 \usepackage{clipboard}
@@ -531,9 +510,7 @@
 	
 \fi
 
-
 \input{custom_preambule.tex}
-
 
 %===================================================
 % Пакет hyperref. 
@@ -546,8 +523,6 @@
 \usepackage{hyperref}
 \hypersetup{hidelinks} %отключить посдветку ссылок
 %\usepackage{bookmark} %для заклкдок
-
-
 
 %===================================================
 % Кастомные команды
@@ -585,9 +560,7 @@
 	{{\fontsize{9pt}{9pt}\selectfont\setlength{\baselineskip}{9pt}\fussy\color{red}#2}}%
 }
 
-
 %===========================
-
 
 %разбивка  строки на слова-строки
 \ExplSyntaxOn
@@ -613,9 +586,7 @@
 		высшего образования\\
 		«Московский государственный технологический университет «СТАНКИН»\\
 		(ФГАОУ ВО <<МГТУ <<СТАНКИН>>) \\
-	}
-	
-	
+	}	
 	
 	\vspace{-0.75em}\noindent\rule{\textwidth}{0.4pt}\vspace{2ex}
 	
@@ -650,7 +621,6 @@
 \def\emptystr{}
 %===========================
 % Макросы для вставки должности регалий о руководителе или консультанте
-
 
 %должность, степ. , зван.
 \def\insertPersonInfo#1{%
@@ -699,7 +669,6 @@
 	,\space\tmpB%
 	\fi%	
 }
-
 
 %===========================
 %===========================

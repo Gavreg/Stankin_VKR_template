@@ -1,3 +1,3 @@
 Шаблон разработан, но пока дополнятеся/дорабатывается. Пользоваться им можно. 
-Пока все заливается на ветку [development](https://github.com/Gavreg/Stankin_VKR_template).
+Пока все заливается на ветку [development](https://github.com/Gavreg/Stankin_VKR_template/tree/development).
 Все пуши на ветках собираются автоматом и заливаются на ветку название_ветки/pdfs

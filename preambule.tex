@@ -54,9 +54,10 @@
 
 \usepackage{graphicx}
 \graphicspath{{images}}
-\usepackage{color}
+\usepackage{xcolor}
 
 \usepackage{tikz}
+\usepackage{tcolorbox}
 
 %===================================================
 % Таблицы
@@ -83,6 +84,8 @@
 
 \usepackage{amsmath}
 \usepackage{amsfonts} 
+
+\counterwithin{equation}{section} %счетчик формул по главам
 
 %===================================================
 % Verbatim
@@ -388,7 +391,7 @@
 \usepackage[newfloat]{minted}
 \setminted{linenos=false,
 	style=vs,
-	fontsize=\fontsize{12pt}{12pt},
+	fontsize=\fontsize{10pt}{12pt},
 	tabsize=3,
 	frame=lines}
 %\usepackage{listings}

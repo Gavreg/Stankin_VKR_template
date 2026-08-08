@@ -111,6 +111,7 @@
 
 Большие рисунки, которые занимают больше половины листа лучше размещать на отдельной странице или выносить в приложение. Представленная на рисунке \ref{fig:IS2_procedures} схема была вынесена на отдельный лист в альбомном развороте. Обратите внимание~--- номер листа остался на том же месте, что и у других листов.
 
+
 \begin{figure}[p] % [p] — отдельная страница
 	
 	 % Поворот страницы в pdf-файле в XeLaTeX
@@ -217,7 +218,7 @@
 						
 					\path[decorate,decoration={saw,segment length=2mm}, clip] 
 					(-2,0) rectangle ++(19,-10)
-					(12.5,-1) rectangle  ++(-0.1,-8.5) ;
+					(12.5,-1) rectangle  ++(-0.15,-8.7) ;	
 					
 					\draw node[draw, fit=(kmf)(dlmf), compl](l1){};
 					\draw node[draw, fit=(kmd)(dlmd), compl](l2){};
@@ -240,8 +241,8 @@
 						
 					\draw node[draw, fit=(kms)(ilms), very thick, compl]{};
 					\draw node[draw, fit=(kman)(ilman), very thick, compl]{};
-					\draw node[draw, fit=(kman2)(ilman2), very thick, compl]{};					
-					
+					\draw node[draw, fit=(kman2)(ilman2), very thick, compl]{};
+						
 				\end{scope}				
 			\end{tikzpicture}
 			\renewcommand{\arraystretch}{1}
@@ -274,8 +275,165 @@
 \subsection{Таблицы}
 
 
-\begin{table}
+\begin{table}[p]
+\caption{Элементы моделей МАИТ ранних этапов создания АС}
+\label{tbl:modelelements}
+
+%подгонка таблицы под размер страницы
+\renewcommand{\arraystretch}{1.85}
+
+\begin{tabularx}{\linewidth}{|c|c|c|X|X|X|}
 	
+	%С вертикальным выравниваением все очень плохо
+	%ну или я не разобрался, как его делать
+	%приходится подгонять
+	
+	\hline
+	\multicolumn{3}{|c|}{\bfseries Компонент} & \multicolumn{3}{c|}{ \bfseries Состав модели} \\
+	\hline
+	
+	\rotatebox[origin=c]{90}{ \bfseries Вид}  & 
+	\rotatebox[origin=c]{90}{ \bfseries Структура}  &
+	\rotatebox[origin=c]{90}{ \bfseries Объект стр-ры} &
+	\centering\textbf{НМ} &
+	\centering\textbf{КМ} &
+	\centering\textbf{ИЛМ}\arraybackslash\\  \hline \hline
+	
+	
+	%Статическая составляющая основаня структура элементы
+	\multirow{4}{*}[-2em]{\rotatebox{90}{\bfseries Статическая}} & 
+	\multirow{2}{*}[-2em]{\bfseries 1}& \bfseries эл.& 
+	Параметры \newline 
+	$X(n)=\{x_{kq}\}$
+	& 
+	Предметные категории \newline 
+	$A(n)=\{a_{im}\}$ 
+	& 
+	Именованные структурные единицы 
+	\newline $C(n)=\{c^p_{il}\}$ 
+	\\ \cline{3-6}
+	%Связи
+	&& \bfseries св.& 
+	--- & 
+	Бинарные связи ПК\newline 
+	$T2(n)=\{(a_{im},a_{kn})\}$\newline 
+	Тернарные связи ПК\newline
+	$H2(n)=$\newline
+	{}\hspace*{2em}$=\{(a_{im},a_{jl},a_{kn})\}$ 
+	& 
+	Бинарные связи ИСЕ\newline 
+	$D2(n)=\{(c^r_{il},c^p_{lm})\}$\newline
+	Тернарные связи ИСЕ\newline
+	$E2(n)=$\newline
+	{}\hspace*{2em}$=\{(c^r_{il},c^p_{jm},c^q_{kn})\}$  
+	\\ \cline{2-6}
+	%Производная структура
+	%элементы
+	&\multirow{2}{*}{\bfseries 2}&эл.& 
+	--- 
+	& 
+	Схемы ПК\newline
+	$\overline{H2}(n)=\{\overline{h^2_{il}}\}$ 
+	& 
+	Схемы ИСЕ\newline
+	$\overline{E2}(n)=\{\overline{e^2_{suil}}\}$ 
+	\\ \cline{3-6}
+	%связи
+	&&\bfseries св.& 
+	--- & 
+	Бинарные связи схем ПК \newline
+	$\overline{FH2}(n)=\{(\overline{h^2_{ij}},\overline{h^2_{lm}})\}$
+	& 
+	Бинарные связи схем ИСЕ \newline
+	$\overline{FE2}(n)=\{(\overline{e^2_{suil}},\overline{e^2_{mnwv}})\}$
+	\\  \hline \hline
+	
+	%Динамическая составляющая
+	\multirow{4}{*}[-2em]{\rotatebox{90}{\bfseries Динамическая}}& 
+	%структура первого рода
+	\multirow{2}{*}{\bfseries 1}&
+	%элементы 
+	\bfseries эл.& 
+	--- & 
+	Пр. зависимости 1-го рода\newline $\overline W(n)=\{\overline{w_{ps}}\}$ 
+	& 
+	Пр. доступы 1-го рода\newline 
+	$\overline R(n)=\{\overline{r_{ps}}\}$ 
+	\\ \cline{3-6}
+	%связи
+	&&\bfseries св.& 
+	--- & 
+	Бинарные связи ПЗ-1\newline
+	$\overline{FV2}(n)=\{(\overline{w_{ps}},\overline{w_{qt}})\}$ 
+	& 
+	Бинарные связи Пд-1\newline
+	$\overline{QS}2(n)=\{(\overline{r_{ps}},\overline{r_{qt}})\}$
+	\\  \cline{2-6}
+	%структура второго рода
+	& \multirow{2}{*}{\bfseries 2} & 
+	%элементы
+	\bfseries эл.& 
+	--- & 
+	Пр. зависимости 2-го рода\newline
+	$\overline{Q2}(n)=\{\overline{q^2_{ps}}\}$
+	& 
+	Пр. доступы 2-го рода\newline
+	$\overline{N2}(n)=\{\overline{n^2_{ps}}\}$ 
+	\\ \cline{3-6}
+	%связи
+	&&\bfseries св.& 
+	--- & 
+	Бинарные связи ПЗ-2\newline
+	$\overline{Q2}(n)=\{(\overline{q^2_{..}},\overline{q^2_{..}})\}$
+	& 
+	Бинарные связи Пд-2\newline
+	$\overline{QN2}(n)=\{(\overline{n^2_{ps}},\overline{n^2_{qt}})\}$  
+	\\ \hline\hline 
+	%Функциональная составляющая
+	\multirow{4}{*}[-2em]{\rotatebox{90}{ \bfseries Функциональная}}& 
+	%Структура первого рода
+	\multirow{2}{*}{\bfseries 1}& 
+	%элементы
+	\bfseries эл.& 
+	Предметные действия \newline
+	$Y(n)=\{y_{ps}\}$ & 
+	Пр. зависимости 1-го рода\newline 
+	$\overline W(n)=\{\overline{w_{ps}}\}$
+	& 
+	Пр. доступы 1-го рода
+	$\overline R(n)=\{\overline{r_{ps}}\}$ 
+	\\ \cline{3-6}
+	%Связи
+	&&\bfseries св.& 
+	Бинарные связи ПД\newline
+	$FZ2(n)=\{(y_{ps},y_{qr})\}$ & 
+	Бинарные связи ПЗ-1\newline
+	$\overline{FV2}(n)=\{(\overline{w_{ps}},\overline{w_{qt}})\}$
+	& 
+	Бинарные связи Пд-1\newline
+	$\overline{QS}2(n)=\{(\overline{r_{ps}},\overline{r_{qt}})\}$  
+	\\ \cline{2-6}
+	%Структура второго рода элементы
+	& \multirow{2}{*}{2} &  \bfseries эл.& 
+	--- & 
+	Пр. зависимости 2-го рода\newline
+	$\overline{Q2}(n)=\{\overline{q^2_{ps}}\}$ 
+	& 
+	Пр. доступы 2-го рода\newline
+	$\overline{N2}(n)=\{\overline{n^2_{ps}}\}$ 
+	\\ \cline{3-6}
+	%связи
+	&&\bfseries св. & 
+	--- & 
+	Бинарные связи ПЗ-2\newline
+	$\overline{Q2}(n)=\{(\overline{q^2_{ps}},\overline{q^2_{qt}})\}$ 
+	& 
+	Бинарные связи Пд-2
+	$\overline{QN2}(n)=\{(\overline{n^2_{ps}},\overline{n^2_{qt}})\}$  
+	\\ \hline\hline
+	
+	
+\end{tabularx}
 \end{table}
 
 \subsection{Листинги}

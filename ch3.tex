@@ -71,17 +71,7 @@
 \end{enumerate}
 
 
-\subsection{Рисунки}
 
-
-
-\subsubsection{Листинги}
-
-
-
-\paragraph{ПодПодПод}
-
-\subsubsection{Подпараграф}
 
 
 \subsection{Формулы}
@@ -103,6 +93,174 @@
 где $M2(n)\equiv A(n)$~--- множество предметных категорий, $TH2(n)$~--- множество динамических отношений на $A(n)$, $TH2(n)$~--- множество статических отношений на предметных категориях, $ \overline{FU2}(n)$~--- множество динамических ограничений на взаимосвязь предметных категорий, $ R^{KP}_2(n)$~--- отношения между статический и динамической составляющими концептуальной модели.
 
 На формулу в последующем тексте можно ссылаться: а поняли ли вы, что обозначает формула \eqref{eq:KM}?
+
+\subsection{Рисунки}
+
+
+\begin{figure}[p] % Рекомендуется [p] — отдельная страница
+	
+	 % Поворот страницы в pdf в XeLaTeX
+	\special{pdf:put @thispage << /Rotate 90 >>}
+	
+	% pdflatex и LuaLatex
+	% \global\noexpand\pdfpageattr{\the\pdfpageattr/Rotate 90}
+	
+	%аккуратнее при печати такой страницы! Если принудительно задана книжная ориентация листа, то листь может напечататься не повернутым. 
+	
+	\centering
+	\rotatebox{90}{ % Поворот на 90 градусов против часовой стрелки
+		\begin{minipage}{\textheight} % Ширина министраницы становится высотой объекта
+			\centering
+				\begin{tikzpicture}
+				
+				\tikzset{etap/.style={draw, align=center, minimum width=40mm, minimum height=10mm, thick},  
+					proc/.style={draw, shape=circle, minimum size=7mm, inner sep=0pt, fill=white, thick, yshift=-0.5ex},
+					nmcol/.style={fill=green!30!white},
+					kmcol/.style={fill=red!30!white},
+					ilmcol/.style={fill=orange!30!white},
+					dlmcol/.style={fill=Magenta!30!white},	
+					arr/.style={thick},		
+				}	
+					
+				\draw node[etap, nmcol] (nm) {Начальное\\моделирование};
+				\draw node[etap,kmcol, right = of nm] (km) {Концептуальное\\моделирование};
+				\draw node[etap,ilmcol, right = of km] (ilm) {Инфологическое\\моделирование};
+				\draw node[etap,dlmcol, right = of ilm] (dlm) {Даталогическое\\моделирование};
+				
+				\draw[-Stealth] (nm) -- (km);
+				\draw[-Stealth] (km) -- (ilm);
+				\draw[-Stealth] (ilm) -- (dlm);
+					
+				\edef\gap{10mm}				
+				
+				\foreach \t in {-2,...,-10}
+				{
+					\draw[dashed, thin] ( -2,{\t*\gap} ) --  ( 17,{\t*\gap} );
+				}
+				
+				\foreach \e in {nm,km,ilm,dlm}{
+					
+					\coordinate (kpz) at ($(\e)-(1,0)$);
+					\coordinate (kpz) at ($(\e)+(1,0)$);
+					
+					\draw (\e.220) node [below left]  {\textit{КПЗ}};
+					\draw (\e.320) node [below right]  {\textit{ПЗ}};
+					
+					\draw[dashed, thin] (\e.320) -- ++(0, -9.5);
+					\draw[dashed, thin] (\e.220) -- ++(0, -9.5);
+					
+					\draw node(\e f)  [proc, \e col, below = 2*\gap of  \e.320] {Ф};
+					\draw node(\e AN) [proc, \e col, below = 3*\gap of  \e.320] {А};
+					\draw node(\e an) [proc, \e col, below = 4*\gap of  \e.320] {Ан};
+					\draw node(\e s)  [proc, \e col, below = 5*\gap of  \e.320] {С};
+					\draw node(\e d)  [proc, \e col, below = 6*\gap of  \e.320] {Д};
+					
+					\draw[-Stealth,,arr ] (\e f.200) -- ++(225:4mm) -- ++(0,-{3*\gap}) -- (\e d.135);
+					
+					\draw[Stealth-,arr] (\e AN.160) -- ++(135:4mm);
+					\draw[Stealth-,arr] (\e an.160) -- ++(135:4mm);
+					\draw[Stealth-,arr] (\e s.160) -- ++(135:4mm);
+					
+					\draw[-Stealth,arr] (\e AN.-20) -- ++(-45:4mm) -- ++(0,{-2*\gap}) -- (\e d.20);
+					
+					\draw[-Stealth,arr] (\e an.-20) -- ++(-45:4mm);
+					\draw[-Stealth,arr] (\e s.-20) -- ++(-45:4mm);
+					
+					
+					\draw node(\e f1) [proc, \e col, below = \gap of  \e.220] {Ф};
+					\draw node(\e an2) [proc, \e col, below = 7*\gap of  \e.220] {АН};
+					\draw node(\e d1) [proc, \e col, below = 8*\gap of  \e.220] {Д};
+					
+					
+					\path[name path=A] (\e f1.300) to +(0,-3); 
+					\path[name path=B] (\e s.140) to +(135:4);
+					
+					\path[name intersections={of=A and B, by=E}];
+					
+					\draw[-Stealth,arr] (\e s.140) -- (E) -- (\e f1.300);
+					
+					
+					
+					\draw[-Stealth,arr] (\e f1.200) -- ++(225:4mm) -- ++(0,{-6*\gap}) -- (\e d1);
+					\draw[Stealth-,arr] (\e an2.160) -- ++(135:4mm);
+				}
+				
+				\draw[-Latex, thick] (-2,-10) -- ++(0,9) node[above left, rotate=90, yshift=0cm, xshift=1.9cm] {\textit{Процедуры}};
+				
+				\draw[-Latex, thick] (-2,-10) -- ++(20,0) node [below left] {\textit{Этапы создания АС}};
+				
+				\draw (-2, {-2*\gap}) node[left] {Ф\,О};
+				\draw (-2, {-3*\gap}) node[left] {Ф\,Л};
+				\draw (-2, {-4*\gap}) node[left] {А\,Л};
+				\draw (-2, {-5*\gap}) node[left] {Ан\,Л};
+				\draw (-2, {-6*\gap}) node[left] {С\,Л-О};
+				\draw (-2, {-7*\gap}) node[left] {Д\,Л};
+				\draw (-2, {-8*\gap}) node[left] {Ан\,О};
+				\draw (-2, {-9*\gap}) node[left] {Д\,О};
+				
+				\tikzstyle{compl} = [ very thick, fill=gray!60!white, dashed,  rounded corners=12pt, inner sep=2pt]
+				\begin{scope}[on background layer]
+						
+					\path[decorate,decoration={saw,segment length=2mm}, clip] 
+					(-2,0) rectangle ++(19,-10)
+					(12.5,-1) rectangle  ++(-0.1,-8.5) ;
+					
+					\draw node[draw, fit=(kmf)(dlmf), compl](l1){};
+					\draw node[draw, fit=(kmd)(dlmd), compl](l2){};
+					\draw node[draw, fit=(kmd1)(dlmd1), compl](l3){};
+					\draw node[draw, fit=(kmf1)(dlmf1), very thick, compl](l4){};
+					
+					\tikzstyle{compl} = [ very thick, fill=green, rounded corners=12pt, inner sep=2pt]
+					
+					\draw node[draw, fit=(nmf)(kmf)(ilmf), compl]{};
+					\draw node[draw, fit=(nmd)(kmd)(ilmd), compl]{};
+					\draw node[draw, fit=(nmd1)(kmd1)(ilmd1), compl]{};
+					\draw node[draw, fit=(nmf1)(kmf1)(ilmf1), very thick, compl]{};
+						
+					\tikzstyle{compl} = [ very thick, fill=yellow, rounded corners=12pt, inner sep=2pt]
+					
+					\draw node[draw, fit=(kms)(ilms), very thick, compl]{};
+					\draw node[draw, fit=(kman)(ilman), very thick, compl]{};
+					\draw node[draw, fit=(kman2)(ilman2), very thick, compl]{};
+					\draw node[draw, fit=(nmAN)(ilmAN), very thick, compl]{};
+						
+					\draw node[draw, fit=(kms)(ilms), very thick, compl]{};
+					\draw node[draw, fit=(kman)(ilman), very thick, compl]{};
+					\draw node[draw, fit=(kman2)(ilman2), very thick, compl]{};					
+					
+				\end{scope}				
+			\end{tikzpicture}
+			\renewcommand{\arraystretch}{1}
+			\begin{tabular}{ll@{\hspace{2em}}ll@{\hspace{2em}}ll}
+				
+				Ф & Формирование & 
+				Д & Документирование &
+				А & Анализ \\
+				Ан & Аналитическая обработка & 
+				О & Обобщённая модель  &
+				С & Синтез (интеграция) \\
+				Л & Локальная модель &
+				ПЗ & Предметная задача &
+				КПЗ & Комплекс ПЗ \\
+				\tikz{\node[draw,thick, minimum size=1ex, fill=green]{}} & 	Исходная версия <<ИС-2>> &
+				\tikz{\node[draw,thick, minimum size=1ex, fill=yellow]{}} & Текущая версия <<ИС-2>>  &
+			 	\tikz{\node[draw,thick, densely dashed, minimum size=1ex, fill=gray!60!white]{}} & Дальнейшее развитие <<ИС-2>> \\
+			\end{tabular}
+			\caption{Поддержка процедур МАИТ программным комплексом <<ИС-2>>}
+		\end{minipage}
+	}
+	
+	\special{pdf:put @nextpage << /Rotate 0 >>}
+	%\global\noexpand\pdfpageattr{\the\pdfpageattr/Rotate 0}
+	
+\end{figure}
+
+
+\subsection{таблицы}
+
+\subsection{Листинги}
+
+
 
 \subsubsection{Подпараграф}
 \subsubsection{Подпараграф}

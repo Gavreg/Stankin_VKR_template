@@ -189,9 +189,9 @@
 \usepackage{caption}
 
 %Разделитель номер рисунка
-\DeclareCaptionLabelSeparator{dot}{.~}  
+\DeclareCaptionLabelSeparator{dot}{~---~}  
 %Разделитель номер таблицы         
-\DeclareCaptionLabelSeparator{dot_tbl}{.\\}            
+\DeclareCaptionLabelSeparator{dot_tbl}{~---\\}            
 
 %Подпись рис. центр
 \captionsetup[figure]{
@@ -307,8 +307,8 @@
 
 \renewcommand{\cftdotsep}{2}
 
-\renewcommand{\cftsecpresnum}{ГЛАВА }
-\setlength{\cftsecnumwidth}{\widthof{ГЛАВА 0.\ }}  %widthof см выше пакет calc
+\renewcommand{\cftsecpresnum}{Глава }
+\setlength{\cftsecnumwidth}{\widthof{Глава 0.\ }}  %widthof см выше пакет calc
 \renewcommand{\cftsecaftersnum}{. } 
 \renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}}
 \renewcommand{\cftsecfont}{\normalfont}        % обычный шрифт
@@ -332,12 +332,12 @@
 
 %Главы капсом
 %https://tex.stackexchange.com/questions/156916/how-to-make-section-name-uppercase-in-toc
-\makeatletter
+%\makeatletter
 %\patchcmd{\l@subsection}{#1}{\MakeUppercase{#1}}{}{}
 %\patchcmd{\l@section}{#1}{\MakeUppercase{#1}}{}{}
-\makeatother
+%\makeatother
 
-% Уменьшить отступ перед номерами страниц
+
 
 %===================================================
 % Настройка приложений

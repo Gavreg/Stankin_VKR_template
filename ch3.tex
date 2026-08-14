@@ -1,15 +1,130 @@
 \section{Оформление отдельных элементов работы}
 
-В главе будут приведены выдержки из положения в ВКР\cite{stankin:vkr} и даны комментарии о реализации этих пунктов в \LaTeX{}.
+В главе будут приведены выдержки из положения в ВКР \cite{stankin:vkr} и даны комментарии о реализации этих пунктов в \LaTeX{}.
 
 
 
 \subsection{Основной текст работы}
 
+%\fontsize{14.4}{5}\selectfont
+
+\edef\parindentmm{\fpeval{round(\parindent/2.83465,1)}}
+\edef\baselineskipmm{\fpeval{round(\baselineskip/2.83465,1)}}
+\edef\mybaselineskip{\the\baselineskip}
+
+\makeatletter
+\edef\myfontsize{\f@size}
+\makeatother
+
+
+%\myfontsize
+
+%Авторы положения о ВКР видимо не задумывались, что существуют текстовые редакторы, отличные от Word, который имеет некую специфику в установке параметров текста. По этому некоторые требования, изложенные там, пришлось адаптировать для \LaTeX{}. 
+
+\tikz[remember picture, overlay]{ \draw[red] (0,0) -- (\linewidth-\parindent,0); }%
+Это базовая линия строки.
+ 
+\tikz[remember picture, overlay]{ \draw[red,->] (0,0) -- (-\parindent,0) node[midway,above,font=\tiny]{\parindentmm{} мм.};  }%
+Каждый абзац работы начинается с красной строки. Отступ этой строки задаётся длиной \Verb|\parindent| и равен  \parindentmm{} мм.
+
+Работа оформляется 14 кеглем. В \LaTeX{} для каждого кегля вручную забит его физический размер, и для 14 он составляет 14.4 пт\footnotemark  (все вопросы к Дональду Кнуту).
+
+\footnotetext {В Microsoft Word один пункт равен 1/72 дюйма (так называемый PostScript-пункт или bp), в то время как классический пункт в LaTeX (pt системы TeX) равен 1/72.27 дюйма. Размер шрифта  в дюймах в \LaTeX{} $1/72.27\cdot14,4 \sim 0,1993$ будет примерно равен размеру в Word $1/27 \cdot 14 \sim 0,1944$ }
+
+\myfontsize{} пт это высота прямоугольника, в которой вписаны все символы шрифта --- кегельной площадки. Во времена печатных станков именно на таких площадках располагались все буквы. Ее высота и называется кеглем шрифта (а не размер букв, как многие полагают). Часть площадки заходит под базовую линию, создавая глубину шрифта, именно в ней располагаются хвостики букв у, р, ц, щ, и т.\,д. Для Times New Roman глубина составляет 443/2048 кегля. Остальная часть площадки, (1825/2048) определяет высоту букв над базовой линией.
+
+\noindent%
+\tikz[remember picture, overlay]{ \draw[red] (0,0) -- (\linewidth,0); }%
+\tikz[remember picture, overlay]{ \draw[blue] (0,\fpeval{0.7816*\myfontsize}pt) -- (\linewidth,\fpeval{0.7816*\myfontsize}pt); }%
+\tikz[remember picture, overlay]{ \draw[blue] (0,-\fpeval{0.2184*\myfontsize}pt) -- (\linewidth,-\fpeval{0.2184*\myfontsize}pt); }%
+\tikz[remember picture, overlay]{ \draw[blue, <->] (0.2,-\fpeval{0.2184*\myfontsize}pt) -- (0.2,\fpeval{0.7816*\myfontsize}pt) node[midway,right,font=\tiny] {\myfontsize pt}; }%
+\hspace{\parindent}%
+абвгдеёжзийклмнопрстуфхцчшщъыьэюя
+
+\noindent%
+\tikz[remember picture, overlay]{ \draw[red] (0,0) -- (\linewidth,0); }%
+\tikz[remember picture, overlay]{ \draw[blue] (0,\fpeval{0.7816*\myfontsize}pt) -- (\linewidth,\fpeval{0.7816*\myfontsize}pt); }%
+\tikz[remember picture, overlay]{ \draw[blue] (0,-\fpeval{0.2184*\myfontsize}pt) -- (\linewidth,-\fpeval{0.2184*\myfontsize}pt); }%
+\tikz[remember picture, overlay]{ \draw[blue, <->] (0.2,-\fpeval{0.2184*\myfontsize}pt) -- (0.2,\fpeval{0.7816*\myfontsize}pt) node[midway,right,font=\tiny] {\myfontsize pt}; }%
+\hspace{\parindent}%
+АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ
+
+\noindent%
+\tikz[remember picture, overlay]{ \draw[red] (0,0) -- (\linewidth,0); }%
+\tikz[remember picture, overlay]{ \draw[blue] (0,\fpeval{0.7816*\myfontsize}pt) -- (\linewidth,\fpeval{0.7816*\myfontsize}pt); }%
+\tikz[remember picture, overlay]{ \draw[blue] (0,-\fpeval{0.2184*\myfontsize}pt) -- (\linewidth,-\fpeval{0.2184*\myfontsize}pt); }%
+\tikz[remember picture, overlay]{ \draw[blue, <->] (0.2,-\fpeval{0.2184*\myfontsize}pt) -- (0.2,\fpeval{0.7816*\myfontsize}pt) node[midway,right,font=\tiny] {\myfontsize pt}; }%
+\hspace{\parindent}%
+abcdefghijklmnopqrstuvwxyz
+
+
+\noindent%
+\tikz[remember picture, overlay]{ \draw[red] (0,0) -- (\linewidth,0); }%
+\tikz[remember picture, overlay]{ \draw[blue] (0,\fpeval{0.7816*\myfontsize}pt) -- (\linewidth,\fpeval{0.7816*\myfontsize}pt); }%
+\tikz[remember picture, overlay]{ \draw[blue] (0,-\fpeval{0.2184*\myfontsize}pt) -- (\linewidth,-\fpeval{0.2184*\myfontsize}pt); }%
+\tikz[remember picture, overlay]{ \draw[blue, <->] (0.2,-\fpeval{0.2184*\myfontsize}pt) -- (0.2,\fpeval{0.7816*\myfontsize}pt) node[midway,right,font=\tiny] {\myfontsize pt}; }%
+\hspace{\parindent}%
+ABCDEFGHIJKLMNOPQRSTUVWXYZ
+
+\noindent%
+\tikz[remember picture, overlay]{ \draw[red] (0,0) -- (\linewidth,0); }%
+\tikz[remember picture, overlay]{ \draw[blue] (0,\fpeval{0.7816*\myfontsize}pt) -- (\linewidth,\fpeval{0.7816*\myfontsize}pt); }%
+\tikz[remember picture, overlay]{ \draw[blue] (0,-\fpeval{0.2184*\myfontsize}pt) -- (\linewidth,-\fpeval{0.2184*\myfontsize}pt); }%
+\tikz[remember picture, overlay]{ \draw[blue, <->] (0.2,-\fpeval{0.2184*\myfontsize}pt) -- (0.2,\fpeval{0.7816*\myfontsize}pt) node[midway,right,font=\tiny] {\myfontsize pt}; }%
+\hspace{\parindent}%
+0123456789$\sqrt x$  $\displaystyle\iiint\limits^\infty_{-\infty}$ $\displaystyle\sum_{i=0}^n$  $\int\limits^\infty_{-\infty}$ $\sum_{i=0}^n$
+
+\noindent%
+\tikz[remember picture, overlay]{ \draw[red] (0,0) -- (\linewidth,0); }%
+\tikz[remember picture, overlay]{ \draw[blue] (0,\fpeval{0.7816*\myfontsize}pt) -- (\linewidth,\fpeval{0.7816*\myfontsize}pt); }%
+\tikz[remember picture, overlay]{ \draw[blue] (0,-\fpeval{0.2184*\myfontsize}pt) -- (\linewidth,-\fpeval{0.2184*\myfontsize}pt); }%
+\tikz[remember picture, overlay]{ \draw[blue, <->] (0.2,-\fpeval{0.2184*\myfontsize}pt) -- (0.2,\fpeval{0.7816*\myfontsize}pt) node[midway,right,font=\tiny] {\myfontsize pt}; }%
+\hspace{\parindent}%
+$\alpha$ $\beta$ $\gamma$ $\delta$ $\epsilon$ $\zeta$ $\eta$ $\theta$ $\iota$ $\kappa$ $\lambda$ $\mu$ $\nu$ $\xi$ $\o$ $\pi$ $\rho$ $\sigma$ $\tau$ $\upsilon$ $\phi$ $\chi$ $\psi$ $\omega$
+
+\noindent%
+\tikz[remember picture, overlay]{ \draw[red] (0,0) -- (\linewidth,0); }%
+\tikz[remember picture, overlay]{ \draw[blue] (0,\fpeval{0.7816*\myfontsize}pt) -- (\linewidth,\fpeval{0.7816*\myfontsize}pt); }%
+\tikz[remember picture, overlay]{ \draw[blue] (0,-\fpeval{0.2184*\myfontsize}pt) -- (\linewidth,-\fpeval{0.2184*\myfontsize}pt); }%
+\tikz[remember picture, overlay]{ \draw[blue, <->] (0.2,-\fpeval{0.2184*\myfontsize}pt) -- (0.2,\fpeval{0.7816*\myfontsize}pt) node[midway,right,font=\tiny] {\myfontsize pt}; }%
+\hspace{\parindent}%
+$\mathrm{A}$ $\mathrm{B}$ $\Gamma$ $\Delta$ $\mathrm{E}$ $\mathrm{Z}$ $\mathrm{H}$ $\Theta$ $\mathrm{I}$ $\mathrm{K}$ $\Lambda$ $\mathrm{M}$ $\mathrm{N}$ $\Xi$ $\mathrm{O}$ $\Pi$ $\mathrm{P}$ $\Sigma$ $\mathrm{T}$ $\Upsilon$ $\Phi$ $\mathrm{X}$ $\Psi$ $\Omega$
+
+
+
+
+Посмотрите, Ё и Й вылезли за верхнюю линию. Если бы мы печатали ВКР на механическом оборудовании, эти буквы бы не вписались в кегельную площадку, по этому их там и не было --- хвостики этих букв добивались отдельно к буквам Е и И.
+
+Межстрочный интервал в работе равен полтора. В \LaTeX{} форма определения межстрочного интервала следующая:
+\begin{equation}
+	I = X B,
+\end{equation}
+$X$ --- коэф. масштабирования, хранится в макросе \Verb|\baselinestretch|, а $B$~--- жёстко заданный для каждого кегля в классе документа базовый интервал.  Получим его значение (см. код) --- %
+{% изолирем все изменения в группе
+	\def\baselinestretch{1}% ставим множитель по умолчанию - 1
+	\selectfont% применяем шрифт, отрабатывает формула I = 1*B
+	\xdef\tmpbaselineskip{\fpeval{\baselineskip}}% Записываем длину получившуюся длину
+}%  
+\tmpbaselineskip{} пт. %Выводим ее.
+На основании этого определяем коэф. $X$, чтобы межстрочный интервал получился 24.225 пт (именно такое расстояние между строками в Word при полуторном интервале и 14 кегле):
+\begin{equation}
+	24.225 / 17 = 1.425.
+\end{equation}
+Именно это значение задано в преамбуле командой \Verb|\def\baselinestretch{1.425}|.
+
+\needspace{2\baselineskip}%
+\tikz[remember picture, overlay]{ \draw[red] (0,0) -- (\linewidth-\parindent,0); }%
+Это базовая линия первой строки абзаца.   \\%
+\tikz[remember picture, overlay]{ \draw[red] (0cm,0) -- (\linewidth,0); }% 
+Это базовая линия второй строки абзаца.%
+\tikz[remember picture, overlay]{ \draw[red,->] (0,0) -- (0,\baselineskip) node [midway,right,font=\tiny] {\mybaselineskip};  }%  
+
+
 \subsection{Списки}
 
 
 \subsubsection{Маркированные и нумерованные списки}
+
 
 Нумерованный список необходимо использовать тогда, когда важно передать порядок перечеслителей. В остальных случаях используется ненумерованный (маркированный). Примеры в этом разделе не несут смысловой нагрузки и демонстрируют только варианты оформления.
 
@@ -17,10 +132,13 @@
 
 Например, включенный в строку нумерованный список может выгладить следующим образом: помидоры бывают разные: 1) чёрные; 2) белые; 3) красные. В этом случае, писать каждый элемент списка с Большой буквы было бы не корректно. Пример этого же списка в выключенном виде: помидоры бывают разные:
 \begin{enumerate}[label = \arabic*)]
-	\item чёрные; 
-	\item белые;
+	\item \tikz[remember picture,overlay]{\draw [red, ->] (\fpeval{-\itemindent}pt,0.5ex) -- ++(-1.25cm,0) node [midway, above, font=\tiny] {1.25см};}%
+			чёрные; 
+	\item белые; 
 	\item красные.
 \end{enumerate}
+
+
 
 
 Когда вам необходимо в пункты списка включать целые предложения, то следует поступать следующим образом. Помидоры  бывают разных видов:
@@ -46,9 +164,11 @@
 \begin{enumerate}[label = \arabic*)]
 	\item чёрные; 
 	\item белые;
-	\item красные, а именно:
+	\item  \tikz[remember picture,overlay]{\draw [red, ->] (\fpeval{-\itemindent}pt,0.5ex) -- ++(-1.25cm,0) node [midway, above, font=\tiny] {1.25см};}%
+		красные, а именно:
 	\begin{enumerate}[label = {\asbuk*)} ]
-		\item красно-жёлтые;
+		\item \tikz[remember picture,overlay]{\draw [red, ->] (\fpeval{-\itemindent}pt,0.5ex) -- ++(-1cm,0) node [midway, above, font=\tiny] {1см};}%
+		красно-жёлтые;
 		\item красно-белые;
 		\item красно-зелёные:
 		\begin{itemize}
@@ -88,9 +208,9 @@
 
 Концептуальная модель $n$-ой предметной задачи определяется следующим образом:
 \begin{equation}\label{eq:KM}
-	KP2(n) = \left< M2(n0, TH2(n), \overline{FU2}(n), R^{KP}_2(n) \right>,
+	K\!P2(n) = \left< M2(n0, T\!H2(n), \overline{F\!U2}(n), R^{K\!P}_2(n) \right>,
 \end{equation}
-где $M2(n)\equiv A(n)$~--- множество предметных категорий, $TH2(n)$~--- множество динамических отношений на $A(n)$, $TH2(n)$~--- множество статических отношений на предметных категориях, $ \overline{FU2}(n)$~--- множество динамических ограничений на взаимосвязь предметных категорий, $ R^{KP}_2(n)$~--- отношения между статический и динамической составляющими концептуальной модели.
+где $M2(n)\equiv A(n)$~--- множество предметных категорий, $T\!H2(n)$~--- множество динамических отношений на $A(n)$, $T\!H2(n)$~--- множество статических отношений на предметных категориях, $ \overline{F\!U2}(n)$~--- множество динамических ограничений на взаимосвязь предметных категорий, $ R^{KP}_2(n)$~--- отношения между статический и динамической составляющими концептуальной модели.
 
 На формулу в последующем тексте можно ссылаться: а поняли ли вы, что обозначает формула \eqref{eq:KM}?
 
@@ -359,10 +479,10 @@
 	&&\bfseries св.& 
 	\centering--- & 
 	Бинарные связи схем ПК \newline
-	$\overline{FH2}(n)=\{(\overline{h^2_{ij}},\overline{h^2_{lm}})\}$
+	$\overline{F\!H2}(n)=\{(\overline{h^2_{ij}},\overline{h^2_{lm}})\}$
 	& 
 	Бинарные связи схем ИСЕ \newline
-	$\overline{FE2}(n)=$\newline
+	$\overline{F\!E2}(n)=$\newline
 	$\hspace*{2em}=\{(\overline{e^2_{suil}},\overline{e^2_{mnwv}})\}$
 	\\  \hline 
 	
@@ -382,10 +502,10 @@
 	&&\bfseries св.& 
 	\centering--- & 
 	Бинарные связи ПЗ-1\newline
-	$\overline{FV2}(n)=\{(\overline{w_{ps}},\overline{w_{qt}})\}$ 
+	$\overline{F\!V2}(n)=\{(\overline{w_{ps}},\overline{w_{qt}})\}$ 
 	& 
 	Бинарные связи Пд-1\newline
-	$\overline{QS}2(n)=\{(\overline{r_{ps}},\overline{r_{qt}})\}$
+	$\overline{Q\!S}2(n)=\{(\overline{r_{ps}},\overline{r_{qt}})\}$
 	\\  \cline{2-6}
 	%структура второго рода
 	& \multirow{2}{*}[-2ex]{\rotatebox{90}{\bfseries 2 (2-го рода)}} & 
@@ -405,7 +525,7 @@
 	$\overline{Q2}(n)=\{(\overline{q^2_{..}},\overline{q^2_{..}})\}$
 	& 
 	Бинарные связи Пд-2\newline
-	$\overline{QN2}(n)=\{(\overline{n^2_{ps}},\overline{n^2_{qt}})\}$  
+	$\overline{Q\!N2}(n)=\{(\overline{n^2_{ps}},\overline{n^2_{qt}})\}$  
 	\\ \hline 
 	%Функциональная составляющая
 	\multirow{4}{*}[-2em]{\rotatebox{90}{ \bfseries Функциональный}}& 
@@ -423,11 +543,11 @@
 	%Связи
 	&&\bfseries св.& 
 	Бинарные связи ПД\newline
-	$FZ2(n)=\{(y_{ps},y_{qr})\}$ & 
+	$F\!Z2(n)=\{(y_{ps},y_{qr})\}$ & 
 	\centering---
 	& 
 	Бинарные связи ПМ-1\newline
-	$\overline{QS}2(n)=\{(\overline{r_{ps}},\overline{r_{qt}})\}$  
+	$\overline{Q\!S}2(n)=\{(\overline{r_{ps}},\overline{r_{qt}})\}$  
 	\\ \cline{2-6}
 	%Структура второго рода элементы
 	& \multirow{2}{*}[-1em]{\rotatebox{90}{\bfseries 2 (2-го рода)}} &  \bfseries эл.& 
@@ -443,7 +563,7 @@
 	\centering--- 
 	& 
 	Бинарные связи ПМ-2
-	$\overline{QN2}(n)=\{(\overline{n^2_{ps}},\overline{n^2_{qt}})\}$  
+	$\overline{Q\!N2}(n)=\{(\overline{n^2_{ps}},\overline{n^2_{qt}})\}$  
 	\\ \hline
 	
 	

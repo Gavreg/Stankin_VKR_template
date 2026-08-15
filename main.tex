@@ -6,17 +6,15 @@
 
 \documentclass[14pt, a4paper, oneside, russian]{extarticle}
 
+% отображать отладочную информавцию на первых страницах
 \newif\ifDebug
-%\Debugfalse
-\Debugtrue  % отображать отладочную информавцию на первых страницах
+\Debugtrue
 
 \newif\ifOnlyAssigment %собараем только задание или аннотацию
 \OnlyAssigmentfalse %для main.tex должен быть всегда false
+%этот флаг отключает некоторые пакеты для ускорения сборки одительных задания или аннотации
 
 \input{preambule.tex}
-
-%Включаем или отключаем подссветку ссылок для откладки документа	
-%\hypersetup{hidelinks}
 
 %Настройка документа
 \input{vkr-config.tex}

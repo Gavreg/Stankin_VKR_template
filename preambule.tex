@@ -538,7 +538,24 @@
 
 
 \usepackage{hyperref}
-\hypersetup{hidelinks} %отключить посдветку ссылок
+\ifDebug
+	\usepackage{showkeys}
+		\providecommand*\showkeyslabelformat[1]{%
+		\fbox{\normalfont\tiny\ttfamily#1}}
+		% Переопределение формата с жестким приведением размера для полей
+		\renewcommand*\showkeyslabelformat[1]{%
+			\fbox{%
+				\parbox[t]{2.4cm}{% Ограничиваем ширину плашки на поле
+					\normalfont\tiny\ttfamily % Устанавливаем самый мелкий шрифт
+					\raggedleft % Выравнивание по левому краю, чтобы длинные метки переносились
+					\hyphenpenalty=0 % Разрешаем перенос слов в названиях меток
+					#1%
+				}%
+			}%
+		}
+\else
+	\hypersetup{hidelinks} %отключить посдветку ссылок
+\fi
 %\usepackage{bookmark} %для заклкдок
 
 %===================================================

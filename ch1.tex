@@ -9,13 +9,20 @@
 
 Чтобы облегчить жизнь выпускникам нашей кафедры, а именно избавить их от <<удовольствия>> при работе с синим текстовым редактором,  было принято решение разработать специальный шаблон для \LaTeX{}.
 
+Я сознательно отступал от обязательных правил оформления, которые приняты у нас ка Кафедре, но их следует соблюдать в ВКР:
+\begin{itemize}
+	\item использование \Verb |моношеринного шрифта| в тексте, которым я пишу имена файлов и команд,  недопустимо; его надо оставлять только в листингах.
+	\item к некоторым разделам есть эпиграфы, строки выравненные по правому краю, занимающие не всю ширину листа; от них  следует воздержатся;
+	\item этот документ не только шаблон, но ещё и методические указания, по этому в нем активно используются сноски \footnote{Это сноска}; в ВКР их стоит опустить. 
+\end{itemize}
+
 \subsection{Необходимое ПО}
 
 В этом разделе я опишу то программное обеспечение, которое  использовал для разработки этого шаблона. Если вы работаете в \LaTeX{} постоянно, то наверняка выработали уже собственный стек программ для работы, которые можете использовать. Но на каких либо других инструментах работоспособность всего этого добра не проверялась (мной). 
 
 Итак, мой стек программ для \LaTeX{}:
 \begin{itemize}
-	\item TexLive (на момент написания шаблона версия 2026) --- Один из самых популярных дистрибутивов \LaTeX{}\cite{cite:texlive}. Основным его преимуществом является полстью офлайновый режим работы. От отсюда и недостаток~--- большой размер занимаемого на диске пространства и длительное время установки. В качестве альтернативы можно рассмотреть MikTex\cite{cite:miktex}, или работать онлайн через Overleaf\cite{cite:ovefleaf}. В Github Actions шаблон при пушах всегда собирается  последней версии официального образа texlive/texlive.
+	\item TexLive (на момент написания шаблона версия 2026) --- Один из самых популярных дистрибутивов \LaTeX{}\cite{cite:texlive}. Основным его преимуществом является полстью офлайновый режим работы. От отсюда и недостаток~--- большой размер занимаемого на диске пространства и длительное время установки. В качестве альтернативы можно рассмотреть MikTex\cite{cite:miktex}, или работать онлайн через Overleaf\cite{cite:ovefleaf}. В Github Actions шаблон при пушах всегда собирается  последней версии официального образа texlive/texlive. На Linux удобно ставить TexLive через docker. 
 	\item Tex Studio --- редактор \LaTeX{} документов \cite{cite:texstudio}. Но подойдёт любой другой, от блокнота до VSCode.
 	\item Пакет русскоязычной орфографии на TexStudio \cite{cite:dict}. Поможет искать ошибки в словах и облегчит правку документов. Пакет подключается в настройках программы в разделе <<проверка орфографии>>.
 	\item Python старше $\geq$ 3.14 (важно!). Используется для оформления листингов кода и работы пакета minted. 
@@ -23,5 +30,132 @@
 
 \subsection{Описание шаблона}
 
-Шаблон разработан для системы компьютерной вёртки \LaTeX{}. В этом документе, который оформлен как выпускная квалификационная работа (ВКР), я постарался предусмотреть и подключить все пакеты, которые могут Вам понадобится, при работе над ВКР --- соответствующие настройки находятся в файле preambule.tex. Постарайтесь его не менять, а все свои настройки или дополнительные пакеты подключать custom\_preambule.tex. В случае обновления шаблона на Github, будет проще отслеживать изменения преамбулы, если вы сами в фале ничего не меняли (но если меняли, команда \Verb|git diff HEAD -- preambule.tex| в Вашем распоряжении).
+Шаблон разработан для системы компьютерной вёртки \LaTeX{}. В этом документе, который оформлен как выпускная квалификационная работа (ВКР), я постарался предусмотреть и подключить все пакеты, которые могут Вам понадобится при работе над ВКР --- соответствующие настройки находятся в файле preambule.tex. Постарайтесь его не менять, а все свои настройки или дополнительные пакеты подключать custom\_preambule.tex. В случае обновления шаблона на Github, будет проще отслеживать изменения преамбулы, если вы сами в фале ничего не меняли (но если меняли, команда \Verb|git diff HEAD -- preambule.tex| в Вашем распоряжении).
+
+В шаблоне три основных файла
+
+\begin{enumerate}
+	\item \Verb |main.tex| --- вся пояснительная записка целиком;
+	\item \Verb |main_assigment.tex| --- только задание;
+	\item \Verb |main_annotation.tex| --- только аннотация;
+\end{enumerate}
+
+Задание, как отдельный документ сдаётся на Кафедру в начале работы над ВКР (в октябре/ноябре). 
+
+Второй экземпляр аннотации вкладывается в кармашек папки с распечатанной работой при сдаче ВКР на Кафедру. Первый экземпляр включён в саму пояснительную записку.
+
+\subsection{Шрифт и текстовые метрики}
+
+Гарнитура шрифта работы --- Times New Roman, в Linux этот шрифт отсутствует, по этому его следует установить (см. файл \Verb |dockerfile|, с настройками контейнера для сборки документа). Альтернативно, можно использовать похожую гарнитуру Liberation Serif.
+
+\edef\parindentmm{\fpeval{round(\parindent/2.83465,1)}}
+\edef\baselineskipmm{\fpeval{round(\baselineskip/2.83465,1)}}
+\edef\mybaselineskip{\the\baselineskip}
+
+\makeatletter
+\edef\myfontsize{\f@size}
+\makeatother
+
+
+%\myfontsize
+
+%Авторы положения о ВКР видимо не задумывались, что существуют текстовые редакторы, отличные от Word, который имеет некую специфику в установке параметров текста. По этому некоторые требования, изложенные там, пришлось адаптировать для \LaTeX{}. 
+
+\tikz[remember picture, overlay]{ \draw[red] (0,0) -- (\linewidth-\parindent,0); }%
+Это базовая линия строки.
+
+\tikz[remember picture, overlay]{ \draw[red,->] (0,0) -- (-\parindent,0) node[midway,above,font=\tiny]{\parindentmm{} мм.};  }%
+Каждый абзац работы начинается с красной строки. Отступ этой строки задаётся длиной \Verb|\parindent| и равен  \parindentmm{} мм.
+
+Работа оформляется 14 кеглем. В \LaTeX{} для каждого кегля вручную забит его физический размер, и для 14 он составляет 14.4 пт\,\footnotemark{} (все вопросы к Дональду Кнуту).
+
+\footnotetext {В Microsoft Word один пункт равен 1/72 дюйма (так называемый PostScript-пункт или bp), в то время как классический пункт в LaTeX (pt системы TeX) равен 1/72.27 дюйма. Размер шрифта  в дюймах в \LaTeX{} $1/72.27\cdot14,4 \sim 0,1993$ будет примерно равен размеру в Word $1/27 \cdot 14 \sim 0,1944$ }
+
+\myfontsize{} пт это высота прямоугольника, в которой вписаны все символы шрифта --- кегельной площадки. Во времена печатных станков именно на таких площадках располагались все буквы. Ее высота и называется кеглем шрифта (а не размер букв, как многие полагают). Часть площадки заходит под базовую линию, создавая глубину шрифта, именно в ней располагаются хвостики букв у, р, ц, щ, и т.\,д. Для Times New Roman глубина составляет 443/2048 кегля. Остальная часть площадки(1825/2048) определяет высоту букв над базовой линией.
+
+\noindent%
+\tikz[remember picture, overlay]{ \draw[red] (0,0) -- (\linewidth,0); }%
+\tikz[remember picture, overlay]{ \draw[blue] (0,\fpeval{0.7816*\myfontsize}pt) -- (\linewidth,\fpeval{0.7816*\myfontsize}pt); }%
+\tikz[remember picture, overlay]{ \draw[blue] (0,-\fpeval{0.2184*\myfontsize}pt) -- (\linewidth,-\fpeval{0.2184*\myfontsize}pt); }%
+\tikz[remember picture, overlay]{ \draw[blue, <->] (0.2,-\fpeval{0.2184*\myfontsize}pt) -- (0.2,\fpeval{0.7816*\myfontsize}pt) node[midway,right,font=\tiny] {\myfontsize pt}; }%
+\hspace{\parindent}%
+абвгдеёжзийклмнопрстуфхцчшщъыьэюя
+
+\noindent%
+\tikz[remember picture, overlay]{ \draw[red] (0,0) -- (\linewidth,0); }%
+\tikz[remember picture, overlay]{ \draw[blue] (0,\fpeval{0.7816*\myfontsize}pt) -- (\linewidth,\fpeval{0.7816*\myfontsize}pt); }%
+\tikz[remember picture, overlay]{ \draw[blue] (0,-\fpeval{0.2184*\myfontsize}pt) -- (\linewidth,-\fpeval{0.2184*\myfontsize}pt); }%
+\tikz[remember picture, overlay]{ \draw[blue, <->] (0.2,-\fpeval{0.2184*\myfontsize}pt) -- (0.2,\fpeval{0.7816*\myfontsize}pt) node[midway,right,font=\tiny] {\myfontsize pt}; }%
+\hspace{\parindent}%
+АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ
+
+\noindent%
+\tikz[remember picture, overlay]{ \draw[red] (0,0) -- (\linewidth,0); }%
+\tikz[remember picture, overlay]{ \draw[blue] (0,\fpeval{0.7816*\myfontsize}pt) -- (\linewidth,\fpeval{0.7816*\myfontsize}pt); }%
+\tikz[remember picture, overlay]{ \draw[blue] (0,-\fpeval{0.2184*\myfontsize}pt) -- (\linewidth,-\fpeval{0.2184*\myfontsize}pt); }%
+\tikz[remember picture, overlay]{ \draw[blue, <->] (0.2,-\fpeval{0.2184*\myfontsize}pt) -- (0.2,\fpeval{0.7816*\myfontsize}pt) node[midway,right,font=\tiny] {\myfontsize pt}; }%
+\hspace{\parindent}%
+abcdefghijklmnopqrstuvwxyz
+
+
+\noindent%
+\tikz[remember picture, overlay]{ \draw[red] (0,0) -- (\linewidth,0); }%
+\tikz[remember picture, overlay]{ \draw[blue] (0,\fpeval{0.7816*\myfontsize}pt) -- (\linewidth,\fpeval{0.7816*\myfontsize}pt); }%
+\tikz[remember picture, overlay]{ \draw[blue] (0,-\fpeval{0.2184*\myfontsize}pt) -- (\linewidth,-\fpeval{0.2184*\myfontsize}pt); }%
+\tikz[remember picture, overlay]{ \draw[blue, <->] (0.2,-\fpeval{0.2184*\myfontsize}pt) -- (0.2,\fpeval{0.7816*\myfontsize}pt) node[midway,right,font=\tiny] {\myfontsize pt}; }%
+\hspace{\parindent}%
+ABCDEFGHIJKLMNOPQRSTUVWXYZ
+
+\noindent%
+\tikz[remember picture, overlay]{ \draw[red] (0,0) -- (\linewidth,0); }%
+\tikz[remember picture, overlay]{ \draw[blue] (0,\fpeval{0.7816*\myfontsize}pt) -- (\linewidth,\fpeval{0.7816*\myfontsize}pt); }%
+\tikz[remember picture, overlay]{ \draw[blue] (0,-\fpeval{0.2184*\myfontsize}pt) -- (\linewidth,-\fpeval{0.2184*\myfontsize}pt); }%
+\tikz[remember picture, overlay]{ \draw[blue, <->] (0.2,-\fpeval{0.2184*\myfontsize}pt) -- (0.2,\fpeval{0.7816*\myfontsize}pt) node[midway,right,font=\tiny] {\myfontsize pt}; }%
+\hspace{\parindent}%
+0123456789$\sqrt x$  $\displaystyle\iiint\limits^\infty_{-\infty}$ $\displaystyle\sum_{i=0}^n$  $\int\limits^\infty_{-\infty}$ $\sum_{i=0}^n$
+
+\noindent%
+\tikz[remember picture, overlay]{ \draw[red] (0,0) -- (\linewidth,0); }%
+\tikz[remember picture, overlay]{ \draw[blue] (0,\fpeval{0.7816*\myfontsize}pt) -- (\linewidth,\fpeval{0.7816*\myfontsize}pt); }%
+\tikz[remember picture, overlay]{ \draw[blue] (0,-\fpeval{0.2184*\myfontsize}pt) -- (\linewidth,-\fpeval{0.2184*\myfontsize}pt); }%
+\tikz[remember picture, overlay]{ \draw[blue, <->] (0.2,-\fpeval{0.2184*\myfontsize}pt) -- (0.2,\fpeval{0.7816*\myfontsize}pt) node[midway,right,font=\tiny] {\myfontsize pt}; }%
+\hspace{\parindent}%
+$\alpha$ $\beta$ $\gamma$ $\delta$ $\epsilon$ $\zeta$ $\eta$ $\theta$ $\iota$ $\kappa$ $\lambda$ $\mu$ $\nu$ $\xi$ $\o$ $\pi$ $\rho$ $\sigma$ $\tau$ $\upsilon$ $\phi$ $\chi$ $\psi$ $\omega$
+
+\noindent%
+\tikz[remember picture, overlay]{ \draw[red] (0,0) -- (\linewidth,0); }%
+\tikz[remember picture, overlay]{ \draw[blue] (0,\fpeval{0.7816*\myfontsize}pt) -- (\linewidth,\fpeval{0.7816*\myfontsize}pt); }%
+\tikz[remember picture, overlay]{ \draw[blue] (0,-\fpeval{0.2184*\myfontsize}pt) -- (\linewidth,-\fpeval{0.2184*\myfontsize}pt); }%
+\tikz[remember picture, overlay]{ \draw[blue, <->] (0.2,-\fpeval{0.2184*\myfontsize}pt) -- (0.2,\fpeval{0.7816*\myfontsize}pt) node[midway,right,font=\tiny] {\myfontsize pt}; }%
+\hspace{\parindent}%
+$\mathrm{A}$ $\mathrm{B}$ $\Gamma$ $\Delta$ $\mathrm{E}$ $\mathrm{Z}$ $\mathrm{H}$ $\Theta$ $\mathrm{I}$ $\mathrm{K}$ $\Lambda$ $\mathrm{M}$ $\mathrm{N}$ $\Xi$ $\mathrm{O}$ $\Pi$ $\mathrm{P}$ $\Sigma$ $\mathrm{T}$ $\Upsilon$ $\Phi$ $\mathrm{X}$ $\Psi$ $\Omega$
+
+
+
+
+Посмотрите, Ё и Й вылезли за верхнюю линию. Если бы мы печатали ВКР на механическом оборудовании, эти буквы бы не вписались в кегельную площадку, по этому их там и не было --- хвостики этих букв добивались отдельно к буквам Е и И.
+
+Межстрочный интервал в работе равен полтора. В \LaTeX{} форма определения межстрочного интервала следующая:
+\begin{equation}
+	I = X B,
+\end{equation}
+$X$ --- коэф. масштабирования, хранится в макросе \Verb|\baselinestretch|, а $B$~--- жёстко заданный для каждого кегля в классе документа базовый интервал.  Получим его значение (см. код) --- %
+{% изолирем все изменения в группе
+	\def\baselinestretch{1}% ставим множитель по умолчанию - 1
+	\selectfont% применяем шрифт, отрабатывает формула I = 1*B
+	\xdef\tmpbaselineskip{\fpeval{\baselineskip}}% Записываем длину получившуюся длину
+}%  
+\tmpbaselineskip{} пт. %Выводим ее.
+На основании этого определяем коэф. $X$, чтобы межстрочный интервал получился 24.225 пт (именно такое расстояние между строками в Word при полуторном интервале и 14 кегле):
+\begin{equation}
+	24.225 / 17 = 1.425.
+\end{equation}
+Именно это значение задано в преамбуле командой \Verb|\def\baselinestretch{1.425}|.
+
+\needspace{2\baselineskip}%
+\tikz[remember picture, overlay]{ \draw[red] (0,0) -- (\linewidth-\parindent,0); }%
+Это базовая линия первой строки абзаца.   \\%
+\tikz[remember picture, overlay]{ \draw[red] (0cm,0) -- (\linewidth,0); }% 
+Это базовая линия второй строки абзаца.%
+\tikz[remember picture, overlay]{ \draw[red,->] (0,0) -- (0,\baselineskip) node [midway,right,font=\tiny] {\mybaselineskip};  }%  
 

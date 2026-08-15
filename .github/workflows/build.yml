@@ -58,9 +58,8 @@ jobs:
     - name: Compiling pdf 
       if: ${{ env.BUILD_REQUIRED == 'true' }}   
       run: |
-      	#коментируем отладку перед сборкой
-      	sed -i 's/\\Debugtrue/%&/' main.tex
-        sudo bash build.sh 
+        sed -i 's/\\Debugtrue/%&/' main.tex
+        sudo bash build.sh
         echo "${{ env.TEX_HASH }}" > texfiles.hash
 
 

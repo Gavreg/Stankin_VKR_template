@@ -24,7 +24,11 @@
 \setotherlanguage{english}
 
 \setlength{\parindent}{1.25cm}
-\setlength{\parskip}{2pt plus 2pt minus 2pt} % разрешим latex чучуть увеличивать или уменьшать межабзацное расстрояние.
+\setlength{\parskip}{0pt plus 3pt minus 2pt} % разрешим latex чучуть увеличивать или уменьшать межабзацное расстрояние.
+
+\usepackage[all]{nowidow}
+\setnowidow[2] % минимум 2 строки вверху новой страницы
+\setnoclub[2]  % минимум 2 строки внизу старой страницы
 
 %===================================================
 % Важные пакеты
@@ -146,6 +150,8 @@
 {\theparagraph. \ }
 {0em}
 { }
+
+\edef\mysectionspacing{1.3em}
 
 \titlespacing*{\section}{0pt}{1.3em plus 3pt minus 2pt }{1.3em plus 3pt minus 2pt } % Отступы вокруг заголовка главы
 \titlespacing*{\subsection}{0pt}{1.3em plus 3pt minus 2pt }{1.3em plus 3pt minus 2pt } % Отступы вокруг заголовка параграфа

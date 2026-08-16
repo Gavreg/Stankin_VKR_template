@@ -161,8 +161,6 @@ $X$ --- коэф. масштабирования, хранится в макро
 Это базовая линия второй строки абзаца.%
 \tikz[remember picture, overlay]{ \draw[red,->] (0,0) -- (0,\baselineskip) node [midway,right,font=\tiny] {\mybaselineskip};  }%
 
-123
-
 \begin{table}[p]%
 	% Поворот страницы в pdf-файле в XeLaTeX
 	\special{pdf:put @thispage << /Rotate 90 >>}%
@@ -218,5 +216,75 @@ $X$ --- коэф. масштабирования, хранится в макро
 	}%
 \end{table}
 
+\subsection{Отступы плавающих объектов}
 
-456
+В этом разделе я рисовал и отлаживал границы плавающих объектов, чтобы они соответствовали правилу: рисунки и таблицы отбиваются снизу и сверху пустыми строками. Простой путь --- сделать так же, но \LaTeX{} позволяет выставлять вертикальные у плавающих объектов, коими являются рисунки и таблицы, да ещё и управляет ими в случае если объект размещается в верху и внизу листа. Остаётся дело за малым: вычислить эти длины этих отступов, чтобы они равнялись пустым вордовским строкам, и задать их в преамбуле.
+
+\noindent\begin{minipage}{\linewidth}
+Текст 
+%
+\hfill\begin{tikzpicture}[remember picture, overlay]
+	\draw[red] (0,0) -- ++(-\linewidth,0);
+	\draw[red,->] (0.5\linewidth,0) -- ++(0,-4pt-24.225pt);
+\end{tikzpicture} 
+
+\begin{figure}[H]
+	\centering%
+	\begin{tikzpicture}[remember picture]
+		\draw node[draw, outer sep=0pt,font=\Huge,align=center, minimum size=4cm] (pic) {Рисунок};
+	\end{tikzpicture}%
+	\caption{Название рисунка}%
+	\label{fig:figure_skip}%
+\end{figure}
+
+\noindent%
+\begin{tikzpicture}[remember picture, overlay]
+	\draw[red] (0,12.8pt) -- ++(\linewidth,0);
+	\draw[red,->] (0.5\linewidth,12.8pt) -- ++(0,4pt+24.225pt);
+\end{tikzpicture}%
+\hspace{\parindent}%
+Текст%
+\begin{tikzpicture}[remember picture, overlay]
+	\draw[red,->] (pic.north) -- ++(0,4pt+24.225pt);
+%	\draw[red,->] (pic2) -- ++(0,-4pt-24.225pt);
+\end{tikzpicture}
+\end{minipage}
+
+\hfill\\
+
+\noindent\begin{minipage}{\linewidth}
+Текст%
+\hfill\begin{tikzpicture}[remember picture, overlay]
+	\draw[red] (0,0) node [above left] {Базовая линия} -- ++(-\linewidth,0) ;
+	\draw[red,->] (-0.18\linewidth,0) -- ++(0,-2*24.225pt);
+\end{tikzpicture} 
+
+\nopagebreak\begin{table}[H]
+	\centering%
+	\caption{Название Таблицы}%
+	\label{tbl:table_skip}
+	\begin{tabular}{|p{0.5\linewidth}|}
+		\hline\centering Таблица\arraybackslash \\ \hline
+	\end{tabular}%
+\end{table}
+
+%\nopagebreak%
+%\noindent%
+\begin{tikzpicture}[remember picture, overlay]
+	\draw[red] (0,12.83pt)  -- ++(\linewidth,0) node[above left]{Базовая Линия + высота букв};
+	\draw[red,->] (0.5\linewidth,12.83pt) -- ++(0,28.225pt);
+\end{tikzpicture}%
+%\hspace{\parindent}%
+Текст.%
+
+\end{minipage}
+
+qwe
+
+\begin{tabular}{|l|}
+	qwe\
+\end{tabular}%
+
+qwe
+
+qwe

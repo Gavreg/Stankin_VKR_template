@@ -208,9 +208,10 @@
 	justification=centering,
 	labelsep=dot, 
 	format=plain,
-	font={onehalfspacing},
-	%skip=1em, 
-	%belowskip=0pt, 
+	position=below,
+	%font={onehalfspacing},
+	%skip=1.2em, 
+	belowskip=-\baselineskip, %сдвиг границы плавающего объекта рисунка на базовую линию надписи 
 	%aboveskip=0pt 
 }                       
 
@@ -220,8 +221,9 @@
 	labelsep=dot_tbl, 
 	format=plain, 
 	singlelinecheck=false,
-	font={onehalfspacing},
-	%belowskip=1ex plus 4pt minus 2pt, 
+	%font={onehalfspacing},
+	position=above,
+	belowskip=8pt plus 2pt minus 2pt, 
 	%aboveskip=1ex  plus 4pt minus 2pt 
 } 
 
@@ -442,12 +444,15 @@
 \AtBeginEnvironment{table}{\stepcounter{vkrTotaltables}}
 
 %расстояние между float (таблицы, рисунки) и текстом
-\setlength{\floatsep}{1.6em plus 2pt minus 2pt}     % между float'ами
-\setlength{\textfloatsep}{1.75em} % между float'ами и текстом
-\setlength{\intextsep}{1.75em}    % для float'ов внутри текста
+\setlength{\floatsep}{1em plus 2pt minus 2pt}     % между float'ами
+\setlength{\textfloatsep}{28pt} % между float'ами и текстом
+\setlength{\intextsep}{28pt}    % для float'ов внутри текста
 
-\AtEndEnvironment{figure}{\vspace{-0.75em}}
+%\AtEndEnvironment{figure}{\vspace{-0.75em}}
+\AtEndEnvironment{table}{\vspace{-0.5em}}
 \AtEndEnvironment{listing}{\vspace{-1em}}
+
+
 
 
 \SetupFloatingEnvironment{listing}{name=Листинг} 
@@ -527,6 +532,9 @@
 	\usepackage{layout} %Позволяет использовать команду \layout для печати структуры страницы
 	\usepackage{layouts} %еще мног о команд для откладки
 	\usepackage{showframe} %Рамки фокруг листа
+	
+	\newcommand{\botfigrule}{{\color{green}\rule{\paperwidth}{0.5pt}}}
+	\newcommand{\topfigrule}{{\color{green}\rule{\paperwidth}{0.5pt}}}
 	
 	\AtBeginDocument{%
 		\input{debug_page.tex}%

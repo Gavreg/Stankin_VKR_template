@@ -105,12 +105,13 @@
 	
 	
 	% ПРИЛОЖЕНИЯ
-	\newpage
 	\appendix
-	\label{vkr:AppendixBegin} %Закладка на страницу с началом первого приложнния
 	
+		
+
 	\newpage
-	\pagestyle{fancy}
+	\null\label{vkr:AppendixBegin}%
+	\vspace{-1.4cm}%
 	\input{app1.tex}
 	\FloatBarrier
 	
@@ -119,7 +120,7 @@
 	\input{app2.tex}
 	\FloatBarrier
 	
-	\label{vkr:End} 	%Закладка на страницу с кокончанием последней страницы последнего приложения
+	\mbox{}\label{vkr:End} 	%Закладка на страницу с кокончанием последней страницы последнего приложения
 	
 	
 	

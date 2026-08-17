@@ -18,6 +18,11 @@
 	\item выделения отдельных слов и предложений в тексте (для заголовков, листингов и таблиц свои правила)  { \color{red}цветом}, \underline{подчёркиванием}, \fbox{рамкой}, \textit{курсивом}, \textbf{жирным} и  \raisebox{1ex}{\rotatebox[origin=cB]{180}{прочие вольности}}  запрешены; 
 \end{itemize}
 
+Что почитать по \LaTeX{}:
+\begin{itemize}
+	\item книга Котельникова и Чаботаева \cite{Kolelnikov:latex}.
+\end{itemize}
+
 \subsection{Необходимое ПО}
 
 В этом разделе я опишу то программное обеспечение, которое  использовал для разработки этого шаблона. Если вы работаете в \LaTeX{} постоянно, то наверняка выработали уже собственный стек программ для работы, которые можете использовать. Но на каких либо других инструментах работоспособность всего этого добра не проверялась (мной). 
@@ -161,74 +166,20 @@ $X$ --- коэф. масштабирования, хранится в макро
 Это базовая линия второй строки абзаца.%
 \tikz[remember picture, overlay]{ \draw[red,->] (0,0) -- (0,\baselineskip) node [midway,right,font=\tiny] {\mybaselineskip};  }%
 
-\begin{table}[p]%
-	% Поворот страницы в pdf-файле в XeLaTeX
-	\special{pdf:put @thispage << /Rotate 90 >>}%
-	
-	\rotatebox{90}{%
-		\begin{minipage}{\textheight}%
-				\caption{Оформление различных элементов работы}%
-				\label{tbl:vkr_fonts}%
-				\def\tabularxcolumn#1{m{#1}}%
-				\begin{tabularx}{\linewidth}{|>{\raggedright}m{5cm}|>{\raggedright}X|>{\raggedright\arraybackslash}m{6cm}|}
-						\hline
-						\centering\bfseries Наименование & \centering\bfseries Оформление &  \centering\bfseries Настройка в \LaTeX{} \arraybackslash \\ \hline 				
-						Аннотация;
-						оглавление;\newline
-						основной текст: введение, текст глав, заключение, текст приложений. 
-						& 
-						Только чёрный цвет, нормальное начертание, гарнитура Times New Roman, кегль 14, межстрочный интервал 24.225 пт. Отступ красной строки 1,25 см.   
-						& 
-						Преамбула, секция <<Настройка шрифтов и языка>> \\ 
-						\hline
-						Заголовки 1 уровня (главы) & 
-						Как в основном тексте, кроме: только СТРОЧНЫЕ буквы, жирное начертание, отступ после абзаца 1.3em. Всегда вверху новой страницы. Начина со слова <<Глава>> & 
-						\multirow{6}{=}
-						{Преамбула, секция <<Заголовки глав и параграфов>> } \\ 
-						\cline{1-2}	
-						Заголовки 2 уроня (параграфы) 
-						& 
-						Как заголовки 1 уровня, но не начинаются с новой страницы. 
-						& \\ \cline{1-2}	
-						Заголовки 3 уровня 
-						& 
-						Как заголовки 2 уровня, но буквы прописные. 
-						& 
-						\\  \cline{1-2}
-						Заголовки 4	уровня
-						&
-						Как заголовки третьего уровня, но отступ до и после 1em. 
-						& \\ \hline
-						Рисунок & 
-						Располагается один на строке, с выравниванием по центру. Отступ от вышестоящего текста - 1 строка
-						& 3 \\ \hline	
-						Подпись к рисунку & 2 & 3 \\ \hline	
-						Заголовочная ячейка таблицы & 2 & 3 \\ \hline	
-						Содержательная ячейка таблицы & 2 & 3 \\ \hline	
-						Подпись к таблице & 2 & 3 \\ \hline
-						Первый уровень списка & 2 & 3 \\ \hline	
-						Второй и последующие уровни списка & 2 & 3 \\ \hline	
-						Листинг & 2 & 3 \\ \hline	
-						Подпись к листингу & 2 & 3 \\ \hline	
-						Формула & 2 & 3 \\ \hline		
-				\end{tabularx}%
-		\end{minipage}%
-	}%
-\end{table}
+
 
 \subsection{Отступы плавающих объектов}
 
 В этом разделе я рисовал и отлаживал границы плавающих объектов, чтобы они соответствовали правилу: рисунки и таблицы отбиваются снизу и сверху пустыми строками. Простой путь --- сделать так же, но \LaTeX{} позволяет выставлять вертикальные у плавающих объектов, коими являются рисунки и таблицы, да ещё и управляет ими в случае если объект размещается в верху и внизу листа. Остаётся дело за малым: вычислить эти длины этих отступов, чтобы они равнялись пустым вордовским строкам, и задать их в преамбуле.
 
-\noindent\begin{minipage}{\linewidth}
-Текст 
-%
+
+Текст%
 \hfill\begin{tikzpicture}[remember picture, overlay]
 	\draw[red] (0,0) -- ++(-\linewidth,0);
 	\draw[red,->] (0.5\linewidth,0) -- ++(0,-11pt-24pt);
 \end{tikzpicture} 
 
-\begin{figure}[H]
+\nopagebreak\begin{figure}[H]
 	\centering%
 	\begin{tikzpicture}[remember picture]
 		\draw node[draw, outer sep=0pt,font=\Huge,align=center, minimum size=4cm] (pic) {Рисунок};
@@ -237,22 +188,65 @@ $X$ --- коэф. масштабирования, хранится в макро
 	\label{fig:figure_skip}%
 \end{figure}
 
-\noindent%
+\nopagebreak\noindent%
 \begin{tikzpicture}[remember picture, overlay]
 	\draw[red] (0,12.8pt) -- ++(\linewidth,0);
 	\draw[red,->] (0.5\linewidth,12.8pt) -- ++(0,11pt+24pt);
 \end{tikzpicture}%
 \hspace{\parindent}%
-Текст%
+Текст\strut%
 \begin{tikzpicture}[remember picture, overlay]
 	\draw[red,->] (pic.north) -- ++(0,11pt+24pt);
 %	\draw[red,->] (pic2) -- ++(0,-4pt-24.225pt);
 \end{tikzpicture}
-\end{minipage}
 
-\hfill\\
 
-\noindent\begin{minipage}{\linewidth}
+Отступ между текстом и плавающими объектами задаётся длинами \Verb|\textfloatsep| --- для объектов в тексте и \Verb|\intextsep| --- для объектов внизу и верху страницы.
+
+Рисунок по сути это очень большая буква, которая расположена на своей базовой линии, по этому отступ от от базовой линии вышестоящей строки должен быть равен (рис.~\ref{fig:calculation_picture_skip}): 
+\begin{equation}
+	x=2I-H=35 \text{ (пт)},
+\end{equation}
+где \mbox{$I\sim24\text{ пт}$}~--- расстояние между базовыми линиями, \mbox{$H\sim13\text{ пт}$}~--- высота букв Times New Roman c 14.4 кеглем.
+
+\begin{figure}
+	\centering%
+	\scalebox{2}{%
+		\begin{tikzpicture}[
+			txt/.style={font=\fontsize{7.2pt}{10pt}},
+			arr1/.style={stealth-stealth}
+			]
+			\draw node[above] (str) {Строка};
+			\draw node[below = 24pt of str, above] (str2) {Пустая строка};
+			\draw node[below = 24pt of str2, above] (str3) {Рисунок};
+			
+			\draw [red] (str.base)  -- ++(3cm,0) ++(-0.3cm,0) coordinate (A);
+			\draw [red] (str.base)  -- ++(-3cm,0);
+			
+			\draw [red] (str2.base)  -- ++(3cm,0) +(-0.3cm,0) coordinate (B);
+			\draw [red] (str2.base)  -- ++(-3cm,0);
+			
+			\draw [red] (str3.base) --  ++(3cm,0) +(-0.3cm,0) coordinate (D);
+			\draw [red] (str3.base) --  ++(-3cm,0);
+			
+			\draw [blue] (str3.base) ++(0,13pt)  --  ++(3cm,0);
+			\draw [blue] (str3.base) ++(0,13pt)  --  ++(-3cm,0);
+			
+			\draw (str3.base)  ++(0,13pt)  ++(2cm,0) coordinate (E);
+			\draw (str3.base)  ++(2cm,0) coordinate (F);
+			\draw (str2.base)  ++(2cm,0) coordinate (I);
+			
+			\draw[arr1] (A) -- (B) node[midway,right,txt] {$I$};
+			\draw[arr1] (B) -- (D) node[midway,right,txt] {$I$};
+			
+			\draw[arr1] (E) -- (F) node[midway,right,txt] {$H$};
+			\draw[arr1] (E) -- (I) node[midway,right,txt] {$x$};     
+		\end{tikzpicture}%
+	}
+	\caption{Расчёт отступа рисунка}
+	\label{fig:calculation_picture_skip}
+\end{figure}
+
 Текст%
 \hfill\begin{tikzpicture}[remember picture, overlay]
 	\draw[red] (0,0) node [above left] {Базовая линия} -- ++(-\linewidth,0) ;
@@ -268,23 +262,41 @@ $X$ --- коэф. масштабирования, хранится в макро
 	\end{tabular}%
 \end{table}
 
-%\nopagebreak%
-%\noindent%
+\nopagebreak%
+\noindent%
 \begin{tikzpicture}[remember picture, overlay]
 	\draw[red] (0,12.83pt)  -- ++(\linewidth,0) node[above left]{Базовая Линия + высота букв};
 	\draw[red,->] (0.5\linewidth,12.83pt) -- ++(0,11pt + 24pt);
 \end{tikzpicture}%
-%\hspace{\parindent}%
-Текст.%
+\hspace{\parindent}%
+Текст
 
-\end{minipage}
 
-qwe
 
-\begin{tabular}{|l|}
-	qwe\
-\end{tabular}%
 
-qwe
+Текст%
+\hfill\begin{tikzpicture}[remember picture, overlay]
+	\draw[red] (0,0) node [above left] {Базовая линия} -- ++(-\linewidth,0) ;
+	\draw[red,->] (-0.18\linewidth,0) -- ++(0,-2*24.225pt);
+\end{tikzpicture} 
 
-qwe
+\nopagebreak\begin{listing}[H]
+	\centering%
+	\caption{Название листинга}%
+	\label{lst:tisting_skip}
+	\begin{minted}{c++}
+		
+		#include <unistd.h>
+	
+	\end{minted}
+\end{listing}
+
+\nopagebreak%
+\noindent%
+\begin{tikzpicture}[remember picture, overlay]
+	\draw[red] (0,12.83pt)  -- ++(\linewidth,0) node[above left]{Базовая Линия + высота букв};
+	\draw[red,->] (0.5\linewidth,12.83pt) -- ++(0,11pt + 24pt);
+\end{tikzpicture}%
+\hspace{\parindent}%
+Текст
+

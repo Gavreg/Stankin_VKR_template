@@ -78,12 +78,24 @@
 \AtBeginEnvironment{table}{\def\insidetable{true}}
 
 
+\def\everytablespatch{%
+	\ifdefined\insidetable%
+		\ifDebug%
+			\color{red}%
+		\fi%
+		\fontsize{12pt}{14pt}%
+		\def\baselinestretch{1}%
+		\selectfont%
+	\fi%
+}
 
-\AtBeginEnvironment{tabular}{\ifdefined\insidetable\ifDebug\color{red}\fi\fontsize{12pt}{12pt}\selectfont\fi}
-\AtBeginEnvironment{longtable}{\ifdefined\insidetable\ifDebug\color{red}\fi\fontsize{12pt}{12pt}\selectfont\fi}
-\AtBeginEnvironment{tabularx}{\ifdefined\insidetable\ifDebug\color{red}\fi\fontsize{12pt}{12pt}\selectfont\fi}
 
-\renewcommand{\arraystretch}{1.5} %расстояние между стрчоками в таблицах
+\AtBeginEnvironment{tabular}{\everytablespatch}
+\AtBeginEnvironment{longtable}{\everytablespatch}
+\AtBeginEnvironment{tabularx}{\everytablespatch}
+
+\def\arraystretch{1.5}
+
 
 %===================================================
 % Математические формулы
@@ -104,7 +116,7 @@
 % Межстрочный интерва
 %===================================================
 
-%\usepackage{setspace}
+\usepackage{setspace}
 %\onehalfspacing 
 
 % Межстрочный интервал 1.5
@@ -209,7 +221,7 @@
 	labelsep=dot, 
 	format=plain,
 	position=below,
-	%font={onehalfspacing},
+	font={onehalfspacing},
 	%skip=1.2em, 
 	belowskip=-\baselineskip, %сдвиг границы плавающего объекта рисунка на базовую линию надписи 
 	%aboveskip=0pt 
@@ -221,10 +233,11 @@
 	labelsep=dot_tbl, 
 	format=plain, 
 	singlelinecheck=false,
-	%font={onehalfspacing},
+	font={onehalfspacing},
 	position=above,
-	belowskip=2pt plus 2pt minus 2pt, 
-	%aboveskip=1ex  plus 4pt minus 2pt 
+	belowskip=2pt, 
+	aboveskip=0ex,
+	skip=0pt 
 } 
 
 %Подпись листинг. справа
@@ -235,7 +248,7 @@
 	position=above, 
 	singlelinecheck=false,
 	font={onehalfspacing}, 
-	%belowskip=1 ex plus 4pt minus 2pt , 
+	belowskip= 2pt, 
 	aboveskip=-1.4ex  plus 4pt minus 2pt 
 } 
 
@@ -463,7 +476,17 @@
 \newenvironment{VKRlonglisting}{\vspace{\intextsep}\captionsetup{type=listing}}{}
 
 %для длинных таблиц
-\newenvironment{VKRlongtable}{\vspace{\intextsep-1ex}\stepcounter{vkrTotaltables}\begingroup\captionsetup{type=table}\def\insidetable{true}}{\endgroup}
+\newenvironment{VKRlongtable}{%
+	\vspace{\intextsep}%
+	\stepcounter{vkrTotaltables}%
+	\begingroup\captionsetup{type=table}%
+	\def\insidetable{true}%
+	\setlength{\LTpre}{0pt}%
+	\setlength{\LTpost}{0pt}%
+	}
+	{\vspace{\intextsep-14pt}\endgroup}
+
+
 
 \usepackage{placeins}  % Для команды \FloatBarrier
 

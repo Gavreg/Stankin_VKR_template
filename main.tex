@@ -11,8 +11,9 @@
 \Debugtrue
 
 \newif\ifOnlyAssigment %собараем только задание или аннотацию
+%\OnlyAssigmenttrue
 \OnlyAssigmentfalse %для main.tex должен быть всегда false
-%этот флаг отключает некоторые пакеты для ускорения сборки одительных задания или аннотации
+%этот флаг отключает некоторые пакеты для ускорения сборки отдельных задания или аннотации
 
 \input{preambule.tex}
 
@@ -111,7 +112,9 @@
 
 	\newpage
 	\null\label{vkr:AppendixBegin}%
-	\vspace{-1.4cm}%
+	%из-за закладки на начало приложения, заголовок первого немного съезжает вниз,
+	%отрицательный вертикальынй отступ это компенчирует
+	\vspace{-1.4cm} 
 	\input{app1.tex}
 	\FloatBarrier
 	
@@ -124,6 +127,12 @@
 	\pagestyle{fancy}
 	\input{app_idef0.tex}
 	\FloatBarrier
+	
+	\newpage
+	\pagestyle{fancy}
+	\input{app_uml.tex}
+	\FloatBarrier
+
 	
 	\mbox{}\label{vkr:End} 	%Закладка на страницу с кокончанием последней страницы последнего приложения
 	

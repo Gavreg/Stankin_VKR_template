@@ -1,0 +1,348 @@
+\section{UML модели}
+
+\begingroup
+
+\textit{Скоро тут будет концептуальна диаграмма классов ВКР.
+Пока диаграммы добавлены сюда для примера рисования UML средствами Tikz. Приложение недопридумано, недоделано и недооформлено. }
+
+
+%Все UML-либы не очень. 
+%Везде всё не верно, я разрабам даже 25 бы не поставил по СРСППО (или ТРПО). Придется делать все самому.
+
+\def\baselinestretch{1}
+
+\def\umlDebug{}
+	
+%#1 Tikz Опции
+%#2 стереотип
+%#3 имя нода 
+%#4 имя класса
+%#5 атрибуты
+%#6 методы
+\NewDocumentCommand{\class}{O{}d<>mD(){clstmp}mm}{
+	\node[class,
+	#1] 
+	(#4)
+	{%   
+		\centering%
+		\IfNoValueF{#2}{\textit{#2}\\}%
+		\textbf{#3}%
+		\par	%		
+		%
+		\IfBlankF{#5}{%
+			\nodepart{two}%
+			#5%
+		}%
+		\IfBlankF{#6}{%
+			\nodepart{three}%
+			#6%
+		}%
+	};
+	\ifdefined\umlDebug%
+	\draw[red] (#4.north east) node[font=\fontsize{8pt}{5pt}\selectfont, inner sep=0pt, outer sep=1pt, above left] {#4};%
+	\fi
+}
+
+%рисует линию со ступенькой
+%создает координаты a и b  на начало и конец
+%1 - свойства линии Tikz
+%2 - начало
+%3 - конец
+%4 - горизонтальное расстояние от начала до ступеньки
+\NewDocumentCommand{\steplineH}{O{}mmm}{
+	\draw [#1] (#2)coordinate (a) -- ++(#4,0)  |- (#3) coordinate(b);
+}
+
+%Аналог для вертикальной линии
+\NewDocumentCommand{\steplineV}{O{}mmm}{
+	\draw [#1] (#2)coordinate (a) -- ++(0,#4)  -| (#3) coordinate(b);
+}
+
+\tikzset{
+	own/.tip={Circle[]},
+	base/.tip={Triangle[open,scale width=1,scale length=1,scale=2]},
+	agr/.tip={Diamond[open,scale=2.5]},
+	comp/.tip={Diamond[scale=2.5]},
+	nav/.tip={Straight Barb[scale length=1, scale width=1,scale=1.6]_[sep=-0.1pt]},
+	oagr/.tip={.agr[]own[]},
+	ocomp/.tip={comp[]own[]},
+	onav/.tip={nav[]own[]},
+	ocompnav/.tip={nav[]ocomp[]},
+	oagrnav/.tip={nav[]oagr},
+	compnav/.tip={nav[]comp[]},
+	agrnav/.tip={nav[].agr[]},
+	lnk/.style={
+		align=center, 
+		font=\fontsize{8pt}{10pt}\selectfont,
+		inner sep=1.3ex,
+	},
+	class/.style={
+		font=\fontsize{10pt}{12pt}\selectfont,
+		rectangle split, 
+		rectangle split parts=3, 
+		rectangle split ignore empty parts,
+		draw,
+		text width=3cm,
+		rectangle split part align={left, left, left}
+	},
+}
+
+
+
+
+
+
+\centering
+
+
+\begin{tikzpicture}
+	
+	%Класс документ
+	\class[]{\itshape Документ}(cDoc){}{}
+	
+	%класс Элемент
+	\class[right = 4cm of  cDoc.north east, text depth = 3cm, below right]{\itshape Элемент}(cEl){}{}
+	
+	%Наследование Элемент - Документ
+	\draw[base-] (cEl.west) ++(0,-0.5) -| (cDoc.south);
+	
+	%Класс Комплект документов
+	\class[above = of cDoc, text width = 4cm]{\itshape КомплектДокументов}(cDocPack){}{}
+	
+	%Агрегация Комплект-документ
+	\steplineH[agr-onav]{cDocPack.west}{cDoc.west}{-1.5cm}
+	\draw (a)
+	node[lnk, above left, align=right]{+комплект}
+	node[lnk, below left, align=right]{*};
+	\draw (b)
+	node[lnk, above left, align=right]{+документ}
+	node[lnk, below left, align=right]{*};
+	
+	
+	
+	%Наследовние Элемент - Комплект
+	\draw[base-] (cEl.north west) ++ (1,0) |- (cDocPack);
+	
+	
+	%Композиция Документ-Элемент
+	\draw (cDoc.east) coordinate (a)  [compnav-onav]-- (a -| cEl.west) coordinate (b);	
+	\draw (a) 
+	node[lnk, above right, align=left] {\{union, readOnly,\\subsets базовый\}\\+/документ}
+	node[lnk, below right] {\quad 1}; 
+	\draw (b)
+	node[lnk, below left, align=right] {\{union, readOnly,\\subsets вложенный\}\\+/элемент} 
+	node[lnk, above left] {0..*\quad}; 
+
+	
+	%Композиция Элемент-элемент
+	\steplineH[ocompnav-onav]{$(cEl.east)+(0,1)$}{$(cEl.east)-(0,1)$}{2.5cm}
+	\draw (a) 
+	node[lnk, above right,align=left] {\{union, readOnly\}\\+/базовый} 
+	node[lnk, below right,align=left] {\quad 0..1};	
+	\draw (b)
+	node[lnk, above right,align=left] {\{union, readOnly\}\\+/вложенный} 
+	node[lnk, below right,align=left] {\quad *};
+	
+	%класс Ссылка
+	\class[below = 2cm of cDoc.south east, below left]
+ 	{\itshape Ссылка}(cLink){}{};
+ 	
+ 	%Наследование Элемент--Ссылка
+ 	\draw[-base] (cLink.east)  coordinate (a) -- (a -| cEl.west);
+ 	
+ 	%Связь Ссылка - Элемент
+ 	\steplineV[-onav]{cLink.south}{$(cEl.south)-(1,0)$}{-1.5cm};
+ 	\draw (a) node[lnk, below right, align=left] {\{union, readOnly\}\\+/источник}
+ 		      node[lnk, below left, align=left] {*}
+ 		  (b) node[lnk, below left, align=right] {\{union, readOnly\}\\+/цель}
+ 		  	  node[lnk, below right, align=right] {0..1};
+			
+\end{tikzpicture}
+
+
+\vspace{2cm}
+
+
+\begin{tikzpicture}
+
+
+	%класс документ
+	\class[]{\itshape Документ}(cDoc){}{}
+	
+	%класс ПростойДокумент
+	\class[text width=5cm, below = of cDoc]{\itshape ПростойДокумент}(cSDoc){}{}
+	
+	%наследование Документ-ПростойДокумент
+	\draw [base-] (cDoc) -- (cSDoc);
+	
+\end{tikzpicture}
+
+\vspace{2cm}
+
+\begin{tikzpicture}
+	
+	%класс СтруктурированныйДокумент
+	\class[text width=5cm]{\itshape СтруктурированныйДокумент}(cSDoc){}{}
+	
+	%класс Документ
+	\class[above = of cSDoc]{\itshape Документ}(cDoc){}{}
+	
+	%Наследование Документ-СтруктурированныйДоукмент
+	\draw[-base] (cSDoc) -- (cDoc);
+	
+	%Класс Часть
+	\class[right = 4cm of cSDoc.north east, below right, text depth=3cm]{\itshape Часть}(cPart){}{}
+	
+	%Класс Элемент
+	\class[above = of cPart]{\itshape Элемент}(cEl){}{}
+	
+	%Наследование Элемент - Часть
+	\draw [base-] (cEl) -- (cPart);
+	
+	%композиция Часть-Часть
+	\steplineH[ocompnav-onav]{$(cPart.east)+(0,1)$}{$(cPart.east)-(0,1)$}{2}
+	\draw (a)
+	node[lnk,above right, align=left] {\{union, readOnly\}\\+/контекст}
+	node[lnk,below right] {\quad 0..1}
+	(b)
+	node[lnk,above right, align=left] {\{union, readOnly\}\\+/подчасть}
+	node[lnk,below right] {\quad *};
+	
+	%Композиция СтруктурированныйДокумент - Часть
+	\draw[ocompnav-onav](cSDoc.east) coordinate (a) -- (a -| cPart.west)
+	node [lnk, pos=0, above right, align=left] {\{union, readOnly,\\subsets документ\}\\+/стрДокумент}
+	node [lnk, pos=0, below right, align=left] {\quad 1}
+	node [lnk, pos=1, below left, align=right] {\{union, readOnly,\\subsets элемент\}\\+/часть}
+	node [lnk, pos=1, above left, align=left] {1..*\quad}; 
+	
+	
+	
+\end{tikzpicture}
+
+
+
+
+
+
+%=======================================================
+%Архив, исходные варианты невошедших диаграмм.
+%=======================================================
+\if0
+
+
+\begin{tikzpicture}
+	
+	\class[text width=6cm]
+	{\itshape ТекстовыйДокумент\\}(clsTxt)
+	{+наименование:строка\vspace*{3cm}}{}
+	
+	\class[%
+	below = 3cm of clsTxt,
+	text width=6cm
+	]
+	{\itshape Часть}(clsPart)
+	{}{}
+	
+	\draw [{comp[]nav[]}-onav] (clsTxt) -- (clsPart) 
+	node[lnk, pos=0, align=left, below right] {\{union\}\\+документ}
+	node[lnk, pos=1, above right,lnk,align=left] {\{union\}\\+/часть[1..*]};
+	
+	
+	\class[right = 5cm of clsTxt.north east, below right]%
+	{\textit{Автор}}(clsAuthor)
+	{}{}	
+	
+	
+	\draw[onav-onav] (clsAuthor) -- (clsAuthor.180 -| clsTxt.0)
+	node[lnk, above left, pos=0] {\{union\}\\+/автор}
+	node[lnk, below left, pos=0] {[1..*]}
+	node[lnk, above right, pos=1] {\{union\}\\+/документ}
+	node[lnk, below right, pos=1] {[0..*]};
+	
+	\class[below = 2cm of clsAuthor.south west, below right]%
+	{\textit{Куратор}}(clsController)
+	{}{}
+	
+	\draw[onav-onav] (clsController) -- (clsController.180 -| clsTxt.0)
+	node[lnk, above left, pos=0] {\{union\}\\+/куратор}
+	node[lnk, below left, pos=0] {[1..*]}
+	node[lnk, above right, pos=1] {\{union\}\\+/документ}
+	node[lnk, below right, pos=1] {[0..*]};
+	
+	\draw ($(clsPart.south)-(1,0)$) 
+	node[lnk, below left, align=right] {\{union\}\\+/часть} [compnav-] -- 
+	++(0,-1)  
+	[-onav] -|  
+	($(clsPart.south)+(1,0)$) 
+	node[lnk, below right, align=left] {\{union\}\\+/подчасть[0..*]};
+	
+	\class[right = 2cm of clsPart.north east, text width = 5cm, below right]
+	{\itshape ИменноваяЧасть}(clsNamedPart)
+	{+наименование:строка}{}
+	
+	\draw [base-] (clsPart) -- ( clsPart.0 -| clsNamedPart.180);
+	
+\end{tikzpicture}
+
+\newpage
+
+
+
+
+\begin{tikzpicture}
+	
+	\class[text width=3cm]{\itshape Документ}(cDoc){}{}
+	
+	\class[right = 4cm of  cDoc.north east, text depth = 3cm, below right]{\itshape Элемент}(cEl){}{}
+	
+	\draw (cDoc.east) coordinate (a)  [compnav-onav]-- (a -| cEl.west) coordinate (b);	
+	\draw (a) 
+	node[lnk, above right] {\{union\}\\{+/документ}} 
+	node[lnk, below right] {\quad[1]};	
+	\draw (b)
+	node[lnk, below left] {\{union\}\\{+/элемент}} 
+	node[lnk, above left] {[0..*]\quad};
+	
+	\draw[ocompnav-onav] ($(cEl.east)+(0,1)$) coordinate (a)  -- +(2.5cm,0) |- ($(cEl.east)-(0,1)$) coordinate (b) ;	
+	\draw (a) 
+	node[lnk, above right,align=left] {\{union\}\\+/базовый} 
+	node[lnk, below right,align=left] {\quad[1]};	
+	\draw (b)
+	node[lnk, above right,align=left] {\{union\}\\+/вложенный} 
+	node[lnk, below right,align=left] {\quad[0..*]};
+	
+	\class[text width=6cm, below = 5cm of cDoc]{\itshape СтруктурированныйДокумент\strut}(cStrDoc){}{}
+	
+	\class[text width=3cm, text depth = 4.5cm, right = 5cm of cStrDoc.north east, below right]{\itshape \strut Часть}(cPart){}{}
+	
+	\draw ([xshift=1.2cm]cEl.south) coordinate (a) [base-]-- (a |- cPart.north);
+	
+	\draw (cDoc.south) coordinate (a) [base-]-- (a |- cStrDoc.north) coordinate (b);
+	
+	\draw (cStrDoc.east) coordinate (a) [compnav-onav]-- (a -| cPart.west) coordinate (b);
+	\draw (a) 
+	node[lnk, above right] {\{subsets документ\}\\{+/стр.документ}} 
+	node[lnk, below right] {\quad[1]};	
+	\draw (b)
+	node[lnk, below left] {\{subsets элемент\}\\{+/часть}} 
+	node[lnk, above left] {[0..*]\quad};
+	
+	\draw [onav-ocompnav] ($(cPart.south west)+(0,0.5cm)$) coordinate(a) -- ++(-4cm,0) |- ($(cPart.south west)+(0,2.5cm)$) coordinate(b);
+	\draw (a) 
+	node[lnk, above left,align=right] {\{union, subsets вложенный\}\\+/подчасть} 
+	node[lnk, below left,align=right] {[0..*]\quad};	
+	\draw (b)
+	node[lnk, above left,align=right] {\{union, subsets базовый\}\\+/часть} 
+	node[lnk, below left,align=right] {[1]\quad};
+	
+	%\class [right = 2cm of cEl.west]{Ссылка}
+	
+	
+	
+\end{tikzpicture} 
+
+\fi
+
+
+\endgroup
+	

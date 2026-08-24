@@ -2,7 +2,7 @@
 
 \begingroup
 
-\textit{Скоро тут будет концептуальна диаграмма классов ВКР.
+\textit{Скоро тут будет концептуальная диаграмма классов ВКР.
 Пока диаграммы добавлены сюда для примера рисования UML средствами Tikz. Приложение недопридумано, недоделано и недооформлено. }
 
 
@@ -25,8 +25,8 @@
 	(#4)
 	{%   
 		\centering%
-		\IfNoValueF{#2}{\textit{#2}\\}%
-		\textbf{#3}%
+		\IfNoValueF{#2}{\textit{\phantom{рб}#2}\\}%
+		\textbf{\strut#3}%
 		\par	%		
 		%
 		\IfBlankF{#5}{%
@@ -83,7 +83,8 @@
 		rectangle split ignore empty parts,
 		draw,
 		text width=3cm,
-		rectangle split part align={left, left, left}
+		rectangle split part align={left, left, left},
+		inner sep=2pt,
 	},
 }
 
@@ -160,7 +161,7 @@
 \end{tikzpicture}
 
 
-\vspace{2cm}
+\vspace{1cm}\rule{\linewidth}{1pt}\vspace{1cm}
 
 
 \begin{tikzpicture}
@@ -175,9 +176,45 @@
 	%наследование Документ-ПростойДокумент
 	\draw [base-] (cDoc) -- (cSDoc);
 	
+	%Класс СодержательныйЭлемент
+	\class[right = 4cm of cSDoc.north east, below right, text width=4cm ] {\itshape СодержательныйЭлемент}(cContEl){}{}
+	
+	%Класс Элемент
+	\class[above = of cContEl] {\itshape Элемент}(cEl){}{}
+	
+	%наследование Элемент-Сод.Элемент
+	\draw [base-] (cEl) -- (cContEl);
+	
+	%Композиция ПростойДокумент-Содэлемент	
+	\draw[comp-onav] (cSDoc) -- (cContEl)
+	node [lnk, pos=0, align=left, above right] {\{unon, readOnly,\\subsets документ\}\\+/простойДокумент}
+	node [lnk, pos=0, align=left, below right] {\quad 1}
+	node [lnk, pos=1, align=right, below left] {\{unon, readOnly,\\subsets элемент\}\\+/содЭлемент}
+	node [lnk, pos=1, align=right, above left] {*\quad};
+	
+	
+	
 \end{tikzpicture}
 
-\vspace{2cm}
+\vspace{1cm}\rule{\linewidth}{1pt}\vspace{1cm}
+
+\begin{tikzpicture}
+	
+	%Класс СодержательныйЭлемент
+%	\class[right = 4cm of cSDoc.north east, below right, text width=4cm ] {\itshape СодержательныйЭлемент}(cContEl){}{}
+
+	\node[matrix, column sep=0.2cm]
+	{
+		\class {БлокТекста} (сText){}{} \\
+		\class {БлокРисунка} (сPic){}{} \\
+		\class {БлокКода} (сText){}{}   \\
+		\class {БлокТаблицы} (сText){}{} \\
+		\class {КомбоБлок} (сText){}{}   \\
+	};
+	
+\end{tikzpicture}
+
+\vspace{1cm}\rule{\linewidth}{1pt}\vspace{1cm}
 
 \begin{tikzpicture}
 	
@@ -218,6 +255,9 @@
 	
 	
 \end{tikzpicture}
+
+
+
 
 
 

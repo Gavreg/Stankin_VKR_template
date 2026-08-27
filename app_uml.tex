@@ -78,12 +78,15 @@
 	},
 	class/.style={
 		font=\fontsize{10pt}{12pt}\selectfont,
+		every two node part/.style={font=\fontsize{8pt}{10pt}\selectfont},
+		every three node part/.style={font=\fontsize{8pt}{10pt}\selectfont},
 		rectangle split, 
 		rectangle split parts=3, 
 		rectangle split ignore empty parts,
 		draw,
-		text width=3cm,
-		rectangle split part align={left, left, left},
+		%text width=3cm,
+		minimum width=3cm,
+		rectangle split part align={center, left, left},
 		inner sep=2pt,
 	},
 }
@@ -99,16 +102,27 @@
 \begin{tikzpicture}
 	
 	%Класс документ
-	\class[]{\itshape Документ}(cDoc){}{}
+	\class[]{\itshape Документ}(cDoc){\null}{}
 	
 	%класс Элемент
-	\class[right = 4cm of  cDoc.north east, text depth = 3cm, below right]{\itshape Элемент}(cEl){}{}
+	\class[right = 4cm of  cDoc.north east, below right, yshift=3cm]{\itshape Элемент}(cEl){\rule{0pt}{3cm}}{}
 	
-	%Наследование Элемент - Документ
-	\draw[base-] (cEl.west) ++(0,-0.5) -| (cDoc.south);
-	
+
 	%Класс Комплект документов
-	\class[above = of cDoc, text width = 4cm]{\itshape КомплектДокументов}(cDocPack){}{}
+	\class[above = 2cm of cDoc, text width = 4cm]{\itshape КомплектДокументов}(cDocPack){\null}{}
+	
+	%класс Ссылка
+	\class[below = 2cm of cDoc.south east, below left]
+	{\itshape Ссылка}(cLink){\null}{};
+
+	%Наследование Элемент - Документ
+	\draw[base-] (cEl.text west) ++(0,-1.5) -| (cDoc.north);
+	
+	%Наследовние Элемент - Комплект
+	\steplineV[base-]{cEl.north}{cDocPack.north}{1cm}
+	
+	%Наследование Элемент--Ссылка
+	\steplineV[-base]{cLink.north}{cEl.south}{0.7cm}
 	
 	%Агрегация Комплект-документ
 	\steplineH[agr-onav]{cDocPack.west}{cDoc.west}{-1.5cm}
@@ -118,13 +132,7 @@
 	\draw (b)
 	node[lnk, above left, align=right]{+документ}
 	node[lnk, below left, align=right]{*};
-	
-	
-	
-	%Наследовние Элемент - Комплект
-	\draw[base-] (cEl.north west) ++ (1,0) |- (cDocPack);
-	
-	
+		
 	%Композиция Документ-Элемент
 	\draw (cDoc.east) coordinate (a)  [compnav-onav]-- (a -| cEl.west) coordinate (b);	
 	\draw (a) 
@@ -144,19 +152,17 @@
 	node[lnk, above right,align=left] {\{union, readOnly\}\\+/вложенный} 
 	node[lnk, below right,align=left] {\quad *};
 	
-	%класс Ссылка
-	\class[below = 2cm of cDoc.south east, below left]
- 	{\itshape Ссылка}(cLink){}{};
- 	
- 	%Наследование Элемент--Ссылка
- 	\draw[-base] (cLink.east)  coordinate (a) -- (a -| cEl.west);
- 	
  	%Связь Ссылка - Элемент
- 	\steplineV[-onav]{cLink.south}{$(cEl.south)-(1,0)$}{-1.5cm};
- 	\draw (a) node[lnk, below right, align=left] {\{union, readOnly\}\\+/источник}
- 		      node[lnk, below left, align=left] {*}
- 		  (b) node[lnk, below left, align=right] {\{union, readOnly\}\\+/цель}
- 		  	  node[lnk, below right, align=right] {0..1};
+ 	\steplineV[-onav]{cLink.south}{$(cEl.south)+(1,0)$}{-1.5cm};
+ 	\draw 
+ 	(a) 
+ 	node[lnk, below right, align=left] 
+ 	  {\{union, readOnly\}\\+/источник}
+ 	node[lnk, below left, align=left] {*}
+ 	(b) 
+ 	node[lnk, below right, align=left] 
+ 	  {\{union, readOnly\}\\+/цель}
+ 	node[lnk, below left, align=right] {0..1};
 			
 \end{tikzpicture}
 
@@ -171,13 +177,13 @@
 	\class[]{\itshape Документ}(cDoc){}{}
 	
 	%класс ПростойДокумент
-	\class[text width=5cm, below = of cDoc]{\itshape ПростойДокумент}(cSDoc){}{}
+	\class[text width=5cm, below = of cDoc]{\itshape ПростойДокумент}(cSDoc){\null}{}
 	
 	%наследование Документ-ПростойДокумент
 	\draw [base-] (cDoc) -- (cSDoc);
 	
 	%Класс СодержательныйЭлемент
-	\class[right = 4cm of cSDoc.north east, below right, text width=4cm ] {\itshape СодержательныйЭлемент}(cContEl){}{}
+	\class[right = 4cm of cSDoc.north east, below right, text width=4cm ] {\itshape Фрагмент}(cContEl){\null}{}
 	
 	%Класс Элемент
 	\class[above = of cContEl] {\itshape Элемент}(cEl){}{}
@@ -203,16 +209,80 @@
 	%Класс СодержательныйЭлемент
 %	\class[right = 4cm of cSDoc.north east, below right, text width=4cm ] {\itshape СодержательныйЭлемент}(cContEl){}{}
 
-	\node[matrix, column sep=0.2cm]
+	\node[matrix, column sep=0.2cm] (Frags)
 	{
-		\class {БлокТекста} (сText){}{} \\
-		\class {БлокРисунка} (сPic){}{} \\
-		\class {БлокКода} (сText){}{}   \\
-		\class {БлокТаблицы} (сText){}{} \\
-		\class {КомбоБлок} (сText){}{}   \\
+		\class {Текст} (cA){}{} \\
+		\class {Рисунок} (cB){}{} \\
+		\class {Листинг} (cC){}{}   \\
+		\class {Таблца} (cD){}{} \\
+		\class {КомбоБлок} (cE){}{}   \\
 	};
 	
+	\class [left = 2cm of Frags.west]{Фрагмент}(cFrag){}{}
+	
+	\draw [base-] (cFrag.east) -- ++(1,0) coordinate (a);
+	\draw 
+	(a) |- (cA.west)
+	(a) |- (cB.west)
+	(a) |- (cC.west)
+	(a) |- (cD.west)
+	(a) |- (cE.west);
+	
 \end{tikzpicture}
+
+\vspace{1cm}\rule{\linewidth}{1pt}\vspace{1cm}
+
+\begin{tikzpicture}
+	%класс рисунок
+	\class{Рисунок}(cPic){\rule{0pt}{4cm}}{}
+	
+	%класс изображение
+	\class[right = 5cm of cPic.north east, below right]{Текст}(cText){+содержание:строка}{}
+	
+	%класс текст
+	\class[below = 3cm of cText.south west, below right]{Изображение}(cImg){+uri:строка}{}
+	
+	%Класс фрагмент
+	\class[above = of $(cPic.north)!0.5!(cText.north)$]{\itshape Фрагмент}(cFrag){}{}
+	
+	%Наследования Фрагмент-Рисунок, Фрагмент - Текст
+	\draw[base-] (cFrag) -| (cPic);
+	\draw[base-] (cFrag) -| (cText);
+	
+	
+	%класс Элемент
+	\class[above= of cImg]{\itshape Элемент}(cEl){}{}
+	
+	%наследование Элемент - Изображение
+	\draw[base-] (cEl) -- (cImg);
+	
+	%Композиция Рисунок-Текст	
+	\draw [onav-comp] (cText.west) coordinate(a) -- (a -| cPic.east)
+	node[lnk,pos=0, above left, align=right] {\{subsets вложенный\}\\+подпись}
+	node[lnk,pos=0, below left, align=right] {1\quad }
+	node[lnk,pos=1, below right, align=left] {\{subsets базовый\}\\+рисунок}
+	node[lnk,pos=1, above right, align=left] {\quad 1};
+	
+	%Композиция Рисунок-Изображение	
+	\draw [onav-comp] (cImg.west) coordinate(a) -- (a -| cPic.east)
+	node[lnk,pos=0, above left, align=right] {\{subsets вложенный\}\\+изображение}
+	node[lnk,pos=0, below left, align=right] {1\quad }
+	node[lnk,pos=1, below right, align=left] {\{subsets базовый\}\\+рисунок}
+	node[lnk,pos=1, above right, align=left] {\quad 1};
+	
+\end{tikzpicture}
+
+\vspace{1cm}\rule{\linewidth}{1pt}\vspace{1cm}
+
+\vspace{1cm}\rule{\linewidth}{1pt}\vspace{1cm}
+
+\vspace{1cm}\rule{\linewidth}{1pt}\vspace{1cm}
+
+\vspace{1cm}\rule{\linewidth}{1pt}\vspace{1cm}
+
+\vspace{1cm}\rule{\linewidth}{1pt}\vspace{1cm}
+
+\vspace{1cm}\rule{\linewidth}{1pt}\vspace{1cm}
 
 \vspace{1cm}\rule{\linewidth}{1pt}\vspace{1cm}
 
@@ -257,6 +327,27 @@
 \end{tikzpicture}
 
 
+\tikzset{
+	algobase/.style={draw, align=center, minimum width=2cm},
+	act/.style={algobase},
+	io/.style={algobase, trapezium, trapezium left angle=60, trapezium right angle=-60},
+	if/.style={algobase, shape=diamond, aspect=2 },
+	loop/.style={algobase, chamfered rectangle, chamfered rectangle xsep=999pt},
+	term/.style={algobase, shape=ellipse},
+}
+
+
+\begin{tikzpicture}
+	\draw (0,0) node[term] {Начало};
+	
+	\draw (0,-2) node[if] {a>b?};
+	
+	\draw (0, -4) node[io] {Ввод a};
+	
+	\draw (0, -6) node[loop] {for i=0 to 10};
+	
+	\draw (0, -8) node[act] {a=sqrt(4)};
+\end{tikzpicture}
 
 
 

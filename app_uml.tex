@@ -20,7 +20,11 @@
 %#5 атрибуты
 %#6 методы
 \NewDocumentCommand{\class}{O{}d<>mD(){clstmp}mm}{
-	\node[class,
+%	\newcounter{gvr@parts}
+%	\setcounter{gvr@parts}{1}
+%	\IfBlankT{#5}{\stepcounter{gvr@parts}}%
+%	\IfBlankT{#6}{\stepcounter{gvr@parts}}%
+	\node[class, 
 	#1] 
 	(#4)
 	{%   
@@ -88,7 +92,17 @@
 		minimum width=3cm,
 		rectangle split part align={center, left, left},
 		inner sep=2pt,
+		alias=lastclass,
 	},
+	ref/.style={
+		font=\fontsize{8pt}{10pt}\selectfont,
+		blue,
+		align=right,
+		anchor=north east,
+		at=(lastclass.south east),
+		inner sep=2pt,
+		outer sep=0pt,
+	}
 }
 
 
@@ -98,22 +112,22 @@
 
 \centering
 
-
+\begin{figure}[H]	
 \begin{tikzpicture}
 	
 	%Класс документ
-	\class[]{\itshape Документ}(cDoc){\null}{}
+	\class[]{\itshape Документ}(cDoc){\hspace*{1ex}}{}
 	
 	%класс Элемент
-	\class[right = 4cm of  cDoc.north east, below right, yshift=3cm]{\itshape Элемент}(cEl){\rule{0pt}{3cm}}{}
+	\class[right = 4cm of  cDoc.north east, below right, yshift=3cm]{\itshape Элемент\label{tikz:el}}(cEl){\rule{0pt}{3cm}}{}
 	
 
 	%Класс Комплект документов
-	\class[above = 2cm of cDoc, text width = 4cm]{\itshape КомплектДокументов}(cDocPack){\null}{}
+	\class[above = 2cm of cDoc, text width = 4cm]{\itshape КомплектДокументов}(cDocPack){\hspace*{1ex}}{}
 	
 	%класс Ссылка
 	\class[below = 2cm of cDoc.south east, below left]
-	{\itshape Ссылка}(cLink){\null}{};
+	{\itshape Ссылка}(cLink){\hspace*{1ex}}{};
 
 	%Наследование Элемент - Документ
 	\draw[base-] (cEl.text west) ++(0,-1.5) -| (cDoc.north);
@@ -165,28 +179,30 @@
  	node[lnk, below left, align=right] {0..1};
 			
 \end{tikzpicture}
-
+\caption{Коренвая диаграмма}\label{fig:UMLroot}
+\end{figure}
 
 \vspace{1cm}\rule{\linewidth}{1pt}\vspace{1cm}
 
-
+\begin{figure}[H]
+\centering%
 \begin{tikzpicture}
-
-
 	%класс документ
 	\class[]{\itshape Документ}(cDoc){}{}
+	\draw node[ref] {Рис. \ref{fig:UMLroot}};
 	
 	%класс ПростойДокумент
-	\class[text width=5cm, below = of cDoc]{\itshape ПростойДокумент}(cSDoc){\null}{}
+	\class[text width=5cm, below = of cDoc]{\itshape ПростойДокумент}(cSDoc){\hspace*{1ex}}{}
 	
 	%наследование Документ-ПростойДокумент
 	\draw [base-] (cDoc) -- (cSDoc);
 	
 	%Класс СодержательныйЭлемент
-	\class[right = 4cm of cSDoc.north east, below right, text width=4cm ] {\itshape Фрагмент}(cContEl){\null}{}
+	\class[right = 4cm of cSDoc.north east, below right, text width=4cm ] {\itshape Фрагмент}(cContEl){\hspace*{1ex}}{}
 	
 	%Класс Элемент
 	\class[above = of cContEl] {\itshape Элемент}(cEl){}{}
+	\draw node[ref] {Рис. \ref{fig:UMLroot}};
 	
 	%наследование Элемент-Сод.Элемент
 	\draw [base-] (cEl) -- (cContEl);
@@ -198,17 +214,166 @@
 	node [lnk, pos=1, align=right, below left] {\{unon, readOnly,\\subsets элемент\}\\+/содЭлемент}
 	node [lnk, pos=1, align=right, above left] {*\quad};
 	
+	%класс СтруктурированныйДокумент
+	\class[below = 3cm of cSDoc]{\itshape СтруктурированныйДокумент}(cStrDoc){\hspace*{1ex}}{}
 	
+	%класс Документ
+	\class[above = of cStrDoc]{\itshape Документ}(cDoc){}{}
+	\draw node[ref] {Рис. \ref{fig:UMLroot}};
+	
+	%Наследование Документ-СтруктурированныйДоукмент
+	\draw[-base] (cStrDoc) -- (cDoc);
+	
+	%Класс Часть
+	\class[right = 4cm of cStrDoc.north east, below right]{\itshape Часть}(cPart){\rule{0pt}{3.5cm}}{}
+	
+	%Класс Элемент
+	\class[above = of cPart]{\itshape Элемент}(cEl){}{}
+	\draw node[ref] {Рис. \ref{fig:UMLroot}};
+	
+	%Наследование Элемент - Часть
+	\draw [base-] (cEl) -- (cPart);
+	
+	%композиция Часть-Часть
+	\draw[ocompnav-onav] ($(cPart.south west)+(0,1cm)$) coordinate(a) -- ++(-2,0) -- ++(0,-2) -| ($(cPart.south west)+(1,0cm)$) coordinate(b); 
+	\draw 
+	(a)
+	node[lnk,above left, align=right] {\{union, readOnly,\\subsets базовый\}\\+/контекст}
+	node[lnk,below left] {0..1\quad}
+	(b)
+	node[lnk,below right, align=left] {\{union, readOnly,\\subsets вложенный\}\\+/подчасть}
+	node[lnk,below left] {\quad *};
+	
+	%Композиция СтруктурированныйДокумент - Часть
+	\draw[ocompnav-onav](cStrDoc.east) coordinate (a) -- (a -| cPart.west)
+	node [lnk, pos=0, above right, align=left] {\{union, readOnly,\\subsets документ\}\\+/стрДокумент}
+	node [lnk, pos=0, below right, align=left] {\quad 1}
+	node [lnk, pos=1, below left, align=right] {\{union, readOnly,\\subsets элемент\}\\+/часть}
+	node [lnk, pos=1, above left, align=left] {1..*\quad}; 
+	
+	%Композиция Часть-Фрагмент	
+	\steplineH[ocompnav-onav]{cPart.east}{cContEl.east}{3cm}
+	\draw 
+		(a)
+		node[lnk, below right, align=left]{\{union, readOnly,\\subsets базовый\}\\+/часть}
+		node[lnk, above right, align=left]{\quad1}
+		(b)
+		node[lnk, above right, align=left]{\{union, readOnly,\\subsets вложенный\}\\+/содЭлемент}
+		node[lnk, below right, align=left]{\quad1..*};
 	
 \end{tikzpicture}
+\caption{Виды документов}\label{fig:UMLdoc}
+\end{figure}
 
 \vspace{1cm}\rule{\linewidth}{1pt}\vspace{1cm}
+
+
+
+\vspace{1cm}\rule{\linewidth}{1pt}\vspace{1cm}
+
+\begin{figure}[H]
+\centering%
+\begin{tikzpicture}
+	%класс рисунок
+	\class{Рисунок}(cPic){\rule{0pt}{4cm}}{}
+	
+	%класс изображение
+	\class[right = 5cm of cPic.north east, below right]{Текст}(cText){+содержание:строка}{}
+	
+	%класс текст
+	\class[below = 3cm of cText.south west, below right]{Изображение}(cImg){+uri:строка}{}
+	
+	%Класс фрагмент
+	\class[above = of $(cPic.north)!0.5!(cText.north)$]{\itshape Фрагмент}(cFrag){}{}
+	\draw node[ref] {Рис. \ref{fig:UMLdoc}};
+	
+	%Наследования Фрагмент-Рисунок, Фрагмент - Текст
+	\draw[base-] (cFrag) -| (cPic);
+	\draw[base-] (cFrag) -| (cText);
+	
+	%класс Элемент
+	\class[above= of cImg]{\itshape Элемент}(cEl){}{}
+	\draw node[ref] {Рис. \ref{fig:UMLroot}};
+	
+	%наследование Элемент - Изображение
+	\draw[base-] (cEl) -- (cImg);
+	
+	%Композиция Рисунок-Текст	
+	\draw [onav-comp] (cText.west) coordinate(a) -- (a -| cPic.east)
+	node[lnk,pos=0, above left, align=right] {\{subsets вложенный\}\\+подпись}
+	node[lnk,pos=0, below left, align=right] {1\quad }
+	node[lnk,pos=1, below right, align=left] {\{subsets базовый\}\\+рисунок}
+	node[lnk,pos=1, above right, align=left] {\quad 1};
+	
+	%Композиция Рисунок-Изображение	
+	\draw [onav-comp] (cImg.west) coordinate(a) -- (a -| cPic.east)
+	node[lnk,pos=0, above left, align=right] {\{subsets вложенный\}\\+изображение}
+	node[lnk,pos=0, below left, align=right] {1\quad }
+	node[lnk,pos=1, below right, align=left] {\{subsets базовый\}\\+рисунок}
+	node[lnk,pos=1, above right, align=left] {\quad 1};
+	
+\end{tikzpicture}
+\caption{Фрагмент <<рисунок>>}\label{fig:UMLpic}
+\end{figure}
+
+\vspace{1cm}\rule{\linewidth}{1pt}\vspace{1cm}
+
+\vspace{1cm}\rule{\linewidth}{1pt}\vspace{1cm}
+
+\vspace{1cm}\rule{\linewidth}{1pt}\vspace{1cm}
+
+\vspace{1cm}\rule{\linewidth}{1pt}\vspace{1cm}
+
+\vspace{1cm}\rule{\linewidth}{1pt}\vspace{1cm}
+
+\vspace{1cm}\rule{\linewidth}{1pt}\vspace{1cm}
+
+\vspace{1cm}\rule{\linewidth}{1pt}\vspace{1cm}
+
+
+
+Элементы для блоксхем (пока тут осталю)
+
+
+\tikzset{
+	algobase/.style={draw, align=center, minimum width=2cm},
+	act/.style={algobase},
+	io/.style={algobase, trapezium, trapezium left angle=60, trapezium right angle=-60},
+	if/.style={algobase, shape=diamond, aspect=2 },
+	loop/.style={algobase, chamfered rectangle, chamfered rectangle xsep=999pt},
+	term/.style={algobase, shape=ellipse},
+}
+
+
+\begin{tikzpicture}
+	\draw (0,0) node[term] {Начало};
+	
+	\draw (0,-2) node[if] {a>b?};
+	
+	\draw (0, -4) node[io] {Ввод a};
+	
+	\draw (0, -6) node[loop] {for i=0 to 10};
+	
+	\draw (0, -8) node[act] {a=sqrt(4)};
+\end{tikzpicture}
+
+
+
+
+
+
+
+%=======================================================
+%Архив, исходные варианты невошедших диаграмм. Жалко удалять
+%=======================================================
+\if0
+
 
 \begin{tikzpicture}
 	
 	%Класс СодержательныйЭлемент
-%	\class[right = 4cm of cSDoc.north east, below right, text width=4cm ] {\itshape СодержательныйЭлемент}(cContEl){}{}
-
+	%	\class[right = 4cm of cSDoc.north east, below right, text width=4cm ] {\itshape СодержательныйЭлемент}(cContEl){}{}
+	
 	\node[matrix, column sep=0.2cm] (Frags)
 	{
 		\class {Текст} (cA){}{} \\
@@ -229,62 +394,6 @@
 	(a) |- (cE.west);
 	
 \end{tikzpicture}
-
-\vspace{1cm}\rule{\linewidth}{1pt}\vspace{1cm}
-
-\begin{tikzpicture}
-	%класс рисунок
-	\class{Рисунок}(cPic){\rule{0pt}{4cm}}{}
-	
-	%класс изображение
-	\class[right = 5cm of cPic.north east, below right]{Текст}(cText){+содержание:строка}{}
-	
-	%класс текст
-	\class[below = 3cm of cText.south west, below right]{Изображение}(cImg){+uri:строка}{}
-	
-	%Класс фрагмент
-	\class[above = of $(cPic.north)!0.5!(cText.north)$]{\itshape Фрагмент}(cFrag){}{}
-	
-	%Наследования Фрагмент-Рисунок, Фрагмент - Текст
-	\draw[base-] (cFrag) -| (cPic);
-	\draw[base-] (cFrag) -| (cText);
-	
-	
-	%класс Элемент
-	\class[above= of cImg]{\itshape Элемент}(cEl){}{}
-	
-	%наследование Элемент - Изображение
-	\draw[base-] (cEl) -- (cImg);
-	
-	%Композиция Рисунок-Текст	
-	\draw [onav-comp] (cText.west) coordinate(a) -- (a -| cPic.east)
-	node[lnk,pos=0, above left, align=right] {\{subsets вложенный\}\\+подпись}
-	node[lnk,pos=0, below left, align=right] {1\quad }
-	node[lnk,pos=1, below right, align=left] {\{subsets базовый\}\\+рисунок}
-	node[lnk,pos=1, above right, align=left] {\quad 1};
-	
-	%Композиция Рисунок-Изображение	
-	\draw [onav-comp] (cImg.west) coordinate(a) -- (a -| cPic.east)
-	node[lnk,pos=0, above left, align=right] {\{subsets вложенный\}\\+изображение}
-	node[lnk,pos=0, below left, align=right] {1\quad }
-	node[lnk,pos=1, below right, align=left] {\{subsets базовый\}\\+рисунок}
-	node[lnk,pos=1, above right, align=left] {\quad 1};
-	
-\end{tikzpicture}
-
-\vspace{1cm}\rule{\linewidth}{1pt}\vspace{1cm}
-
-\vspace{1cm}\rule{\linewidth}{1pt}\vspace{1cm}
-
-\vspace{1cm}\rule{\linewidth}{1pt}\vspace{1cm}
-
-\vspace{1cm}\rule{\linewidth}{1pt}\vspace{1cm}
-
-\vspace{1cm}\rule{\linewidth}{1pt}\vspace{1cm}
-
-\vspace{1cm}\rule{\linewidth}{1pt}\vspace{1cm}
-
-\vspace{1cm}\rule{\linewidth}{1pt}\vspace{1cm}
 
 \begin{tikzpicture}
 	
@@ -325,41 +434,6 @@
 	
 	
 \end{tikzpicture}
-
-
-\tikzset{
-	algobase/.style={draw, align=center, minimum width=2cm},
-	act/.style={algobase},
-	io/.style={algobase, trapezium, trapezium left angle=60, trapezium right angle=-60},
-	if/.style={algobase, shape=diamond, aspect=2 },
-	loop/.style={algobase, chamfered rectangle, chamfered rectangle xsep=999pt},
-	term/.style={algobase, shape=ellipse},
-}
-
-
-\begin{tikzpicture}
-	\draw (0,0) node[term] {Начало};
-	
-	\draw (0,-2) node[if] {a>b?};
-	
-	\draw (0, -4) node[io] {Ввод a};
-	
-	\draw (0, -6) node[loop] {for i=0 to 10};
-	
-	\draw (0, -8) node[act] {a=sqrt(4)};
-\end{tikzpicture}
-
-
-
-
-
-
-
-%=======================================================
-%Архив, исходные варианты невошедших диаграмм.
-%=======================================================
-\if0
-
 
 \begin{tikzpicture}
 	

@@ -188,8 +188,8 @@
 \centering%
 \begin{tikzpicture}
 	%класс документ
-	\class[]{\itshape Документ}(cDoc){}{}
-	\draw node[ref] {Рис. \ref{fig:UMLroot}};
+%	\class[]{\itshape Документ}(cDoc){}{}
+%	\draw node[ref] {Рис. \ref{fig:UMLroot}};
 	
 	%класс ПростойДокумент
 	\class[text width=5cm, below = of cDoc]{\itshape ПростойДокумент}(cSDoc){\hspace*{1ex}}{}
@@ -198,11 +198,11 @@
 	\class[right = 4cm of cSDoc.north east, below right, text width=4cm ] {\itshape Фрагмент}(сFrag){\hspace*{1ex}}{}
 	
 	%Класс Элемент
-	\class[above = of сFrag] {\itshape Элемент}(cEl){}{}
-	\draw node[ref] {Рис. \ref{fig:UMLroot}};
+%	\class[above = of сFrag] {\itshape Элемент}(cEl){}{}
+%	\draw node[ref] {Рис. \ref{fig:UMLroot}};
 	
 	%класс СтруктурированныйДокумент
-	\class[below = 3cm of cSDoc]{\itshape СтруктурированныйДокумент}(cStrDoc){\hspace*{1ex}}{}
+	\class[below = 2.6cm of cSDoc]{\itshape СтруктурированныйДокумент}(cStrDoc){\hspace*{1ex}}{}
 	
 	%класс Документ2
 	\class[above = of cStrDoc]{\itshape Документ}(cDoc2){}{}
@@ -216,10 +216,10 @@
 	\draw node[ref] {Рис. \ref{fig:UMLroot}};
 	
 	%наследование Документ-ПростойДокумент
-	\draw [base-] (cDoc) -- (cSDoc);
+	\draw [base-] (cDoc2) -- (cSDoc);
 	
 	%наследование Элемент-Фрагмент
-	\draw [base-] (cEl) -- (сFrag);
+	\draw [base-] (cEl2) -- (cEl2 |- сFrag.south);
 	
 	%Наследование Документ2-СтруктурированныйДоукмент
 	\draw[-base] (cStrDoc) -- (cDoc2);

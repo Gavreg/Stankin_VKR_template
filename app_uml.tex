@@ -194,45 +194,45 @@
 	%класс ПростойДокумент
 	\class[text width=5cm, below = of cDoc]{\itshape ПростойДокумент}(cSDoc){\hspace*{1ex}}{}
 	
-	%наследование Документ-ПростойДокумент
-	\draw [base-] (cDoc) -- (cSDoc);
-	
-	%Класс СодержательныйЭлемент
-	\class[right = 4cm of cSDoc.north east, below right, text width=4cm ] {\itshape Фрагмент}(cContEl){\hspace*{1ex}}{}
+	%Класс Фграмент
+	\class[right = 4cm of cSDoc.north east, below right, text width=4cm ] {\itshape Фрагмент}(сFrag){\hspace*{1ex}}{}
 	
 	%Класс Элемент
-	\class[above = of cContEl] {\itshape Элемент}(cEl){}{}
+	\class[above = of сFrag] {\itshape Элемент}(cEl){}{}
 	\draw node[ref] {Рис. \ref{fig:UMLroot}};
-	
-	%наследование Элемент-Сод.Элемент
-	\draw [base-] (cEl) -- (cContEl);
-	
-	%Композиция ПростойДокумент-Содэлемент	
-	\draw[comp-onav] (cSDoc) -- (cContEl)
-	node [lnk, pos=0, align=left, above right] {\{unon, readOnly,\\subsets документ\}\\+/простойДокумент}
-	node [lnk, pos=0, align=left, below right] {\quad 1}
-	node [lnk, pos=1, align=right, below left] {\{unon, readOnly,\\subsets элемент\}\\+/содЭлемент}
-	node [lnk, pos=1, align=right, above left] {*\quad};
 	
 	%класс СтруктурированныйДокумент
 	\class[below = 3cm of cSDoc]{\itshape СтруктурированныйДокумент}(cStrDoc){\hspace*{1ex}}{}
 	
-	%класс Документ
-	\class[above = of cStrDoc]{\itshape Документ}(cDoc){}{}
+	%класс Документ2
+	\class[above = of cStrDoc]{\itshape Документ}(cDoc2){}{}
 	\draw node[ref] {Рис. \ref{fig:UMLroot}};
-	
-	%Наследование Документ-СтруктурированныйДоукмент
-	\draw[-base] (cStrDoc) -- (cDoc);
 	
 	%Класс Часть
 	\class[right = 4cm of cStrDoc.north east, below right]{\itshape Часть}(cPart){\rule{0pt}{3.5cm}}{}
 	
-	%Класс Элемент
-	\class[above = of cPart]{\itshape Элемент}(cEl){}{}
+	%Класс Элемент2
+	\class[above = of cPart]{\itshape Элемент}(cEl2){}{}
 	\draw node[ref] {Рис. \ref{fig:UMLroot}};
 	
-	%Наследование Элемент - Часть
-	\draw [base-] (cEl) -- (cPart);
+	%наследование Документ-ПростойДокумент
+	\draw [base-] (cDoc) -- (cSDoc);
+	
+	%наследование Элемент-Фрагмент
+	\draw [base-] (cEl) -- (сFrag);
+	
+	%Наследование Документ2-СтруктурированныйДоукмент
+	\draw[-base] (cStrDoc) -- (cDoc2);
+	
+	%Наследование Элемент2 - Часть
+	\draw [base-] (cEl2) -- (cPart);
+	
+	%Композиция ПростойДокумент-Фграгмент	
+	\draw[ocomp-onav] (cSDoc) -- (сFrag)
+	node [lnk, pos=0, align=left, above right] {\{unon, readOnly,\\subsets документ\}\\+/простойДокумент}
+	node [lnk, pos=0, align=left, below right] {\quad 0..1}
+	node [lnk, pos=1, align=right, below left] {\{unon, readOnly,\\subsets элемент\}\\+/содЭлемент}
+	node [lnk, pos=1, align=right, above left] {*\quad};
 	
 	%композиция Часть-Часть
 	\draw[ocompnav-onav] ($(cPart.south west)+(0,1cm)$) coordinate(a) -- ++(-2,0) -- ++(0,-2) -| ($(cPart.south west)+(1,0cm)$) coordinate(b); 
@@ -246,19 +246,19 @@
 	
 	%Композиция СтруктурированныйДокумент - Часть
 	\draw[ocompnav-onav](cStrDoc.east) coordinate (a) -- (a -| cPart.west)
-	node [lnk, pos=0, above right, align=left] {\{union, readOnly,\\subsets документ\}\\+/стрДокумент}
+	node [lnk, pos=0, above right, align=left] {\{subsets документ\}\\+стрДокумент}
 	node [lnk, pos=0, below right, align=left] {\quad 1}
-	node [lnk, pos=1, below left, align=right] {\{union, readOnly,\\subsets элемент\}\\+/часть}
+	node [lnk, pos=1, below left, align=right] {\{subsets элемент\}\\+часть}
 	node [lnk, pos=1, above left, align=left] {1..*\quad}; 
 	
 	%Композиция Часть-Фрагмент	
-	\steplineH[ocompnav-onav]{cPart.east}{cContEl.east}{3cm}
+	\steplineH[ocompnav-onav]{cPart.east}{сFrag.east}{3cm}
 	\draw 
 		(a)
-		node[lnk, below right, align=left]{\{union, readOnly,\\subsets базовый\}\\+/часть}
+		node[lnk, below right, align=left]{\{subsets базовый\}\\+часть}
 		node[lnk, above right, align=left]{\quad1}
 		(b)
-		node[lnk, above right, align=left]{\{union, readOnly,\\subsets вложенный\}\\+/содЭлемент}
+		node[lnk, above right, align=left]{\{subsets вложенный\}\\+/содЭлемент}
 		node[lnk, below right, align=left]{\quad1..*};
 	
 \end{tikzpicture}
@@ -318,9 +318,25 @@
 
 \vspace{1cm}\rule{\linewidth}{1pt}\vspace{1cm}
 
-\vspace{1cm}\rule{\linewidth}{1pt}\vspace{1cm}
+
+
+\begin{figure}
+	\begin{tikzpicture}
+		
+	\end{tikzpicture}
+	\caption{Фрагмент <<листинг>>}%
+	\label{fig:UMLlst}
+\end{figure}
 
 \vspace{1cm}\rule{\linewidth}{1pt}\vspace{1cm}
+
+\begin{figure}
+	\begin{tikzpicture}
+		
+	\end{tikzpicture}
+	\caption{Фрагмент <<таблица>>}%
+	\label{fig:UMLtable}
+\end{figure}
 
 \vspace{1cm}\rule{\linewidth}{1pt}\vspace{1cm}
 

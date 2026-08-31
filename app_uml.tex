@@ -153,7 +153,7 @@
 	node[lnk, above right, align=left] {\{union, readOnly,\\subsets базовый\}\\+/документ}
 	node[lnk, below right] {\quad 1}; 
 	\draw (b)
-	node[lnk, below left, align=right] {\{union, readOnly,\\subsets вложенный\}\\+/элемент} 
+	node[lnk, below left, align=right] {+/элемент\\\{union, readOnly,\\subsets вложенный\}} 
 	node[lnk, above left] {0..*\quad}; 
 
 	
@@ -231,7 +231,7 @@
 	\draw[ocomp-onav] (cSDoc) -- (сFrag)
 	node [lnk, pos=0, align=left, above right] {\{unon, readOnly,\\subsets документ\}\\+/простойДокумент}
 	node [lnk, pos=0, align=left, below right] {\quad 0..1}
-	node [lnk, pos=1, align=right, below left] {\{unon, readOnly,\\subsets элемент\}\\+/содЭлемент}
+	node [lnk, pos=1, align=right, below left] {+/содЭлемент\\\{unon, readOnly,\\subsets элемент\}}
 	node [lnk, pos=1, align=right, above left] {*\quad};
 	
 	%композиция Часть-Часть
@@ -241,21 +241,21 @@
 	node[lnk,above left, align=right] {\{union, readOnly,\\subsets базовый\}\\+/контекст}
 	node[lnk,below left] {0..1\quad}
 	(b)
-	node[lnk,below right, align=left] {\{union, readOnly,\\subsets вложенный\}\\+/подчасть}
+	node[lnk,below right, align=left] {+/подчасть\\\{union, readOnly,\\subsets вложенный\}}
 	node[lnk,below left] {\quad *};
 	
 	%Композиция СтруктурированныйДокумент - Часть
 	\draw[ocompnav-onav](cStrDoc.east) coordinate (a) -- (a -| cPart.west)
 	node [lnk, pos=0, above right, align=left] {\{subsets документ\}\\+стрДокумент}
 	node [lnk, pos=0, below right, align=left] {\quad 1}
-	node [lnk, pos=1, below left, align=right] {\{subsets элемент\}\\+часть}
+	node [lnk, pos=1, below left, align=right] {+часть\\\{subsets элемент\}}
 	node [lnk, pos=1, above left, align=left] {1..*\quad}; 
 	
 	%Композиция Часть-Фрагмент	
 	\steplineH[ocompnav-onav]{cPart.east}{сFrag.east}{3cm}
 	\draw 
 		(a)
-		node[lnk, below right, align=left]{\{subsets базовый\}\\+часть}
+		node[lnk, below right, align=left]{+часть\\\{subsets базовый\}}
 		node[lnk, above right, align=left]{\quad1}
 		(b)
 		node[lnk, above right, align=left]{\{subsets вложенный\}\\+/содЭлемент}
@@ -287,13 +287,13 @@
 	\class[above = of $(cPic.north)!0.5!(cText.north)$]{\itshape Фрагмент}(cFrag){}{}
 	\draw node[ref] {Рис. \ref{fig:UMLdoc}};
 	
-	%Наследования Фрагмент-Рисунок, Фрагмент - Текст
-	\draw[base-] (cFrag) -| (cPic);
-	\draw[base-] (cFrag) -| (cText);
-	
 	%класс Элемент
 	\class[above= of cImg]{\itshape Элемент}(cEl){}{}
 	\draw node[ref] {Рис. \ref{fig:UMLroot}};
+	
+	%Наследования Фрагмент-Рисунок, Фрагмент - Текст
+	\draw[base-] (cFrag) -| (cPic);
+	\draw[base-] (cFrag) -| (cText);
 	
 	%наследование Элемент - Изображение
 	\draw[base-] (cEl) -- (cImg);
@@ -302,14 +302,14 @@
 	\draw [onav-comp] (cText.west) coordinate(a) -- (a -| cPic.east)
 	node[lnk,pos=0, above left, align=right] {\{subsets вложенный\}\\+подпись}
 	node[lnk,pos=0, below left, align=right] {1\quad }
-	node[lnk,pos=1, below right, align=left] {\{subsets базовый\}\\+рисунок}
+	node[lnk,pos=1, below right, align=left] {+рисунок\\\{subsets базовый\}}
 	node[lnk,pos=1, above right, align=left] {\quad 1};
 	
 	%Композиция Рисунок-Изображение	
 	\draw [onav-comp] (cImg.west) coordinate(a) -- (a -| cPic.east)
 	node[lnk,pos=0, above left, align=right] {\{subsets вложенный\}\\+изображение}
 	node[lnk,pos=0, below left, align=right] {1\quad }
-	node[lnk,pos=1, below right, align=left] {\{subsets базовый\}\\+рисунок}
+	node[lnk,pos=1, below right, align=left] {+рисунок\\\{subsets базовый\}}
 	node[lnk,pos=1, above right, align=left] {\quad 1};
 	
 \end{tikzpicture}
@@ -317,8 +317,6 @@
 \end{figure}
 
 \vspace{1cm}\rule{\linewidth}{1pt}\vspace{1cm}
-
-
 
 \begin{figure}
 	\begin{tikzpicture}
@@ -332,6 +330,8 @@
 
 \begin{figure}
 	\begin{tikzpicture}
+		
+		
 		
 	\end{tikzpicture}
 	\caption{Фрагмент <<таблица>>}%

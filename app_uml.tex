@@ -81,6 +81,7 @@
 		inner sep=1.3ex,
 	},
 	class/.style={
+		%thick,
 		font=\fontsize{10pt}{12pt}\selectfont,
 		every two node part/.style={font=\fontsize{8pt}{10pt}\selectfont},
 		every three node part/.style={font=\fontsize{8pt}{10pt}\selectfont},
@@ -340,6 +341,25 @@
 
 \vspace{1cm}\rule{\linewidth}{1pt}\vspace{1cm}
 
+\begin{figure}
+	\begin{tikzpicture}
+		
+		%Класс ВКР
+		\class[]{ВКР}(cVkr){}{}
+		
+		%Класс структурированный документ
+		\class[above = of cVkr]{Структурированный документ}(сStrDoc){}{}
+		
+		%Наследование СтрДокумент - ВКР
+		\draw [base-] (сStrDoc.south) -- (cVkr.north);
+		
+		
+		
+	\end{tikzpicture}
+	\caption{Выпускная квалификационная работа}%
+	\label{fig:UMLvkr}
+\end{figure}
+
 \vspace{1cm}\rule{\linewidth}{1pt}\vspace{1cm}
 
 \vspace{1cm}\rule{\linewidth}{1pt}\vspace{1cm}
@@ -372,6 +392,38 @@
 	
 	\draw (0, -8) node[act] {a=sqrt(4)};
 \end{tikzpicture}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -510,8 +562,7 @@
 
 
 
-\begin{tikzpicture}
-	
+\begin{tikzpicture}	
 	\class[text width=3cm]{\itshape Документ}(cDoc){}{}
 	
 	\class[right = 4cm of  cDoc.north east, text depth = 3cm, below right]{\itshape Элемент}(cEl){}{}
@@ -556,10 +607,7 @@
 	node[lnk, above left,align=right] {\{union, subsets базовый\}\\+/часть} 
 	node[lnk, below left,align=right] {[1]\quad};
 	
-	%\class [right = 2cm of cEl.west]{Ссылка}
-	
-	
-	
+	%\class [right = 2cm of cEl.west]{Ссылка}	
 \end{tikzpicture} 
 
 \fi

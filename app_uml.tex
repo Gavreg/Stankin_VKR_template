@@ -1,3 +1,5 @@
+%для отладки можно собрать командой latexmk.exe -pdfxe  -interaction=nonstopmode -8bit  -synctex=1 -shell-escape  "main_uml".tex
+
 \section{UML модели}
 
 \begingroup
@@ -107,13 +109,10 @@
 }
 
 
+Корневая диаграмма (рис.~\ref{fig:UMLroot}) задаёт общий каркас модели: всё, из чего состоит документ, является элементом, а элементы вложены друг в друга, образуя дерево. Имена абстрактных классов набраны курсивом. Косая черта перед именем свойства означает, что свойство производное, то есть вычисляется, а не хранится. Модификатор \{union\} означает, что значение свойства~--- объединение значений всех свойств, объявленных его подмножествами (\{subsets\}) в классах-наследниках. Модификатор \{readOnly\} запрещает изменять свойство напрямую.
 
-
-
-
-\centering
-
-\begin{figure}[H]	
+\begin{figure}	
+\centering%
 \begin{tikzpicture}
 	
 	%Класс документ
@@ -152,7 +151,7 @@
 	\draw (cDoc.east) coordinate (a)  [compnav-onav]-- (a -| cEl.west) coordinate (b);	
 	\draw (a) 
 	node[lnk, above right, align=left] {\{union, readOnly,\\subsets базовый\}\\+/документ}
-	node[lnk, below right] {\quad 1}; 
+	node[lnk, below right] {\quad 0..1}; 
 	\draw (b)
 	node[lnk, below left, align=right] {+/элемент\\\{union, readOnly,\\subsets вложенный\}} 
 	node[lnk, above left] {0..*\quad}; 
@@ -183,9 +182,25 @@
 \caption{Коренвая диаграмма}\label{fig:UMLroot}
 \end{figure}
 
-\vspace{1cm}\rule{\linewidth}{1pt}\vspace{1cm}
+Классы диаграммы:
+\begin{itemize}
+	\item \hyperref[fig:UMLroot]{\Verb|Элемент|}~--- абстрактный корень иерархии, любая составляющая документа или сам документ;
+	\item \hyperref[fig:UMLroot]{\Verb|Документ|}~--- абстрактный документ, наследник класса \hyperref[fig:UMLroot]{\Verb|Элемент|};
+	\item \hyperref[fig:UMLroot]{\Verb|КомплектДокументов|}~--- абстрактный набор документов, наследник класса \hyperref[fig:UMLroot]{\Verb|Элемент|};
+	\item \hyperref[fig:UMLroot]{\Verb|Ссылка|}~--- абстрактный элемент, указывающий на другой элемент, наследник класса \hyperref[fig:UMLroot]{\Verb|Элемент|}.
+\end{itemize}
 
-\begin{figure}[H]
+Связи между классами:
+\begin{itemize}
+	\item композиция \hyperref[fig:UMLroot]{\Verb|Элемент|}~\tikz[scale=0.5, baseline=-0.5ex]{\draw[ocompnav-onav] (0,0) -- (4,0);}~\hyperref[fig:UMLroot]{\Verb|Элемент|} задаёт дерево вложенности: у элемента не более одного базового (\textit{+/базовый}, 0..1) и произвольное число вложенных (\textit{+/вложенный}, *) элементов. Оба конца \{union, readOnly\}: сами по себе они значений не хранят и наполняются более частными связями наследников;
+	\item композиция \hyperref[fig:UMLroot]{\Verb|Документ|}~\tikz[scale=0.5, baseline=-0.5ex]{\draw[compnav-onav] (0,0) -- (4,0);}~\hyperref[fig:UMLroot]{\Verb|Элемент|} связывает документ с его непосредственным содержимым: \textit{+/элемент} (0..*, \{union, readOnly, subsets вложенный\}) и \textit{+/документ} (0..1, \{union, readOnly, subsets базовый\}). Кратность 0..1 у документа нужна потому, что не каждый элемент лежит прямо в документе, а сам документ ни в какой документ не входит;
+	\item агрегация \hyperref[fig:UMLroot]{\Verb|КомплектДокументов|}~\tikz[scale=0.5, baseline=-0.5ex]{\draw[agr-onav] (0,0) -- (4,0);}~\hyperref[fig:UMLroot]{\Verb|Документ|}: комплект включает произвольное число документов (\textit{+документ}, *), документ может входить в произвольное число комплектов (\textit{+комплект}, *). Это агрегация, а не композиция: документ существует независимо от комплекта;
+	\item ассоциация \hyperref[fig:UMLroot]{\Verb|Ссылка|}~\tikz[scale=0.5, baseline=-0.5ex]{\draw[-onav] (0,0) -- (4,0);}~\hyperref[fig:UMLroot]{\Verb|Элемент|}: ссылка указывает не более чем на один элемент (\textit{+/цель}, 0..1, \{union, readOnly\}), на элемент может указывать произвольное число ссылок (\textit{+/источник}, *, \{union, readOnly\}). Навигация возможна только от ссылки к элементу.
+\end{itemize}
+
+Диаграмма видов документов (рис.~\ref{fig:UMLdoc}) уточняет корневую: в ней два вида документов и два вида элементов, а связи между ними являются подмножествами связей \hyperref[fig:UMLroot]{\Verb|Документ|}~\tikz[scale=0.5, baseline=-0.5ex]{\draw[compnav-onav] (0,0) -- (4,0);}~\hyperref[fig:UMLroot]{\Verb|Элемент|} и \hyperref[fig:UMLroot]{\Verb|Элемент|}~\tikz[scale=0.5, baseline=-0.5ex]{\draw[ocompnav-onav] (0,0) -- (4,0);}~\hyperref[fig:UMLroot]{\Verb|Элемент|}.
+
+\begin{figure}
 \centering%
 \begin{tikzpicture}
 	%класс документ
@@ -248,7 +263,7 @@
 	%Композиция СтруктурированныйДокумент - Часть
 	\draw[ocompnav-onav](cStrDoc.east) coordinate (a) -- (a -| cPart.west)
 	node [lnk, pos=0, above right, align=left] {\{subsets документ\}\\+стрДокумент}
-	node [lnk, pos=0, below right, align=left] {\quad 1}
+	node [lnk, pos=0, below right, align=left] {\quad 0..1}
 	node [lnk, pos=1, below left, align=right] {+часть\\\{subsets элемент\}}
 	node [lnk, pos=1, above left, align=left] {1..*\quad}; 
 	
@@ -257,22 +272,34 @@
 	\draw 
 		(a)
 		node[lnk, below right, align=left]{+часть\\\{subsets базовый\}}
-		node[lnk, above right, align=left]{\quad1}
+		node[lnk, above right, align=left]{\quad0..1}
 		(b)
 		node[lnk, above right, align=left]{\{subsets вложенный\}\\+/содЭлемент}
-		node[lnk, below right, align=left]{\quad1..*};
+		node[lnk, below right, align=left]{\quad*};
 	
 \end{tikzpicture}
 \caption{Виды документов}\label{fig:UMLdoc}
 \end{figure}
 
-\vspace{1cm}\rule{\linewidth}{1pt}\vspace{1cm}
+Классы диаграммы:
+\begin{itemize}
+	\item \hyperref[fig:UMLdoc]{\Verb|ПростойДокумент|}~--- абстрактный документ без внутренней структуры, состоящий из последовательности фрагментов, наследник класса \hyperref[fig:UMLroot]{\Verb|Документ|};
+	\item \hyperref[fig:UMLdoc]{\Verb|СтруктурированныйДокумент|}~--- абстрактный документ, разбитый на части (главы, разделы), наследник класса \hyperref[fig:UMLroot]{\Verb|Документ|};
+	\item \hyperref[fig:UMLdoc]{\Verb|Часть|}~--- абстрактный структурный элемент документа (глава, раздел, подраздел), наследник класса \hyperref[fig:UMLroot]{\Verb|Элемент|};
+	\item \hyperref[fig:UMLdoc]{\Verb|Фрагмент|}~--- абстрактный содержательный элемент (текст, рисунок, таблица и~т.\,п.), наследник класса \hyperref[fig:UMLroot]{\Verb|Элемент|}.
+\end{itemize}
 
+Связи между классами:
+\begin{itemize}
+	\item композиция \hyperref[fig:UMLdoc]{\Verb|ПростойДокумент|}~\tikz[scale=0.5, baseline=-0.5ex]{\draw[ocomp-onav] (0,0) -- (4,0);}~\hyperref[fig:UMLdoc]{\Verb|Фрагмент|}: простой документ содержит произвольное число фрагментов (\textit{+/содЭлемент}, *, \{union, readOnly, subsets элемент\}), фрагмент принадлежит не более чем одному простому документу (\textit{+/простойДокумент}, 0..1, \{union, readOnly, subsets документ\});
+	\item композиция \hyperref[fig:UMLdoc]{\Verb|СтруктурированныйДокумент|}~\tikz[scale=0.5, baseline=-0.5ex]{\draw[ocompnav-onav] (0,0) -- (4,0);}~\hyperref[fig:UMLdoc]{\Verb|Часть|}: документ содержит хотя бы одну часть верхнего уровня (\textit{+часть}, 1..*, \{subsets элемент\}). Часть непосредственно принадлежит не более чем одному документу (\textit{+стрДокумент}, 0..1, \{subsets документ\}): у вложенных частей этот конец пуст, их родитель~--- другая часть;
+	\item композиция \hyperref[fig:UMLdoc]{\Verb|Часть|}~\tikz[scale=0.5, baseline=-0.5ex]{\draw[ocompnav-onav] (0,0) -- (4,0);}~\hyperref[fig:UMLdoc]{\Verb|Часть|} задаёт вложенность частей: у части не более одной объемлющей части (\textit{+/контекст}, 0..1, \{union, readOnly, subsets базовый\}) и произвольное число подчастей (\textit{+/подчасть}, *, \{union, readOnly, subsets вложенный\});
+	\item композиция \hyperref[fig:UMLdoc]{\Verb|Часть|}~\tikz[scale=0.5, baseline=-0.5ex]{\draw[ocompnav-onav] (0,0) -- (4,0);}~\hyperref[fig:UMLdoc]{\Verb|Фрагмент|}: часть содержит произвольное число фрагментов (\textit{+/содЭлемент}, *, \{subsets вложенный\}), фрагмент лежит не более чем в одной части (\textit{+часть}, 0..1, \{subsets базовый\}). Кратность 0..1 оставляет возможность помещать фрагмент в простой документ или внутрь другого фрагмента.
+\end{itemize}
 
+Диаграмма фрагмента <<рисунок>> (рис.~\ref{fig:UMLpic}) описывает рисунок вместе с подписью.
 
-\vspace{1cm}\rule{\linewidth}{1pt}\vspace{1cm}
-
-\begin{figure}[H]
+\begin{figure}
 \centering%
 \begin{tikzpicture}
 	%класс рисунок
@@ -304,7 +331,7 @@
 	node[lnk,pos=0, above left, align=right] {\{subsets вложенный\}\\+подпись}
 	node[lnk,pos=0, below left, align=right] {1\quad }
 	node[lnk,pos=1, below right, align=left] {+рисунок\\\{subsets базовый\}}
-	node[lnk,pos=1, above right, align=left] {\quad 1};
+	node[lnk,pos=1, above right, align=left] {\quad 0..1};
 	
 	%Композиция Рисунок-Изображение	
 	\draw [onav-comp] (cImg.west) coordinate(a) -- (a -| cPic.east)
@@ -317,48 +344,483 @@
 \caption{Фрагмент <<рисунок>>}\label{fig:UMLpic}
 \end{figure}
 
-\vspace{1cm}\rule{\linewidth}{1pt}\vspace{1cm}
+Классы диаграммы:
+\begin{itemize}
+	\item \hyperref[fig:UMLpic]{\Verb|Рисунок|}~--- фрагмент, объединяющий изображение и подпись к нему, наследник класса \hyperref[fig:UMLdoc]{\Verb|Фрагмент|};
+	\item \hyperref[fig:UMLpic]{\Verb|Текст|}~--- фрагмент с текстовым содержанием (атрибут \textit{+содержание:строка}), наследник класса \hyperref[fig:UMLdoc]{\Verb|Фрагмент|};
+	\item \hyperref[fig:UMLpic]{\Verb|Изображение|}~--- графический файл (атрибут \textit{+uri:строка}~--- путь к файлу), наследник класса \hyperref[fig:UMLroot]{\Verb|Элемент|}. Изображение не является фрагментом, поэтому не может стоять в документе самостоятельно, только в составе рисунка.
+\end{itemize}
+
+Связи между классами:
+\begin{itemize}
+	\item композиция \hyperref[fig:UMLpic]{\Verb|Рисунок|}~\tikz[scale=0.5, baseline=-0.5ex]{\draw[comp-onav] (0,0) -- (4,0);}~\hyperref[fig:UMLpic]{\Verb|Текст|}: у рисунка ровно одна подпись (\textit{+подпись}, 1, \{subsets вложенный\}), текст является подписью не более чем одного рисунка (\textit{+рисунок}, 0..1, \{subsets базовый\}). Кратность 0..1 означает, что текст может и не быть подписью;
+	\item композиция \hyperref[fig:UMLpic]{\Verb|Рисунок|}~\tikz[scale=0.5, baseline=-0.5ex]{\draw[comp-onav] (0,0) -- (4,0);}~\hyperref[fig:UMLpic]{\Verb|Изображение|}: у рисунка ровно одно изображение (\textit{+изображение}, 1, \{subsets вложенный\}), изображение всегда принадлежит ровно одному рисунку (\textit{+рисунок}, 1, \{subsets базовый\}).
+\end{itemize}
+
+Диаграмма фрагмента <<листинг>> (рис.~\ref{fig:UMLlst}) описывает листинг программного кода вместе с его названием. По устройству она повторяет диаграмму рисунка: содержимое листинга вынесено в отдельный элемент, который не может стоять в документе самостоятельно.
 
 \begin{figure}
-	\begin{tikzpicture}
-		
-	\end{tikzpicture}
+\centering%
+\begin{tikzpicture}
+	%Класс Листинг
+	\class[text width=4.5cm]{Листинг}(cLst){+нумерацияСтрок:логическое\\\rule{0pt}{3.5cm}}{}
+
+	%Класс Текст
+	\class[right = 5cm of cLst.north east, below right]{Текст}(cText){}{}
+	\draw node[ref] {Рис. \ref{fig:UMLpic}};
+
+	%Класс ИсходныйКод
+	\class[below = 3cm of cText.south west, below right, text width=3.6cm]{ИсходныйКод}(cCode)
+		{+язык:строка\\+содержание:строка}{}
+
+	%Класс Фрагмент
+	\class[above = of cLst]{\itshape Фрагмент}(cFrag){}{}
+	\draw node[ref] {Рис. \ref{fig:UMLdoc}};
+
+	%Класс Элемент
+	\class[above = of cCode]{\itshape Элемент}(cEl){}{}
+	\draw node[ref] {Рис. \ref{fig:UMLroot}};
+
+	%Наследование Фрагмент-Листинг
+	\draw[base-] (cFrag) -- (cLst);
+
+	%Наследование Элемент-ИсходныйКод
+	\draw[base-] (cEl) -- (cCode);
+
+	%Композиция Листинг-Текст
+	\draw [onav-comp] (cText.west) coordinate(a) -- (a -| cLst.east)
+	node[lnk,pos=0, above left, align=right] {\{subsets вложенный\}\\+название}
+	node[lnk,pos=0, below left, align=right] {1\quad }
+	node[lnk,pos=1, below right, align=left] {+листинг\\\{subsets базовый\}}
+	node[lnk,pos=1, above right, align=left] {\quad 0..1};
+
+	%Композиция Листинг-ИсходныйКод
+	\draw [onav-comp] (cCode.west) coordinate(a) -- (a -| cLst.east)
+	node[lnk,pos=0, above left, align=right] {\{subsets вложенный\}\\+код}
+	node[lnk,pos=0, below left, align=right] {1\quad }
+	node[lnk,pos=1, below right, align=left] {+листинг\\\{subsets базовый\}}
+	node[lnk,pos=1, above right, align=left] {\quad 1};
+
+\end{tikzpicture}
 	\caption{Фрагмент <<листинг>>}%
 	\label{fig:UMLlst}
 \end{figure}
 
-\vspace{1cm}\rule{\linewidth}{1pt}\vspace{1cm}
+Классы диаграммы:
+\begin{itemize}
+	\item \hyperref[fig:UMLlst]{\Verb|Листинг|}~--- фрагмент, объединяющий исходный код и его название, наследник класса \hyperref[fig:UMLdoc]{\Verb|Фрагмент|}. Атрибут \textit{+нумерацияСтрок:логическое} задаёт, выводятся ли номера строк кода;
+	\item \hyperref[fig:UMLlst]{\Verb|ИсходныйКод|}~--- текст программы, наследник класса \hyperref[fig:UMLroot]{\Verb|Элемент|}. Атрибут \textit{+язык:строка} задаёт язык программирования (по нему выбирается подсветка синтаксиса), атрибут \textit{+содержание:строка}~--- сам текст программы. Исходный код не является фрагментом, поэтому не может стоять в документе самостоятельно, только в составе листинга.
+\end{itemize}
+
+Связи между классами:
+\begin{itemize}
+	\item композиция \hyperref[fig:UMLlst]{\Verb|Листинг|}~\tikz[scale=0.5, baseline=-0.5ex]{\draw[comp-onav] (0,0) -- (4,0);}~\hyperref[fig:UMLpic]{\Verb|Текст|}: у листинга ровно одно название (\textit{+название}, 1, \{subsets вложенный\}), текст является названием не более чем одного листинга (\textit{+листинг}, 0..1, \{subsets базовый\});
+	\item композиция \hyperref[fig:UMLlst]{\Verb|Листинг|}~\tikz[scale=0.5, baseline=-0.5ex]{\draw[comp-onav] (0,0) -- (4,0);}~\hyperref[fig:UMLlst]{\Verb|ИсходныйКод|}: у листинга ровно один исходный код (\textit{+код}, 1, \{subsets вложенный\}), исходный код всегда принадлежит ровно одному листингу (\textit{+листинг}, 1, \{subsets базовый\}).
+\end{itemize}
+
+Диаграмма фрагмента <<таблица>> (рис.~\ref{fig:UMLtable}) описывает таблицу как последовательность строк, каждая из которых состоит из ячеек. Модификатор \{ordered\} означает, что элементы на этом конце связи упорядочены.
 
 \begin{figure}
-	\begin{tikzpicture}
-		
-		
-		
-	\end{tikzpicture}
+\centering%
+\begin{tikzpicture}
+	%Класс Фрагмент
+	\class{\itshape Фрагмент}(cFrag){}{}
+	\draw node[ref] {Рис. \ref{fig:UMLdoc}};
+
+	%Класс Таблица
+	\class[below = 2cm of cFrag]{Таблица}(cTable){}{}
+
+	%Класс Текст
+	\class[right = 5cm of cTable]{Текст}(cText){}{}
+	\draw node[ref] {Рис. \ref{fig:UMLpic}};
+
+	%Класс СтрокаТаблицы
+	\class[below = 3cm of cTable]{СтрокаТаблицы}(cRow){+шапка:логическое}{}
+
+	%Класс Ячейка
+	\class[below = 3cm of cRow, text width=4.2cm]{Ячейка}(cCell)
+		{+объедСтрок:целое = 1\\+объедСтолбцов:целое = 1}{}
+
+	%Класс Элемент
+	\class[right = 5cm of $(cRow.east)!0.5!(cCell.east)$]{\itshape Элемент}(cEl){}{}
+	\draw node[ref] {Рис. \ref{fig:UMLroot}};
+
+	%Наследование Фрагмент-Таблица
+	\draw[base-] (cFrag) -- (cTable);
+
+	%Наследование Элемент-СтрокаТаблицы, Элемент-Ячейка
+	\draw[base-] (cEl.west) -- ++(-1.5,0) coordinate (t) |- (cRow.east);
+	\draw (t) |- (cCell.east);
+
+	%Композиция Таблица-Текст
+	\draw [comp-onav] (cTable.east) coordinate(a) -- (a -| cText.west)
+	node[lnk,pos=0, above right, align=left] {+таблица\\\{subsets базовый\}}
+	node[lnk,pos=0, below right, align=left] {\quad 0..1}
+	node[lnk,pos=1, below left, align=right] {\{subsets вложенный\}\\+название}
+	node[lnk,pos=1, above left, align=right] {1\quad};
+
+	%Композиция Таблица-СтрокаТаблицы
+	\draw [comp-onav] (cTable.south) -- (cRow.north)
+	node[lnk,pos=0, below right, align=left] {+таблица\\\{subsets базовый\}}
+	node[lnk,pos=0, below left] {1}
+	node[lnk,pos=1, above right, align=left] {\{ordered,\\subsets вложенный\}\\+строка}
+	node[lnk,pos=1, above left] {1..*};
+
+	%Композиция СтрокаТаблицы-Ячейка
+	\draw [comp-onav] (cRow.south) -- (cCell.north)
+	node[lnk,pos=0, below right, align=left] {+строка\\\{subsets базовый\}}
+	node[lnk,pos=0, below left] {1}
+	node[lnk,pos=1, above right, align=left] {\{ordered,\\subsets вложенный\}\\+ячейка}
+	node[lnk,pos=1, above left] {1..*};
+
+	%Композиция Ячейка-Фрагмент
+	\steplineH[comp-onav]{cCell.west}{cFrag.west}{-3.5cm}
+	\draw
+	(a)
+	node[lnk, above left, align=right] {+ячейка\\\{subsets базовый\}}
+	node[lnk, below left] {0..1\quad}
+	(b)
+	node[lnk, above left, align=right] {\{ordered,\\subsets вложенный\}\\+содержимое}
+	node[lnk, below left] {*\quad};
+
+\end{tikzpicture}
 	\caption{Фрагмент <<таблица>>}%
 	\label{fig:UMLtable}
 \end{figure}
 
-\vspace{1cm}\rule{\linewidth}{1pt}\vspace{1cm}
+Классы диаграммы:
+\begin{itemize}
+	\item \hyperref[fig:UMLtable]{\Verb|Таблица|}~--- фрагмент, состоящий из названия и строк, наследник класса \hyperref[fig:UMLdoc]{\Verb|Фрагмент|};
+	\item \hyperref[fig:UMLtable]{\Verb|СтрокаТаблицы|}~--- строка таблицы, наследник класса \hyperref[fig:UMLroot]{\Verb|Элемент|}. Атрибут \textit{+шапка:логическое} отмечает строки, входящие в шапку таблицы;
+	\item \hyperref[fig:UMLtable]{\Verb|Ячейка|}~--- ячейка строки, наследник класса \hyperref[fig:UMLroot]{\Verb|Элемент|}. Атрибуты \textit{+объедСтрок:целое} и \textit{+объедСтолбцов:целое} (по умолчанию~1) задают, сколько строк и столбцов занимает объединённая ячейка.
+\end{itemize}
+
+Строка и ячейка не являются фрагментами: они не могут стоять в документе самостоятельно, только в составе таблицы.
+
+Связи между классами:
+\begin{itemize}
+	\item композиция \hyperref[fig:UMLtable]{\Verb|Таблица|}~\tikz[scale=0.5, baseline=-0.5ex]{\draw[comp-onav] (0,0) -- (4,0);}~\hyperref[fig:UMLpic]{\Verb|Текст|}: у таблицы ровно одно название (\textit{+название}, 1, \{subsets вложенный\}), текст является названием не более чем одной таблицы (\textit{+таблица}, 0..1, \{subsets базовый\});
+	\item композиция \hyperref[fig:UMLtable]{\Verb|Таблица|}~\tikz[scale=0.5, baseline=-0.5ex]{\draw[comp-onav] (0,0) -- (4,0);}~\hyperref[fig:UMLtable]{\Verb|СтрокаТаблицы|}: таблица содержит хотя бы одну строку (\textit{+строка}, 1..*, \{ordered, subsets вложенный\}), строка принадлежит ровно одной таблице (\textit{+таблица}, 1, \{subsets базовый\});
+	\item композиция \hyperref[fig:UMLtable]{\Verb|СтрокаТаблицы|}~\tikz[scale=0.5, baseline=-0.5ex]{\draw[comp-onav] (0,0) -- (4,0);}~\hyperref[fig:UMLtable]{\Verb|Ячейка|}: строка содержит хотя бы одну ячейку (\textit{+ячейка}, 1..*, \{ordered, subsets вложенный\}), ячейка принадлежит ровно одной строке (\textit{+строка}, 1, \{subsets базовый\});
+	\item композиция \hyperref[fig:UMLtable]{\Verb|Ячейка|}~\tikz[scale=0.5, baseline=-0.5ex]{\draw[comp-onav] (0,0) -- (4,0);}~\hyperref[fig:UMLdoc]{\Verb|Фрагмент|}: ячейка содержит произвольное число фрагментов (\textit{+содержимое}, *, \{ordered, subsets вложенный\}), фрагмент лежит не более чем в одной ячейке (\textit{+ячейка}, 0..1, \{subsets базовый\}). Благодаря этой связи в ячейке может находиться любой фрагмент: текст, рисунок или вложенная таблица.
+\end{itemize}
+
+Диаграмма фрагмента <<список>> (рис.~\ref{fig:UMLlist}) описывает маркированные и нумерованные списки. Список состоит из пунктов, а пункт может содержать любые фрагменты, в том числе другой список. Так модель допускает вложенные списки произвольной глубины без отдельного класса для вложенного списка.
 
 \begin{figure}
-	\begin{tikzpicture}
-		
-		%Класс ВКР
-		\class[]{ВКР}(cVkr){}{}
-		
-		%Класс структурированный документ
-		\class[above = of cVkr]{Структурированный документ}(сStrDoc){}{}
-		
-		%Наследование СтрДокумент - ВКР
-		\draw [base-] (сStrDoc.south) -- (cVkr.north);
-		
-		
-		
-	\end{tikzpicture}
+\centering%
+\begin{tikzpicture}
+	%Класс Фрагмент
+	\class{\itshape Фрагмент}(cFrag){}{}
+	\draw node[ref] {Рис. \ref{fig:UMLdoc}};
+
+	%Класс Список
+	\class[below = 2cm of cFrag]{\itshape Список}(cList){+/уровень:целое}{}
+
+	%Класс ПунктСписка
+	\class[right = 3.6cm of cList]{ПунктСписка}(cItem){}{}
+
+	%Класс Элемент
+	\class[right = 1cm of cItem]{\itshape Элемент}(cEl){}{}
+	\draw node[ref] {Рис. \ref{fig:UMLroot}};
+
+	%Класс МаркированныйСписок
+	\class[below = 2cm of cList.south, xshift=-2.2cm, anchor=north, text width=3.9cm]{МаркированныйСписок}(cBul)
+		{+маркер:строка}{}
+
+	%Класс НумерованныйСписок
+	\class[below = 2cm of cList.south, xshift=2.2cm, anchor=north, text width=3.9cm]{НумерованныйСписок}(cNum)
+		{+начало:целое = 1\\+видНумерации:строка}{}
+
+	%Наследование Фрагмент-Список
+	\draw[base-] (cFrag) -- (cList);
+
+	%Наследование Список-МаркированныйСписок, Список-НумерованныйСписок
+	\draw[base-] (cList.south) -- ++(0,-1) coordinate (t) -| (cBul.north);
+	\draw (t) -| (cNum.north);
+
+	%Наследование Элемент-ПунктСписка
+	\draw[base-] (cEl) -- (cItem);
+
+	%Композиция Список-ПунктСписка
+	\draw [comp-onav] (cList.east |- cItem.west) coordinate(a) -- (cItem.west)
+	node[lnk,pos=0, above right, align=left] {+список\\\{subsets базовый\}}
+	node[lnk,pos=0, below right, align=left] {\quad 1}
+	node[lnk,pos=1, below left, align=right] {\{ordered,\\subsets вложенный\}\\+пункт}
+	node[lnk,pos=1, above left, align=right] {1..*\quad};
+
+	%Композиция ПунктСписка-Фрагмент
+	\draw [comp-onav] (cItem.north) coordinate(a) |- (cFrag.east) coordinate(b);
+	\draw
+	(a)
+	node[lnk, above right, align=left] {+пункт\\\{subsets базовый\}}
+	node[lnk, above left] {0..1}
+	(b)
+	node[lnk, above right, align=left] {\{ordered,\\subsets вложенный\}\\+содержимое}
+	node[lnk, below right] {\quad *};
+
+\end{tikzpicture}
+	\caption{Фрагмент <<список>>}%
+	\label{fig:UMLlist}
+\end{figure}
+
+Классы диаграммы:
+\begin{itemize}
+	\item \hyperref[fig:UMLlist]{\Verb|Список|}~--- абстрактный фрагмент, состоящий из упорядоченных пунктов, наследник класса \hyperref[fig:UMLdoc]{\Verb|Фрагмент|}. Производный атрибут \textit{+/уровень:целое} равен числу списков, в которые вложен данный список: у списка верхнего уровня он равен~0. По уровню выбирается оформление: отступ, вид маркера или номера;
+	\item \hyperref[fig:UMLlist]{\Verb|МаркированныйСписок|}~--- список, пункты которого отмечаются маркером (атрибут \textit{+маркер:строка}), наследник класса \hyperref[fig:UMLlist]{\Verb|Список|};
+	\item \hyperref[fig:UMLlist]{\Verb|НумерованныйСписок|}~--- список, пункты которого нумеруются, наследник класса \hyperref[fig:UMLlist]{\Verb|Список|}. Атрибут \textit{+начало:целое} задаёт номер первого пункта (по умолчанию~1), атрибут \textit{+видНумерации:строка}~--- вид номеров: арабские цифры, строчные буквы и~т.\,п.;
+	\item \hyperref[fig:UMLlist]{\Verb|ПунктСписка|}~--- пункт списка, наследник класса \hyperref[fig:UMLroot]{\Verb|Элемент|}. Пункт не является фрагментом, поэтому не может стоять в документе самостоятельно, только в составе списка.
+\end{itemize}
+
+Связи между классами:
+\begin{itemize}
+	\item композиция \hyperref[fig:UMLlist]{\Verb|Список|}~\tikz[scale=0.5, baseline=-0.5ex]{\draw[comp-onav] (0,0) -- (4,0);}~\hyperref[fig:UMLlist]{\Verb|ПунктСписка|}: список содержит хотя бы один пункт (\textit{+пункт}, 1..*, \{ordered, subsets вложенный\}), пункт принадлежит ровно одному списку (\textit{+список}, 1, \{subsets базовый\});
+	\item композиция \hyperref[fig:UMLlist]{\Verb|ПунктСписка|}~\tikz[scale=0.5, baseline=-0.5ex]{\draw[comp-onav] (0,0) -- (4,0);}~\hyperref[fig:UMLdoc]{\Verb|Фрагмент|}: пункт содержит произвольное число фрагментов (\textit{+содержимое}, *, \{ordered, subsets вложенный\}), фрагмент лежит не более чем в одном пункте (\textit{+пункт}, 0..1, \{subsets базовый\}). Если среди фрагментов пункта есть список, он становится вложенным, и его \textit{+/уровень} на единицу больше уровня объемлющего списка.
+\end{itemize}
+
+Диаграмма выпускной квалификационной работы (рис.~\ref{fig:UMLvkr}) построена по Положению о ВКР МГТУ <<СТАНКИН>> (П~01-04/9/2024). ВКР является структурированным документом, части которого и их порядок заданы п.~5.1 Положения, а атрибуты взяты из формы титульного листа (приложение~4 к Положению). Стереотип <<enumeration>> обозначает перечисление~--- тип данных с фиксированным набором значений.
+
+\begin{figure}
+\centering%
+\begin{tikzpicture}
+	%Класс ВКР
+	\class[text width=5.2cm]{ВКР}(cVkr)
+		{+тема:строка\\
+		+направление:строка\\
+		+институт:строка\\
+		+кафедра:строка\\
+		+обучающийся:строка[1..*]\\
+		+руководитель:строка\\
+		+консультант:строка[*]\\
+		+завКафедрой:строка\\
+		+регНомер:строка\\
+		+год:целое\\
+		+вид:ВидВКР\\
+		+/объём:целое}{}
+
+	%Класс СтруктурированныйДокумент
+	\class[above = 1.5cm of cVkr]{\itshape СтруктурированныйДокумент}(cStrDoc){}{}
+	\draw node[ref] {Рис. \ref{fig:UMLdoc}};
+
+	%Перечисление ВидВКР
+	\class[below = 1.5cm of cVkr.south west, below right, text width=2.6cm]<«enumeration»>{ВидВКР}(cKind)
+		{бакалавр\\специалист\\магистр}{}
+
+	%Перечисление ВидГлавы
+	\class[right = 0.6cm of cKind.north east, below right, text width=2.6cm]<«enumeration»>{ВидГлавы}(cChapKind)
+		{теоретическая\\практическая\\экономическая\\БЖД}{}
+
+	%Классы частей ВКР
+	\class[right = 4.5cm of cVkr.north east, below right, yshift=-1.4cm, text width=3.6cm]{ТитульныйЛист}(cTitle){}{}
+	\class[below = 1.1cm of cTitle, text width=3.6cm]{Оглавление}(cToc){}{}
+	\class[below = 1.1cm of cToc, text width=3.6cm]{Введение}(cIntro){}{}
+	\class[below = 1.1cm of cIntro, text width=3.6cm]{Заключение}(cConcl){}{}
+	\class[below = 1.1cm of cConcl, text width=3.6cm]{СписокЛитературы}(cBib){}{}
+	\class[below = 1.5cm of cBib, text width=3.6cm]{Приложение}(cApp){+обозначение:строка}{}
+	\class[below = 1.5cm of cApp, text width=3.6cm]{Глава}(cChap){+вид:ВидГлавы}{}
+	\class[below = 2.6cm of cChap, text width=3.6cm]{Параграф}(cPar){}{}
+
+	%Класс Часть
+	\class[at={($(cTitle.north east)+(1.2,1.2)$)}, anchor=south]{\itshape Часть}(cPart){}{}
+	\draw node[ref] {Рис. \ref{fig:UMLdoc}};
+
+	%Наследование СтруктурированныйДокумент-ВКР
+	\draw[base-] (cStrDoc) -- (cVkr);
+
+	%Наследование Часть - части ВКР
+	\draw[base-] (cPart.south) -- (cPart.south |- cPar.east);
+	\foreach \c in {cTitle, cToc, cIntro, cConcl, cBib, cApp, cChap, cPar}
+		\draw (\c.east) -- (\c.east -| cPart.south);
+
+	%Композиция ВКР - части ВКР
+	\coordinate (bc) at ($(cVkr.north east)+(1.5,0)$);
+	\draw[comp-] ($(cVkr.north east)+(0,-0.5)$) coordinate(a) -| (cChap.west -| bc);
+	\draw (a)
+	node[lnk, above right, align=left] {+вкр\\\{subsets стрДокумент\}}
+	node[lnk, below right] {\quad 1};
+
+	\draw[-onav] (cTitle.west -| bc) -- (cTitle.west)
+	node[lnk, pos=1, above left, align=right] {\{subsets часть\}\\+титул}
+	node[lnk, pos=1, below left] {1\quad};
+
+	\draw[-onav] (cToc.west -| bc) -- (cToc.west)
+	node[lnk, pos=1, above left, align=right] {\{subsets часть\}\\+оглавление}
+	node[lnk, pos=1, below left] {1\quad};
+
+	\draw[-onav] (cIntro.west -| bc) -- (cIntro.west)
+	node[lnk, pos=1, above left, align=right] {\{subsets часть\}\\+введение}
+	node[lnk, pos=1, below left] {1\quad};
+
+	\draw[-onav] (cConcl.west -| bc) -- (cConcl.west)
+	node[lnk, pos=1, above left, align=right] {\{subsets часть\}\\+заключение}
+	node[lnk, pos=1, below left] {1\quad};
+
+	\draw[-onav] (cBib.west -| bc) -- (cBib.west)
+	node[lnk, pos=1, above left, align=right] {\{subsets часть\}\\+списокЛитературы}
+	node[lnk, pos=1, below left] {1\quad};
+
+	\draw[-onav] (cApp.west -| bc) -- (cApp.west)
+	node[lnk, pos=1, above left, align=right] {\{ordered,\\subsets часть\}\\+приложение}
+	node[lnk, pos=1, below left] {*\quad};
+
+	\draw[-onav] (cChap.west -| bc) -- (cChap.west)
+	node[lnk, pos=1, above left, align=right] {\{ordered,\\subsets часть\}\\+глава}
+	node[lnk, pos=1, below left] {2..*\quad};
+
+	%Композиция Глава-Параграф
+	\draw[comp-onav] (cChap.south) -- (cPar.north)
+	node[lnk, pos=0, below right, align=left] {+глава\\\{subsets контекст\}}
+	node[lnk, pos=0, below left] {1}
+	node[lnk, pos=1, above right, align=left] {\{ordered,\\subsets подчасть\}\\+параграф}
+	node[lnk, pos=1, above left] {*};
+
+\end{tikzpicture}
 	\caption{Выпускная квалификационная работа}%
 	\label{fig:UMLvkr}
 \end{figure}
+
+Классы диаграммы:
+\begin{itemize}
+	\item \hyperref[fig:UMLvkr]{\Verb|ВКР|}~--- выпускная квалификационная работа, наследник класса \hyperref[fig:UMLdoc]{\Verb|СтруктурированныйДокумент|}. Атрибуты \textit{+тема}, \textit{+направление} (код и наименование направления подготовки или специальности), \textit{+институт}, \textit{+кафедра}, \textit{+регНомер} и \textit{+год} выводятся на титульный лист. Атрибуты \textit{+обучающийся}, \textit{+руководитель}, \textit{+консультант} и \textit{+завКафедрой} хранят фамилии лиц, подписывающих титульный лист. Обучающихся может быть несколько, так как ВКР допускается выполнять совместно (п.~1.5), консультантов может не быть или быть несколько (п.~2.1). Атрибут \textit{+вид} задаёт уровень образования. Производный атрибут \textit{+/объём}~--- число страниц без приложений, которое должно быть не менее 40 для бакалавра, 50 для специалиста и 60 для магистра (п.~6.2);
+	\item \hyperref[fig:UMLvkr]{\Verb|ВидВКР|}~--- перечисление уровней образования: бакалавр, специалист, магистр;
+	\item \hyperref[fig:UMLvkr]{\Verb|ВидГлавы|}~--- перечисление видов глав основной части: теоретическая, практическая, экономическая (экономическая часть, п.~1.9) и БЖД (часть по безопасности жизнедеятельности, п.~1.10);
+	\item \hyperref[fig:UMLvkr]{\Verb|ТитульныйЛист|}, \hyperref[fig:UMLvkr]{\Verb|Оглавление|}, \hyperref[fig:UMLvkr]{\Verb|Введение|}, \hyperref[fig:UMLvkr]{\Verb|Заключение|} и \hyperref[fig:UMLvkr]{\Verb|СписокЛитературы|}~--- обязательные разделы ВКР, наследники класса \hyperref[fig:UMLdoc]{\Verb|Часть|}. Список литературы оформляется по ГОСТ~7.0.100 и по содержанию является фрагментом \hyperref[fig:UMLlist]{\Verb|НумерованныйСписок|};
+	\item \hyperref[fig:UMLvkr]{\Verb|Глава|}~--- глава основной части, наследник класса \hyperref[fig:UMLdoc]{\Verb|Часть|}. Атрибут \textit{+вид:ВидГлавы} задаёт назначение главы;
+	\item \hyperref[fig:UMLvkr]{\Verb|Параграф|}~--- параграф главы, наследник класса \hyperref[fig:UMLdoc]{\Verb|Часть|};
+	\item \hyperref[fig:UMLvkr]{\Verb|Приложение|}~--- приложение к ВКР, в том числе необязательный автореферат, наследник класса \hyperref[fig:UMLdoc]{\Verb|Часть|}. Атрибут \textit{+обозначение:строка} хранит номер приложения, который выводится над его заголовком (п.~6.7).
+\end{itemize}
+
+Связи между классами:
+\begin{itemize}
+	\item композиция \hyperref[fig:UMLvkr]{\Verb|ВКР|}~\tikz[scale=0.5, baseline=-0.5ex]{\draw[comp-onav] (0,0) -- (4,0);}~части ВКР нарисована общим стволом. Со стороны ВКР у всех ветвей один конец: часть принадлежит ровно одной ВКР (\textit{+вкр}, 1, \{subsets стрДокумент\}). Со стороны частей каждая ветвь задаёт свою роль, и все они являются подмножествами свойства \textit{+часть} структурированного документа (\{subsets часть\}): ровно один титульный лист (\textit{+титул}), оглавление (\textit{+оглавление}), введение (\textit{+введение}), заключение (\textit{+заключение}) и список литературы (\textit{+списокЛитературы}); не менее двух глав (\textit{+глава}, 2..*, \{ordered\}), так как основная часть должна состоять хотя бы из теоретической и практической глав (п.~5.2); произвольное число приложений (\textit{+приложение}, *, \{ordered\});
+	\item композиция \hyperref[fig:UMLvkr]{\Verb|Глава|}~\tikz[scale=0.5, baseline=-0.5ex]{\draw[comp-onav] (0,0) -- (4,0);}~\hyperref[fig:UMLvkr]{\Verb|Параграф|}: глава содержит произвольное число параграфов (\textit{+параграф}, *, \{ordered, subsets подчасть\}), параграф принадлежит ровно одной главе (\textit{+глава}, 1, \{subsets контекст\}). Нумерация параграфов двухуровневая: номер главы и номер параграфа (п.~6.8).
+\end{itemize}
+
+Помимо кратностей, Положение накладывает на модель ограничения, которые на диаграмме не выражены:
+\begin{itemize}
+	\item среди глав должны быть хотя бы одна теоретическая и одна практическая (п.~5.2);
+	\item у магистров, кроме направлений группы 38.00.00, должна быть экономическая глава (п.~1.9);
+	\item у специалистов должны быть экономическая глава и глава БЖД (п.~1.10);
+	\item порядок разделов фиксирован: титульный лист, оглавление, введение, главы, заключение, список литературы, приложения (п.~5.1).
+\end{itemize}
+
+Диаграмма комплекта документов ВКР (рис.~\ref{fig:UMLpack}) описывает набор документов, который по п.~7.9 Положения представляется в государственную экзаменационную комиссию и является основанием для допуска к защите. Помимо самой ВКР, в комплект включены документы, формы которых приведены в приложениях к Положению: задание (приложение~1), график выполнения (приложение~2), отзыв руководителя (приложение~3) и рецензия (приложение~5). Сведения об обучающемся, направлении подготовки, группе, институте и теме, которые повторяются в шапке каждой формы, на диаграмме не дублируются: они берутся из атрибутов \hyperref[fig:UMLvkr]{\Verb|ВКР|} того же комплекта.
+
+\begin{figure}
+\centering%
+\begin{tikzpicture}
+	%Класс КомплектДокументов
+	\class{\itshape КомплектДокументов}(cPackBase){}{}
+	\draw node[ref] {Рис. \ref{fig:UMLroot}};
+
+	%Класс КомплектВКР
+	\class[below = 1.5cm of cPackBase]{КомплектВКР}(cPack){+датаПредставления:дата}{}
+
+	%Классы документов комплекта
+	\class[at={($(cPack.south)+(3,-2.4)$)}, anchor=north west, text width=3.6cm]{ВКР}(cVkr){}{}
+	\draw node[ref] {Рис. \ref{fig:UMLvkr}};
+	\class[below = 1.1cm of cVkr, text width=3.6cm]{Задание}(cTask)
+		{+приказ:строка\\+датаУтверждения:дата\\+срокСдачи:дата\\+структура:строка}{}
+	\class[below = 1.1cm of cTask, text width=3.6cm]{Презентация}(cPres){+числоСлайдов:целое}{}
+	\class[below = 1.1cm of cPres, text width=3.6cm]{ОтзывРуководителя}(cRev){+рекомендация:логическое}{}
+	\class[below = 1.1cm of cRev, text width=3.6cm]{Рецензия}(cRec){+соответствие:логическое}{}
+	\class[below = 1.1cm of cRec, text width=3.6cm]{График}(cSched){+датаСоставления:дата}{}
+	\class[below = 2.6cm of cSched, text width=3.6cm]{МероприятиеГрафика}(cEvent)
+		{+наименование:строка\\+срок:дата\\+отметка:строка[0..1]}{}
+
+	%Класс ОценочныйДокумент
+	\class[at={($(cRev.east)!0.5!(cRec.east)+(1,0)$)}, anchor=west, text width=3.4cm]{\itshape ОценочныйДокумент}(cOD)
+		{+фио:строка\\+должность:строка\\+учСтепень:строка[0..1]\\+учЗвание:строка[0..1]}{}
+
+	%Класс Документ
+	\class[at={($(cOD.east |- cPackBase.north)+(0.9,0)$)}, anchor=north]{\itshape Документ}(cDoc){}{}
+	\draw node[ref] {Рис. \ref{fig:UMLroot}};
+
+	%Класс Элемент
+	\class[right = 1cm of cEvent]{\itshape Элемент}(cEl){}{}
+	\draw node[ref] {Рис. \ref{fig:UMLroot}};
+
+	%Наследование КомплектДокументов-КомплектВКР
+	\draw[base-] (cPackBase) -- (cPack);
+
+	%Наследование Документ - документы комплекта
+	\draw[base-] (cDoc.south) -- (cDoc.south |- cSched.east);
+	\foreach \c in {cTask, cPres, cOD, cSched}
+		\draw (\c.east) -- (\c.east -| cDoc.south);
+
+	%Наследование ОценочныйДокумент - ОтзывРуководителя, Рецензия
+	\draw[base-] (cOD.west) -- ++(-0.5,0) coordinate (t) |- (cRev.east);
+	\draw (t) |- (cRec.east);
+
+	%Наследование Элемент-МероприятиеГрафика
+	\draw[base-] (cEl) -- (cEvent);
+
+	%Агрегация КомплектВКР - документы комплекта
+	\draw[agr-] (cPack.south) coordinate(a) -- (cPack.south |- cSched.west);
+	\draw (a)
+	node[lnk, below right, align=left] {+комплектВКР\\\{subsets комплект\}}
+	node[lnk, below left] {0..1};
+
+	\draw[-onav] (cVkr.west -| a) -- (cVkr.west)
+	node[lnk, pos=1, above left, align=right] {\{subsets документ\}\\+вкр}
+	node[lnk, pos=1, below left] {1\quad};
+
+	\draw[-onav] (cTask.west -| a) -- (cTask.west)
+	node[lnk, pos=1, above left, align=right] {\{subsets документ\}\\+задание}
+	node[lnk, pos=1, below left] {1\quad};
+
+	\draw[-onav] (cPres.west -| a) -- (cPres.west)
+	node[lnk, pos=1, above left, align=right] {\{subsets документ\}\\+презентация}
+	node[lnk, pos=1, below left] {1\quad};
+
+	\draw[-onav] (cRev.west -| a) -- (cRev.west)
+	node[lnk, pos=1, above left, align=right] {\{subsets документ\}\\+отзыв}
+	node[lnk, pos=1, below left] {1\quad};
+
+	\draw[-onav] (cRec.west -| a) -- (cRec.west)
+	node[lnk, pos=1, above left, align=right] {\{subsets документ\}\\+рецензия}
+	node[lnk, pos=1, below left] {0..1\quad};
+
+	\draw[-onav] (cSched.west -| a) -- (cSched.west)
+	node[lnk, pos=1, above left, align=right] {\{subsets документ\}\\+график}
+	node[lnk, pos=1, below left] {1\quad};
+
+	%Композиция График-МероприятиеГрафика
+	\draw[comp-onav] (cSched.south) -- (cEvent.north)
+	node[lnk, pos=0, below right, align=left] {+график\\\{subsets документ\}}
+	node[lnk, pos=0, below left] {1}
+	node[lnk, pos=1, above right, align=left] {\{ordered,\\subsets элемент\}\\+мероприятие}
+	node[lnk, pos=1, above left] {1..*};
+
+\end{tikzpicture}
+	\caption{Комплект документов ВКР}%
+	\label{fig:UMLpack}
+\end{figure}
+
+Классы диаграммы:
+\begin{itemize}
+	\item \hyperref[fig:UMLpack]{\Verb|КомплектВКР|}~--- комплект документов ВКР, наследник класса \hyperref[fig:UMLroot]{\Verb|КомплектДокументов|}. Атрибут \textit{+датаПредставления:дата}~--- дата передачи комплекта в ГЭК, не позднее чем за неделю до защиты (п.~7.9);
+	\item \hyperref[fig:UMLpack]{\Verb|Задание|}~--- задание на ВКР (п.~2.3, приложение~1), наследник класса \hyperref[fig:UMLroot]{\Verb|Документ|}. Атрибуты: \textit{+приказ}~--- дата и номер приказа об утверждении темы, \textit{+датаУтверждения}~--- дата утверждения задания заведующим кафедрой, \textit{+срокСдачи}~--- срок сдачи законченной ВКР на кафедру, \textit{+структура}~--- описание структуры частей ВКР, их целей и конечного результата, в том числе экономической части и части БЖД (п.~3.9);
+	\item \hyperref[fig:UMLpack]{\Verb|Презентация|}~--- презентация к докладу на защите (пп.~6.13, 8.3), наследник класса \hyperref[fig:UMLroot]{\Verb|Документ|}. Атрибут \textit{+числоСлайдов:целое} должен быть от~10 до~15;
+	\item \hyperref[fig:UMLpack]{\Verb|ОценочныйДокумент|}~--- абстрактный документ с оценкой ВКР, подписанный её автором, наследник класса \hyperref[fig:UMLroot]{\Verb|Документ|}. Атрибуты \textit{+фио}, \textit{+должность}, \textit{+учСтепень} и \textit{+учЗвание} хранят сведения о подписавшем: эти поля одинаковы в формах отзыва и рецензии;
+	\item \hyperref[fig:UMLpack]{\Verb|ОтзывРуководителя|}~--- письменный отзыв руководителя (пп.~2.5, 7.5, приложение~3), наследник класса \hyperref[fig:UMLpack]{\Verb|ОценочныйДокумент|}. Атрибут \textit{+рекомендация:логическое} фиксирует, рекомендует ли руководитель ВКР к защите: отзыв заканчивается именно этой формулировкой, без конкретной оценки (п.~7.5);
+	\item \hyperref[fig:UMLpack]{\Verb|Рецензия|}~--- рецензия на ВКР (пп.~7.7--7.8, приложение~5), наследник класса \hyperref[fig:UMLpack]{\Verb|ОценочныйДокумент|}. Атрибут \textit{+соответствие:логическое} фиксирует итоговое мнение рецензента о соответствии ВКР квалификационным требованиям;
+	\item \hyperref[fig:UMLpack]{\Verb|График|}~--- график выполнения ВКР (п.~2.3, приложение~2), наследник класса \hyperref[fig:UMLroot]{\Verb|Документ|}. Атрибут \textit{+датаСоставления:дата}~--- дата составления графика;
+	\item \hyperref[fig:UMLpack]{\Verb|МероприятиеГрафика|}~--- строка графика, наследник класса \hyperref[fig:UMLroot]{\Verb|Элемент|}. Атрибуты соответствуют столбцам формы: \textit{+наименование} мероприятия, \textit{+срок} выполнения и \textit{+отметка} руководителя о выполнении, которая появляется по ходу работы и поэтому необязательна.
+\end{itemize}
+
+Связи между классами:
+\begin{itemize}
+	\item агрегация \hyperref[fig:UMLpack]{\Verb|КомплектВКР|}~\tikz[scale=0.5, baseline=-0.5ex]{\draw[agr-onav] (0,0) -- (4,0);}~документы комплекта нарисована общим стволом. Со стороны комплекта у всех ветвей один конец: документ входит не более чем в один комплект ВКР (\textit{+комплектВКР}, 0..1, \{subsets комплект\}). Со стороны документов каждая ветвь задаёт свою роль, и все они являются подмножествами свойства \textit{+документ} комплекта (\{subsets документ\}): ровно одна ВКР (\textit{+вкр}), одно задание (\textit{+задание}), одна презентация (\textit{+презентация}), один отзыв руководителя (\textit{+отзыв}) и один график (\textit{+график}); рецензии может не быть (\textit{+рецензия}, 0..1). Это агрегация, а не композиция: документы создаются и хранятся независимо, а комплект лишь собирает их для передачи в ГЭК;
+	\item композиция \hyperref[fig:UMLpack]{\Verb|График|}~\tikz[scale=0.5, baseline=-0.5ex]{\draw[comp-onav] (0,0) -- (4,0);}~\hyperref[fig:UMLpack]{\Verb|МероприятиеГрафика|}: график содержит хотя бы одно мероприятие (\textit{+мероприятие}, 1..*, \{ordered, subsets элемент\}), мероприятие принадлежит ровно одному графику (\textit{+график}, 1, \{subsets документ\}).
+\end{itemize}
+
+Ограничения, которые на диаграмме не выражены:
+\begin{itemize}
+	\item рецензия обязательна, если атрибут \textit{+вид} ВКР равен <<магистр>> или <<специалист>>; для бакалавров необходимость рецензирования определяет Учёный совет (п.~7.7);
+	\item тема и обучающиеся в задании, отзыве и рецензии совпадают с темой и обучающимися ВКР того же комплекта;
+	\item дата утверждения задания предшествует сроку сдачи ВКР, а отзыв руководителя готовится не позднее чем за две недели до защиты (п.~2.5).
+\end{itemize}
 
 \vspace{1cm}\rule{\linewidth}{1pt}\vspace{1cm}
 
